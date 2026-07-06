@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khmer Pronunciation Matcher</title>
+    <style>
+        body { font-family: 'Khmer OS Battambang', Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #f4f7f6; }
+        .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .target-text { font-size: 36px; color: #1e3a8a; font-weight: bold; margin-bottom: 10px; }
+        .btn { padding: 12px 24px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; color: white; margin: 10px; }
+        .btn-record { background-color: #ef4444; }
+        .btn-record.recording { background-color: #b91c1c; animation: pulse 1.5s infinite; }
+        .score-display { font-size: 48px; font-weight: bold; margin-top: 20px; color: #10b981; }
+        .transcript { color: #6b7280; font-style: italic; margin-top: 10px; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Pronounce this Khmer phrase:</h2>
+    <!-- This is the target word your friends must say -->
+    <div class="target-text" id="target">សួស្តី</div>
+    
+    <button class="btn btn-record" id="recordBtn">🎙️ Start Speaking</button>
+    
+    <div class="transcript" id="userSpeech">Click the button and speak...</div>
+    <div class="score-display" id="score">0%</div>
+</div>
+
+<script>
+    const recordBtn = document.getElementById('recordBtn');
+    const userSpeechDisplay = document.getElementById('userSpeech');
+    const scoreDisplay = document.getElementById('score');
+    const targetText = document.getElementById('target').innerText.trim();
+
+    // Check browser compatibility for speech recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (!SpeechRecognition) {
+        userSpeechDisplay.innerText = "Error: Your browser does not support Speech Recognition. Try using Google Chrome.";
+        recordBtn.disabled = true;
+    } else {
+        const recognition = new SpeechRecognition();
+        // Crucial configuration step: set target locale explicitly to Cambodian Khmer
+        recognition.lang = 'km-KH'; 
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        let isRecording = false;
+
+        recordBtn.addEventListener('click', () => {
+            if (!isRecording) {
+                recognition.start();
+            } else {
+                recognition.stop();
+            }
+        });
+
+        recognition.onstart = () => {
+            isRecording = true;
+            recordBtn.innerText = "🛑 Stop & Score";
+            recordBtn.classList.add('recording');
+            userSpeechDisplay.innerText = "Listening...";
+        };
+
+        recognition.onend = () => {
+            isRecording = false;
+            recordBtn.innerText = "🎙️ Start Speaking";
+            recordBtn.classList.remove('recording');
+        };
+
+        recognition.onresult = (event) => {
+            const userText = event.results[0][0].transcript.trim();
+            userSpeechDisplay.innerText = `You said: "${userText}"`;
+            
+            // Calculate and display the proximity accuracy score
+            const matchScore = calculateMatchPercentage(targetText, userText);
+            scoreDisplay.innerText = `${matchScore}%`;
+        };
+
+        recognition.onerror = (event) => {
+            userSpeechDisplay.innerText = `Error occurred: ${event.error}`;
+        };
+    }
+
+    // Levenshtein Distance scoring function to compare strings
+    function calculateMatchPercentage(str1, str2) {
+        const track = Array(str2.length + 1).fill(null).map(() => Array(str1.length + 1).fill(null));
+        for (let i = 0; i <= str1.length; i += 1) track[0][i] = i;
+        for (let j = 0; j <= str2.length; j += 1) track[j][0] = j;
+        for (let j = 1; j <= str2.length; j += 1) {
+            for (let i = 1; i <= str1.length; i += 1) {
+                const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
+                track[j][i] = Math.min(
+                    track[j - 1][i] + 1, // deletion
+                    track[j][i - 1] + 1, // insertion
+                    track[j - 1][i - 1] + indicator // substitution
+                );
+            }
+        }
+        const distance = track[str2.length][str1.length];
+        const maxLength = Math.max(str1.length, str2.length);
+        if (maxLength === 0) return 100;
+        
+        // Convert distance metrics to a readable percentage format
+        let percent = Math.round(((maxLength - distance) / maxLength) * 100);
+        return percent < 0 ? 0 : percent;
+    }
+</script>
+
+</body>
+</html>
