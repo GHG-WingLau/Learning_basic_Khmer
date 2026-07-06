@@ -15,8 +15,6 @@
         .btn-group { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
         .btn { padding: 12px 24px; font-size: 16px; border: none; border-radius: 6px; cursor: pointer; color: white; display: inline-flex; align-items: center; gap: 8px; font-weight: bold; transition: all 0.2s ease; }
         
-        .btn-play { background-color: #3b82f6; }
-        .btn-play:hover { background-color: #2563eb; }
         .btn-record { background-color: #ef4444; }
         .btn-record:hover { background-color: #dc2626; }
         .btn-record.recording { background-color: #b91c1c; animation: pulse 1.5s infinite; }
@@ -35,16 +33,12 @@
     <h2>Khmer Practice Phrase</h2>
     
     <div class="language-card">
-        <!-- English reference text -->
         <div class="english-text">"Hello! Are you well?"</div>
-        <!-- Target Khmer word to voice compare -->
         <div class="khmer-text" id="target">សួស្ដី! អ្នកសុខសប្បាយជាទេ?</div>
     </div>
     
     <div class="btn-group">
-        <!-- Play Button using Google TTS audio network link -->
-        <button class="btn btn-play" id="playBtn">🔊 Play Audio</button>
-        <!-- Compare logic mapping user micro input -->
+        <!-- Microphone input speech comparison button -->
         <button class="btn btn-record" id="recordBtn">🎙️ Record & Compare</button>
     </div>
     
@@ -57,36 +51,12 @@
 </div>
 
 <script>
-    const playBtn = document.getElementById('playBtn');
     const recordBtn = document.getElementById('recordBtn');
     const userSpeechDisplay = document.getElementById('userSpeech');
     const scoreDisplay = document.getElementById('score');
-    
-    // Clean target text to normalize layout spaces
     const targetText = document.getElementById('target').innerText.trim();
 
-    // 1. Google TTS Playback Functionality
-    playBtn.addEventListener('click', () => {
-        // Formulate request to Google's translation audio engine
-        const encodedText = encodeURIComponent(targetText);
-        const ttsUrl = `https://google.com{encodedText}`;
-        
-        const audio = new Audio(ttsUrl);
-        playBtn.innerText = "⏳ Loading...";
-        playBtn.disabled = true;
-        
-        audio.play().then(() => {
-            playBtn.innerText = "🔊 Play Audio";
-            playBtn.disabled = false;
-        }).catch(err => {
-            console.error(err);
-            playBtn.innerText = "🔊 Play Audio";
-            playBtn.disabled = false;
-            alert("Audio block caught by browser browser configuration. Try playing again.");
-        });
-    });
-
-    // 2. Microphone Input Speech Recognition API Setup
+    // 1. Microphone Audio Recognition Setup
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     
     if (!SpeechRecognition) {
@@ -95,7 +65,7 @@
     } else {
         const recognition = new SpeechRecognition();
         
-        // Switched to 'km' for wide stability across devices
+        // Switched to 'km' for device-wide compatibility
         recognition.lang = 'km'; 
         recognition.interimResults = false;
         recognition.maxAlternatives = 1;
@@ -124,26 +94,26 @@
         };
 
         recognition.onresult = (event) => {
-            const userText = event.results[0][0].transcript.trim();
+            const userText = event.results.transcript.trim();
             userSpeechDisplay.innerText = `You said: "${userText}"`;
             
-            // Core character proximity assessment algorithm engine
+            // Core scoring engine execution
             const matchScore = calculateMatchPercentage(targetText, userText);
             scoreDisplay.innerText = `${matchScore}%`;
         };
 
         recognition.onerror = (event) => {
             if(event.error === 'network') {
-                userSpeechDisplay.innerText = "Error: Network issue. Ensure you are on Desktop Chrome with a solid internet connection.";
+                userSpeechDisplay.innerText = "Error: Speech engine connection dropped. Speak clearly into your microphone.";
             } else {
                 userSpeechDisplay.innerText = `Error occurred: ${event.error}`;
             }
         };
     }
 
-    // Levenshtein Matrix character validation string layout map
+    // Levenshtein Matrix character proximity algorithm string map
     function calculateMatchPercentage(str1, str2) {
-        // Strip punctuation spaces to isolate character checks
+        // Strip out common formatting and punctuation elements to clean comparison data
         const clean = (s) => s.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()? Cambodia\s]/g,"");
         const s1 = clean(str1);
         const s2 = clean(str2);
@@ -152,8 +122,8 @@
         if (s1.length === 0 || s2.length === 0) return 0;
 
         const track = Array(s2.length + 1).fill(null).map(() => Array(s1.length + 1).fill(null));
-        for (let i = 0; i <= s1.length; i += 1) track[0][i] = i;
-        for (let j = 0; j <= s2.length; j += 1) track[j][0] = j;
+        for (let i = 0; i <= s1.length; i += 1) track[i] = i;
+        for (let j = 0; j <= s2.length; j += 1) track[j] = j;
         
         for (let j = 1; j <= s2.length; j += 1) {
             for (let i = 1; i <= s1.length; i += 1) {
