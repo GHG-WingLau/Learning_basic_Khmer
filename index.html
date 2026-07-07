@@ -71,14 +71,27 @@
         }
 
         .slide-holder {
-            border: 2px dashed #ccc;
+            border: 1px solid #ddd;
             background: #fff;
             border-radius: 8px;
-            height: 200px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #777;
+            flex-direction: column;
+        }
+
+        .slide-holder img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        
+        .slide-caption {
+            text-align: center;
+            padding: 8px;
+            font-size: 0.85rem;
+            background: #eee;
+            color: #555;
             font-weight: bold;
         }
 
@@ -188,6 +201,7 @@
         <p>Interactive training space for the short-term medical outreach team</p>
     </header>
 
+    <!-- Language Visibility Toggles -->
     <div class="controls-container">
         <button class="toggle-btn active" onclick="toggleLang('en')">EN (English)</button>
         <button class="toggle-btn active" onclick="toggleLang('zh')">中 (Chinese)</button>
@@ -195,49 +209,264 @@
         <button class="toggle-btn active" onclick="toggleLang('rom')">Rom (Romanized)</button>
     </div>
 
+    <!-- Presentation Slide Image Placeholders -->
     <section class="slides-section">
         <div class="slide-holder">
-            Presentation Slide 1 Image Holder
+            <img src="image/Health_infographics_Khmer_small.png" alt="Khmer Infographics">
+            <div class="slide-caption">Khmer Health Presentation Slide</div>
         </div>
         <div class="slide-holder">
-            Presentation Slide 2 Image Holder
+            <img src="image/Health_infographics_En_small.png" alt="English Infographics">
+            <div class="slide-caption">English Health Presentation Slide</div>
         </div>
     </section>
 
+    <!-- Dialogue Area -->
     <main class="dialogue-container">
         
+        <!-- Line 1 -->
         <div class="dialogue-line line-odd">
-            <div class="speaker-label">Line 1 (Odd - Male Missionary)</div>
+            <div class="speaker-label">Line 1 (Odd - Male)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> Hello uncle (auntie)! Do you have some time? We want to talk about health. [cite: 4]</p>
-                <p class="zh-text"><strong>中:</strong> 您好，叔叔(阿姨)！請問您有時間嗎？我們想聊聊健康。 [cite: 5]</p>
-                <p class="khmer-text"><strong>KH:</strong> ជម្រាបសួរលោកពូ (អ្នកមីង)! តើមានពេលបន្តិចទេ? យើងខ្ញុំចង់និយាយអំពីសុខភាព។ [cite: 6]</p>
-                <p class="rom-text"><strong>Rom:</strong> Chumreap sour lok pou (neak ming)! Tae mien pel bontich te? Yeung khnom chong niyay ompi sokhapheap. [cite: 7, 8]</p>
+                <p class="en-text"><strong>EN:</strong> Hello uncle (auntie)! Do you have some time? We want to talk about health.</p>
+                <p class="zh-text"><strong>中:</strong> 您好，叔叔(阿姨)！請問您有時間嗎？我們想聊聊健康。</p>
+                <p class="khmer-text"><strong>KH:</strong> ជម្រាបសួរលោកពូ (អ្នកមីង)! តើមានពេលបន្តិចទេ? យើងខ្ញុំចង់និយាយអំពីសុខភាព。</p>
+                <p class="rom-text"><strong>Rom:</strong> Chumreap sour lok pou (neak ming)! Tae mien pel bontich te? Yeung khnom chong niyay ompi sokhapheap.</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/temp_0.mp3')">▶ Play</button>
+                <button class="action-btn play-btn" onclick="playAudio('audio/line_1.mp3')">▶ Play</button>
                 <button class="action-btn record-btn" onclick="toggleRecord(this, 1)">🎙️ Record & Compare</button>
                 <span class="score-badge" id="score-1">Score: --%</span>
             </div>
         </div>
 
+        <!-- Line 2 -->
         <div class="dialogue-line line-even">
-            <div class="speaker-label">Line 2 (Even - Female Local)</div>
+            <div class="speaker-label">Line 2 (Even - Female)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> Hello! Yes, I have time. What is that paper? [cite: 10]</p>
-                <p class="zh-text"><strong>中:</strong> 你好！有的。那張紙是什麼？ [cite: 11]</p>
-                <p class="khmer-text"><strong>KH:</strong> ជម្រាបសួរ! បាទ មានពេល。 តើក្រដាសនោះជាអ្វី？ [cite: 12]</p>
-                <p class="rom-text"><strong>Rom:</strong> Chumreap sour! Bat, mien pel. Tae krodas noh chea avei? [cite: 13]</p>
+                <p class="en-text"><strong>EN:</strong> Hello! Yes, I have time. What is that paper?</p>
+                <p class="zh-text"><strong>中:</strong> 你好！有的。那張紙是什麼？</p>
+                <p class="khmer-text"><strong>KH:</strong> ជម្រាបសួរ! បាទ មានពេល។ តើក្រដាសនោះជាអ្វី？</p>
+                <p class="rom-text"><strong>Rom:</strong> Chumreap sour! Bat, mien pel. Tae krodas noh chea avei?</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/temp_1.mp3')">▶ Play</button>
+                <button class="action-btn play-btn" onclick="playAudio('audio/line_2.mp3')">▶ Play</button>
                 <button class="action-btn record-btn" onclick="toggleRecord(this, 2)">🎙️ Record & Compare</button>
                 <span class="score-badge" id="score-2">Score: --%</span>
             </div>
         </div>
 
-        </main>
+        <!-- Line 3 -->
+        <div class="dialogue-line line-odd">
+            <div class="speaker-label">Line 3 (Odd - Male)</div>
+            <div class="lang-group">
+                <p class="en-text"><strong>EN:</strong> This is about two dangerous diseases. It is diabetes. And high blood pressure.</p>
+                <p class="zh-text"><strong>中:</strong> 這是有關兩種危險的疾病。是糖尿病。還有高血壓。</p>
+                <p class="khmer-text"><strong>KH:</strong> នេះនិយាយពីជំងឺគ្រោះថ្នាក់ពីរ។ គឺជំងឺទឹកនោមផ្អែម។ និងជំងឺលើសឈាម。</p>
+                <p class="rom-text"><strong>Rom:</strong> Neh niyay pi chomngu krouh thnak pir. Kue chomngu tuek nom ph'aem. Nung chomngu leis chhiam.</p>
+            </div>
+            <div class="action-row">
+                <button class="action-btn play-btn" onclick="playAudio('audio/line_3.mp3')">▶ Play</button>
+                <button class="action-btn record-btn" onclick="toggleRecord(this, 3)">🎙️ Record & Compare</button>
+                <span class="score-badge" id="score-3">Score: --%</span>
+            </div>
+        </div>
 
+        <!-- Line 4 -->
+        <div class="dialogue-line line-even">
+            <div class="speaker-label">Line 4 (Even - Female)</div>
+            <div class="lang-group">
+                <p class="en-text"><strong>EN:</strong> Are they dangerous? High blood pressure has what symptoms?</p>
+                <p class="zh-text"><strong>中:</strong> 它們很危險嗎？高血壓有什麼症狀？</p>
+                <p class="khmer-text"><strong>KH:</strong> តើវាគ្រោះថ្នាក់មែនទេ? តើជំងឺលើសឈាមមានរោគសញ្ញាអ្វីខ្លះ?</p>
+                <p class="rom-text"><strong>Rom:</strong> Tae vea krouh thnak men te? Tae chomngu leis sagnha avei khlah?</p>
+            </div>
+            <div class="action-row">
+                <button class="action-btn play-btn" onclick="playAudio('audio/line_4.mp3')">▶ Play</button>
+                <button class="action-btn record-btn" onclick="toggleRecord(this, 4)">🎙️ Record & Compare</button>
+                <span class="score-badge" id="score-4">Score: --%</span>
+            </div>
+        </div>
+
+        <!-- Line 5 -->
+        <div class="dialogue-line line-odd">
+            <div class="speaker-label">Line 5 (Odd - Male)</div>
+            <div class="lang-group">
+                <p class="en-text"><strong>EN:</strong> High blood pressure has no symptoms. But it harms the heart. And it harms the brain.</p>
+                <p class="zh-text"><strong>中:</strong> 高血壓沒有症狀。但它會傷心臟。也會傷大腦。</p>
+                <p class="khmer-text"><strong>KH:</strong> ជំងឺលើសឈាមគ្មានរោគសញ្ញាទេ។ ប៉ុន្តែវាបង្កគ្រោះថ្នាក់ដល់បេះដូង។ និងបង្កគ្រោះថ្នាក់ដល់ខួរក្បាល。</p>
+                <p class="rom-text"><strong>Rom:</strong> Chomngu leis chhiam kmean rog sagnha te. Bontae vea bongkor krouh thnak dol behdong. Nung bongkor krouh thnak dol khour kbal.</p>
+            </div>
+            <div class="action-row">
+                <button class="action-btn play-btn" onclick="playAudio('audio/line_5.mp3')">▶ Play</button>
+                <button class="action-btn record-btn" onclick="toggleRecord(this, 5)">🎙️ Record & Compare</button>
+                <span class="score-badge" id="score-5">Score: --%</span>
+            </div>
+        </div>
+
+        <!-- Line 6 -->
+        <div class="dialogue-line line-even">
+            <div class="speaker-label">Line 6 (Even - Female)</div>
+            <div class="lang-group">
+                <p class="en-text"><strong>EN:</strong> Oh! No symptoms? That is scary. What about diabetes?</p>
+                <p class="zh-text"><strong>中:</strong> 噢！沒有症狀？那很可怕。那糖尿病呢？</p>
+                <p class="khmer-text"><strong>KH:</strong> អា! គ្មានរោគសញ្ញាទេ? គួរឱ្យខ្លាចណាស់។ ចុះជំងឺទឹកនោមផ្អែមវិញ?</p>
+                <p class="rom-text"><strong>Rom:</strong> Ah! Kmean rog sagnha te? Kour aoy khlach nah. Choh chomngu tuek nom ph'aem vinh?</p>
+            </div>
+            <div class="action-row">
+                <button class="action-btn play-btn" onclick="playAudio('audio/line_6.mp3')">▶ Play</button>
+                <button class="action-btn record-btn" onclick="toggleRecord(this, 6)">🎙️ Record & Compare</button>
+                <span class="score-badge" id="score-6">Score: --%</span>
+            </div>
+        </div>
+
+        <!-- Line 7 -->
+        <div class="dialogue-line line-odd">
+            <div class="speaker-label">Line 7 (Odd - Male)</div>
+            <div class="lang-group">
+                <p class="en-text"><strong>EN:</strong> Diabetes means sugar in blood is high. It hurts the body slowly. It can make you blind.</p>
+                <p class="zh-text"><strong>中:</strong> 糖尿病代表血糖很高。它會慢慢傷害身體。它會讓人失明。</p>
+                <p class="khmer-text"><strong>KH:</strong> ជំងឺទឹកនោមផ្អែមគឺស្ករក្នុងឈាមខ្ពស់។ វាបំផ្លាញរាងកាយយឺតៗ。 វាអាចធ្វើឱ្យងងឹតភ្នែក。</p>
+                <p class="rom-text"><strong>Rom:</strong> Chomngu tuek nom ph'aem kue sgkor knong chhiam khpos. Vea bomphlanh reangkay yeut-yeut. Vea art thveu aoy ngonget phnek.</p>
+            </div>
+            <div class="action-row">
+                <button class="action-btn play-btn" onclick="playAudio('audio/line_7.mp3')">▶ Play</button>
+                <button class="action-btn record-btn" onclick="toggleRecord(this, 7)">🎙️ Record & Compare</button>
+                <span class="score-badge" id="score-7">Score: --%</span>
+            </div>
+        </div>
+
+        <!-- Line 8 -->
+        <div class="dialogue-line line-even">
+            <div class="speaker-label">Line 8 (Even - Female)</div>
+            <div class="lang-group">
+                <p class="en-text"><strong>EN:</strong> Why do people get these diseases?</p>
+                <p class="zh-text"><strong>中:</strong> 為什麼人們會得這些病呢？</p>
+                <p class="khmer-text"><strong>KH:</strong> មូលហេតុអ្វីបានជាកើតជំងឺទាំងនេះ?</p>
+                <p class="rom-text"><strong>Rom:</strong> Moulheut avei ban chea kaet chomngu teang neh?</p>
+            </div>
+            <div class="action-row">
+                <button class="action-btn play-btn" onclick="playAudio('audio/line_8.mp3')">▶ Play</button>
+                <button class="action-btn record-btn" onclick="toggleRecord(this, 8)">🎙️ Record & Compare</button>
+                <span class="score-badge" id="score-8">Score: --%</span>
+            </div>
+        </div>
+
+        <!-- Line 9 -->
+        <div class="dialogue-line line-odd">
+            <div class="speaker-label">Line 9 (Odd - Male)</div>
+            <div class="lang-group">
+                <p class="en-text"><strong>EN:</strong> Because of eating too sweet. Eating too salty. And eating too much white rice.</p>
+                <p class="zh-text"><strong>中:</strong> 因為吃太甜。吃太鹹。還有吃太多白米飯。</p>
+                <p class="khmer-text"><strong>KH:</strong> មកពីបរិភោគផ្អែមពេក។ បរិភោគប្រៃពេក។ និងញាំបាយសច្រើនពេក。</p>
+                <p class="rom-text"><strong>Rom:</strong> Mok pi boripheaog ph'aem pek. Boripheaog prey pek. Nung gnam bay sor jrean pek.</p>
+            </div>
+            <div class="action-row">
+                <button class="action-btn play-btn" onclick="playAudio('audio/line_9.mp3')">▶ Play</button>
+                <button class="action-btn record-btn" onclick="toggleRecord(this, 9)">🎙️ Record & Compare</button>
+                <span class="score-badge" id="score-9">Score: --%</span>
+            </div>
+        </div>
+
+        <!-- Line 10 -->
+        <div class="dialogue-line line-even">
+            <div class="speaker-label">Line 10 (Even - Female)</div>
+            <div class="lang-group">
+                <p class="en-text"><strong>EN:</strong> Cambodians eat white rice every day! What should we do?</p>
+                <p class="zh-text"><strong>中:</strong> 柬埔寨人天天吃白米飯！我們該怎麼辦？</p>
+                <p class="khmer-text"><strong>KH:</strong> ប្រជាជនកម្ពុជាញ៉ាំបាយសរាល់ថ្ងៃ! តើយើងគួរធ្វើដូចម្តេច?</p>
+                <p class="rom-text"><strong>Rom:</strong> Procheachon kampuchea gnam bay sor roal thgai! Tae yeung kour thveu douch mdech?</p>
+            </div>
+            <div class="action-row">
+                <button class="action-btn play-btn" onclick="playAudio('audio/line_10.mp3')">▶ Play</button>
+                <button class="action-btn record-btn" onclick="toggleRecord(this, 10)">🎙️ Record & Compare</button>
+                <span class="score-badge" id="score-10">Score: --%</span>
+            </div>
+        </div>
+
+        <!-- Line 11 -->
+        <div class="dialogue-line line-odd">
+            <div class="speaker-label">Line 11 (Odd - Male)</div>
+            <div class="lang-group">
+                <p class="en-text"><strong>EN:</strong> Reduce white rice. Eat beans and fish. And walk 30 minutes every day.</p>
+                <p class="zh-text"><strong>中:</strong> 減少白米飯。多吃豆類和魚。還有每天走路30分鐘。</p>
+                <p class="khmer-text"><strong>KH:</strong> ត្រូវបន្ថយបាយស។ ញ៉ាំសណ្ដែក និងត្រី។ និងដើរ ៣០ នាទីរាល់ថ្ងៃ។</p>
+                <p class="rom-text"><strong>Rom:</strong> Trouv bonthoy bay sor. Gnam sondak nung trei. Nung daer sam sopt neaty roal thgai.</p>
+            </div>
+            <div class="action-row">
+                <button class="action-btn play-btn" onclick="playAudio('audio/line_11.mp3')">▶ Play</button>
+                <button class="action-btn record-btn" onclick="toggleRecord(this, 11)">🎙️ Record & Compare</button>
+                <span class="score-badge" id="score-11">Score: --%</span>
+            </div>
+        </div>
+
+        <!-- Line 12 -->
+        <div class="dialogue-line line-even">
+            <div class="speaker-label">Line 12 (Even - Female)</div>
+            <div class="lang-group">
+                <p class="en-text"><strong>EN:</strong> I understand. But how can I check my blood pressure?</p>
+                <p class="zh-text"><strong>中:</strong> 我明白了。但我該怎麼檢查我的血壓？</p>
+                <p class="khmer-text"><strong>KH:</strong> ខ្ញុំយល់ហើយ។ ប៉ុន្តែតើខ្ញុំអាចពិនិត្យសម្ពាធឈាមដោយរបៀបណា?</p>
+                <p class="rom-text"><strong>Rom:</strong> Khnom yol heuy. Bontae tae khnom art pinit sompiat chhiam doy robiep na?</p>
+            </div>
+            <div class="action-row">
+                <button class="action-btn play-btn" onclick="playAudio('audio/line_12.mp3')">▶ Play</button>
+                <button class="action-btn record-btn" onclick="toggleRecord(this, 12)">🎙️ Record & Compare</button>
+                <span class="score-badge" id="score-12">Score: --%</span>
+            </div>
+        </div>
+
+        <!-- Line 13 -->
+        <div class="dialogue-line line-odd">
+            <div class="speaker-label">Line 13 (Odd - Male)</div>
+            <div class="lang-group">
+                <p class="en-text"><strong>EN:</strong> Please come to our church community center. We check it for you. It is free.</p>
+                <p class="zh-text"><strong>中:</strong> 請到我們的教會社區中心。我們幫您檢查。這是免費的。</p>
+                <p class="khmer-text"><strong>KH:</strong> សូមអញ្ជើញមកកាន់មជ្ឈមណ្ឌលសហគមន៍ព្រះវិហាររបស់យើងខ្ញុំ។ យើងមានការពិនិត្យជូន។ នេះគឺឥតគិតថ្លៃ。</p>
+                <p class="rom-text"><strong>Rom:</strong> Som anhcheunh mok kan mochmondon sahakom preah vihear roboh yeung khnom. Yeung mien kar pinit choun. Neh kue et kit thlay.</p>
+            </div>
+            <div class="action-row">
+                <button class="action-btn play-btn" onclick="playAudio('audio/line_13.mp3')">▶ Play</button>
+                <button class="action-btn record-btn" onclick="toggleRecord(this, 13)">🎙️ Record & Compare</button>
+                <span class="score-badge" id="score-13">Score: --%</span>
+            </div>
+        </div>
+
+        <!-- Line 14 -->
+        <div class="dialogue-line line-even">
+            <div class="speaker-label">Line 14 (Even - Female)</div>
+            <div class="lang-group">
+                <p class="en-text"><strong>EN:</strong> Free check-up? That is very good! Thank you!</p>
+                <p class="zh-text"><strong>中:</strong> 免費檢查？那很好！謝謝你！</p>
+                <p class="khmer-text"><strong>KH:</strong> ពិនិត្យឥតគិតថ្លៃមែនទេ? ល្អណាស់! អរគុណច្រើន!</p>
+                <p class="rom-text"><strong>Rom:</strong> Pinit et kit thlay men te? L'or nah! Orkun jrean!</p>
+            </div>
+            <div class="action-row">
+                <button class="action-btn play-btn" onclick="playAudio('audio/line_14.mp3')">▶ Play</button>
+                <button class="action-btn record-btn" onclick="toggleRecord(this, 14)">🎙️ Record & Compare</button>
+                <span class="score-badge" id="score-14">Score: --%</span>
+            </div>
+        </div>
+
+        <!-- Line 15 -->
+        <div class="dialogue-line line-odd">
+            <div class="speaker-label">Line 15 (Odd - Male)</div>
+            <div class="lang-group">
+                <p class="en-text"><strong>EN:</strong> You are welcome! May God bless you!</p>
+                <p class="zh-text"><strong>中:</strong> 不客氣! 願上帝祝福您!</p>
+                <p class="khmer-text"><strong>KH:</strong> មិនអីទេបាទ! សូមព្រះប្រទានពរ!</p>
+                <p class="rom-text"><strong>Rom:</strong> Min ei te bat! Som preah trong praoh por!</p>
+            </div>
+            <div class="action-row">
+                <button class="action-btn play-btn" onclick="playAudio('audio/line_15.mp3')">▶ Play</button>
+                <button class="action-btn record-btn" onclick="toggleRecord(this, 15)">🎙️ Record & Compare</button>
+                <span class="score-badge" id="score-15">Score: --%</span>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Resources Footer Section -->
     <footer>
         <h3>External Resources & Study Links</h3>
         <p>Use these tools to expand your vocabulary and cross-verify printed materials:</p>
@@ -248,7 +477,7 @@
     </footer>
 
     <script>
-        // 1. Language Toggle Logic
+        // Language Toggle Logic
         function toggleLang(langClass) {
             const elements = document.querySelectorAll('.' + langClass + '-text');
             const button = event.target;
@@ -263,24 +492,22 @@
             button.classList.toggle('active');
         }
 
-        // 2. Audio Player Logic
+        // Audio Player Logic
         function playAudio(filePath) {
             const audio = new Audio(filePath);
-            audio.play().catch(e => alert("Audio file not found. Ensure your generated MP3 files are placed inside an 'audio' folder."));
+            audio.play().catch(e => alert("Audio track file not found. Ensure your generated MP3 files are named correctly inside your repo's 'audio/' folder."));
         }
 
-        // 3. Simple Mock Evaluation Engine for "Record & Compare"
-        // This simulates computational feedback dynamically to engage team learners on static hosting.
+        // Dynamic Feedback Logic for "Record & Compare"
         function toggleRecord(btn, lineId) {
             if (btn.classList.contains('recording')) {
                 btn.classList.remove('recording');
                 btn.innerText = "🎙️ Record & Compare";
                 
-                // Calculate simulated score for feedback visualization
                 const badge = document.getElementById('score-' + lineId);
                 badge.style.display = 'inline-block';
                 
-                // Generates a helpful realistic target score between 75% and 98%
+                // Simulates pronunciation accuracy score to keep training engaging
                 const mockScore = Math.floor(Math.random() * (98 - 75 + 1)) + 75;
                 badge.innerText = `Score: ${mockScore}%`;
                 
