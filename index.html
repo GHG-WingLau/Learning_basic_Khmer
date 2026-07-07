@@ -178,7 +178,6 @@
         .record-btn:hover { background-color: #c0392b; }
         .user-play-btn { background-color: #9b59b6; color: white; }
         .user-play-btn:hover { background-color: #8e44ad; }
-        .user-play-btn:disabled { background-color: #bdc3c7; cursor: not-allowed; }
         
         .recording { animation: pulse 1.5s infinite; background-color: #c0392b !important; }
 
@@ -243,14 +242,14 @@
         <div class="dialogue-line line-odd">
             <div class="speaker-label">Line 1 (Odd - Male)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> Hello uncle (auntie)! Do you have some time? We want to talk about health.</p>
-                <p class="zh-text"><strong>中:</strong> 您好，叔叔(阿姨)！請問您有時間嗎？我們想聊聊健康。</p>
-                <p class="khmer-text"><strong>KH:</strong> ជម្រាបសួរលោកពូ (អ្នកមីង)! តើមានពេលបន្តិចទេ? យើងខ្ញុំចង់និយាយអំពីសុខភាព។</p>
-                <p class="rom-text"><strong>Rom:</strong> Chumreap sour lok pou (neak ming)! Tae mien pel bontich te? Yeung khnom chong niyay ompi sokhapheap.</p>
+                <p class="en-text"><strong>EN:</strong> Hello uncle (auntie)! Do you have some time? We want to talk about health.[cite: 1]</p>
+                <p class="zh-text"><strong>中:</strong> 您好，叔叔(阿姨)！請問您有時間嗎？我們想聊聊健康。[cite: 1]</p>
+                <p class="khmer-text"><strong>KH:</strong> ជម្រាបសួរលោកពូ (អ្នកមីង)! តើមានពេលបន្តិចទេ? យើងខ្ញុំចង់និយាយអំពីសុខភាព។[cite: 1]</p>
+                <p class="rom-text"><strong>Rom:</strong> Chumreap sour lok pou (neak ming)! Tae mien pel bontich te? Yeung khnom chong niyay ompi sokhapheap.[cite: 1]</p>
             </div>
             <div class="action-row">
                 <button class="action-btn play-btn" onclick="handleNativeAudio(1, 'audio/line_1.mp3', this)">▶ Play</button>
-                <button class="action-btn record-btn" onclick="handleMicRecording(1, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(1, this)">🎙️ Record (Max 12s)</button>
                 <button class="action-btn user-play-btn" onclick="playUserAttempt(1)">▶ Play Attempt</button>
             </div>
         </div>
@@ -259,14 +258,14 @@
         <div class="dialogue-line line-even">
             <div class="speaker-label">Line 2 (Even - Female)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> Hello! Yes, I have time. What is that paper?</p>
-                <p class="zh-text"><strong>中:</strong> 你好！有的。那張紙是什麼？</p>
-                <p class="khmer-text"><strong>KH:</strong> ជម្រាបសួរ! បាទ មានពេល។ តើក្រដាសនោះជាអ្វី？</p>
-                <p class="rom-text"><strong>Rom:</strong> Chumreap sour! Bat, mien pel. Tae krodas noh chea avei?</p>
+                <p class="en-text"><strong>EN:</strong> Hello! Yes, I have time. What is that paper?[cite: 1]</p>
+                <p class="zh-text"><strong>中:</strong> 你好！有的。那張紙是什麼？[cite: 1]</p>
+                <p class="khmer-text"><strong>KH:</strong> ជម្រាបសួរ! បាទ មានពេល។ តើក្រដាសនោះជាអ្វី？[cite: 1]</p>
+                <p class="rom-text"><strong>Rom:</strong> Chumreap sour! Bat, mien pel. Tae krodas noh chea avei?[cite: 1]</p>
             </div>
             <div class="action-row">
                 <button class="action-btn play-btn" onclick="handleNativeAudio(2, 'audio/line_2.mp3', this)">▶ Play</button>
-                <button class="action-btn record-btn" onclick="handleMicRecording(2, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(2, this)">🎙️ Record (Max 12s)</button>
                 <button class="action-btn user-play-btn" onclick="playUserAttempt(2)">▶ Play Attempt</button>
             </div>
         </div>
@@ -275,14 +274,14 @@
         <div class="dialogue-line line-odd">
             <div class="speaker-label">Line 3 (Odd - Male)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> This is about two dangerous diseases. It is diabetes. And high blood pressure.</p>
-                <p class="zh-text"><strong>中:</strong> 這是有關兩種危險的疾病。是糖尿病。還有高血壓。</p>
-                <p class="khmer-text"><strong>KH:</strong> នេះនិយាយពីជំងឺគ្រោះថ្នាក់ពីរ。 គឺជំងឺទឹកនោមផ្អែម។ និងជំងឺលើសឈាម។</p>
-                <p class="rom-text"><strong>Rom:</strong> ...</p>
+                <p class="en-text"><strong>EN:</strong> This is about two dangerous diseases. It is diabetes. And high blood pressure.[cite: 1]</p>
+                <p class="zh-text"><strong>中:</strong> 這是有關兩種危險的疾病。是糖尿病。還有高血壓。[cite: 1]</p>
+                <p class="khmer-text"><strong>KH:</strong> នេះនិយាយពីជំងឺគ្រោះថ្នាក់ពីរ។ គឺជំងឺទឹកនោមផ្អែម។ និងជំងឺលើសឈាម។[cite: 1]</p>
+                <p class="rom-text"><strong>Rom:</strong> Neh niyay pi chomngu krouh thnak pir. Kue chomngu tuek nom ph'aem. Nung chomngu leis chhiam.[cite: 1]</p>
             </div>
             <div class="action-row">
                 <button class="action-btn play-btn" onclick="handleNativeAudio(3, 'audio/line_3.mp3', this)">▶ Play</button>
-                <button class="action-btn record-btn" onclick="handleMicRecording(3, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(3, this)">🎙️ Record (Max 12s)</button>
                 <button class="action-btn user-play-btn" onclick="playUserAttempt(3)">▶ Play Attempt</button>
             </div>
         </div>
@@ -291,14 +290,14 @@
         <div class="dialogue-line line-even">
             <div class="speaker-label">Line 4 (Even - Female)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> Are they dangerous? High blood pressure has what symptoms?</p>
-                <p class="zh-text"><strong>中:</strong> 它們很危險嗎？高血壓有什麼症狀？</p>
-                <p class="khmer-text"><strong>KH:</strong> តើវាគ្រោះថ្នាក់មែនទេ? តើជំងឺលើសឈាមមានរោគសញ្ញាអ្វីខ្លះ?</p>
-                <p class="rom-text"><strong>Rom:</strong> ...</p>
+                <p class="en-text"><strong>EN:</strong> Are they dangerous? High blood pressure has what symptoms?[cite: 1]</p>
+                <p class="zh-text"><strong>中:</strong> 它們很危險嗎？高血壓有什麼症狀？[cite: 1]</p>
+                <p class="khmer-text"><strong>KH:</strong> តើវាគ្រោះថ្នាក់មែនទេ? តើជំងឺលើសឈាមមានរោគសញ្ញាអ្វីខ្លះ?[cite: 1]</p>
+                <p class="rom-text"><strong>Rom:</strong> Tae vea krouh thnak men te? Tae chomngu leis chhiam mien rog sagnha avei khlah?[cite: 1]</p>
             </div>
             <div class="action-row">
                 <button class="action-btn play-btn" onclick="handleNativeAudio(4, 'audio/line_4.mp3', this)">▶ Play</button>
-                <button class="action-btn record-btn" onclick="handleMicRecording(4, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(4, this)">🎙️ Record (Max 12s)</button>
                 <button class="action-btn user-play-btn" onclick="playUserAttempt(4)">▶ Play Attempt</button>
             </div>
         </div>
@@ -307,14 +306,14 @@
         <div class="dialogue-line line-odd">
             <div class="speaker-label">Line 5 (Odd - Male)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> High blood pressure has no symptoms. But it harms the heart. And it harms the brain.</p>
-                <p class="zh-text"><strong>中:</strong> 高血壓沒有症狀。但它會傷心臟。也會傷大腦。</p>
-                <p class="khmer-text"><strong>KH:</strong> ជំងឺលើសឈាមគ្មានរោគសញ្ញាទេ។ ប៉ុន្តែវាបង្កគ្រោះថ្នាក់ដល់បេះដូង។ និងបង្កគ្រោះថ្នាក់ដល់ខួរក្បាល។</p>
-                <p class="rom-text"><strong>Rom:</strong> ...</p>
+                <p class="en-text"><strong>EN:</strong> High blood pressure has no symptoms. But it harms the heart. And it harms the brain.[cite: 1]</p>
+                <p class="zh-text"><strong>中:</strong> 高血壓沒有症狀。但它會傷心臟。也會傷大腦。[cite: 1]</p>
+                <p class="khmer-text"><strong>KH:</strong> ជំងឺលើសឈាមគ្មានរោគសញ្ញាទេ។ ប៉ុន្តែវាបង្កគ្រោះថ្នាក់ដល់បេះដូង។ និងបង្កគ្រោះថ្នាក់ដល់ខួរក្បាល។[cite: 1]</p>
+                <p class="rom-text"><strong>Rom:</strong> Chomngu leis chhiam kmean rog sagnha te. Bontae vea bongkor krouh thnak dol behdong. Nung bongkor krouh thnak dol khour kbal.[cite: 1]</p>
             </div>
             <div class="action-row">
                 <button class="action-btn play-btn" onclick="handleNativeAudio(5, 'audio/line_5.mp3', this)">▶ Play</button>
-                <button class="action-btn record-btn" onclick="handleMicRecording(5, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(5, this)">🎙️ Record (Max 12s)</button>
                 <button class="action-btn user-play-btn" onclick="playUserAttempt(5)">▶ Play Attempt</button>
             </div>
         </div>
@@ -323,14 +322,14 @@
         <div class="dialogue-line line-even">
             <div class="speaker-label">Line 6 (Even - Female)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> Oh! No symptoms? That is scary. What about diabetes?</p>
-                <p class="zh-text"><strong>中:</strong> 噢！沒有症狀？那很可怕。那糖尿病呢？</p>
-                <p class="khmer-text"><strong>KH:</strong> អា! គ្មានរោគសញ្ញាទេ? គួរឱ្យខ្លាចណាស់។ ចុះជំងឺទឹកនោមផ្អែមវិញ?</p>
-                <p class="rom-text"><strong>Rom:</strong> ...</p>
+                <p class="en-text"><strong>EN:</strong> Oh! No symptoms? That is scary. What about diabetes?[cite: 1]</p>
+                <p class="zh-text"><strong>中:</strong> 噢！沒有症狀？那很可怕。那糖尿病呢？[cite: 1]</p>
+                <p class="khmer-text"><strong>KH:</strong> អា! គ្មានរោគសញ្ញាទេ? គួរឱ្យខ្លាចណាស់。ចុះជំងឺទឹកនោមផ្អែមវិញ?[cite: 1]</p>
+                <p class="rom-text"><strong>Rom:</strong> Ah! Kmean rog sagnha te? Kour aoy khlach nah. Choh chomngu tuek nom ph'aem vinh?[cite: 1]</p>
             </div>
             <div class="action-row">
                 <button class="action-btn play-btn" onclick="handleNativeAudio(6, 'audio/line_6.mp3', this)">▶ Play</button>
-                <button class="action-btn record-btn" onclick="handleMicRecording(6, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(6, this)">🎙️ Record (Max 12s)</button>
                 <button class="action-btn user-play-btn" onclick="playUserAttempt(6)">▶ Play Attempt</button>
             </div>
         </div>
@@ -339,14 +338,14 @@
         <div class="dialogue-line line-odd">
             <div class="speaker-label">Line 7 (Odd - Male)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> Diabetes means sugar in blood is high. It hurts the body slowly. It can make you blind.</p>
-                <p class="zh-text"><strong>中:</strong> 糖尿病代表血糖很高。它會慢慢傷害身體。它會讓人失明。</p>
-                <p class="khmer-text"><strong>KH:</strong> ជំងឺទឹកនោមផ្អែមគឺស្ករក្នុងឈាមខ្ពស់។ វាបំផ្លាញរាងកាយយឺតៗ。 វាអាចធ្វើឱ្យងងឹតភ្នែក។</p>
-                <p class="rom-text"><strong>Rom:</strong> ...</p>
+                <p class="en-text"><strong>EN:</strong> Diabetes means sugar in blood is high. It hurts the body slowly. It can make you blind.[cite: 1]</p>
+                <p class="zh-text"><strong>中:</strong> 糖尿病代表血糖很高。它會慢慢傷害身體。它會讓人失明。[cite: 1]</p>
+                <p class="khmer-text"><strong>KH:</strong> ជំងឺទឹកនោមផ្អែមគឺស្ករក្នុងឈាមខ្ពស់។ វាបំផ្លាញរាងកាយយឺតៗ។ វាអាចធ្វើឱ្យងងឹតភ្នែក។[cite: 1]</p>
+                <p class="rom-text"><strong>Rom:</strong> Chomngu tuek nom ph'aem kue sgkor knong chhiam khpos. Vea bomphlanh reangkay yeut-yeut. Vea art thveu aoy ngonget phnek.[cite: 1]</p>
             </div>
             <div class="action-row">
                 <button class="action-btn play-btn" onclick="handleNativeAudio(7, 'audio/line_7.mp3', this)">▶ Play</button>
-                <button class="action-btn record-btn" onclick="handleMicRecording(7, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(7, this)">🎙️ Record (Max 12s)</button>
                 <button class="action-btn user-play-btn" onclick="playUserAttempt(7)">▶ Play Attempt</button>
             </div>
         </div>
@@ -355,14 +354,14 @@
         <div class="dialogue-line line-even">
             <div class="speaker-label">Line 8 (Even - Female)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> Why do people get these diseases?</p>
-                <p class="zh-text"><strong>中:</strong> 為什麼人們會得這些病呢？</p>
-                <p class="khmer-text"><strong>KH:</strong> មូលហេតុអ្វីបានជាកើតជំងឺទាំងនេះ?</p>
-                <p class="rom-text"><strong>Rom:</strong> ...</p>
+                <p class="en-text"><strong>EN:</strong> Why do people get these diseases?[cite: 1]</p>
+                <p class="zh-text"><strong>中:</strong> 為什麼人們會得這些病呢？[cite: 1]</p>
+                <p class="khmer-text"><strong>KH:</strong> មូលហេតុអ្វីបានជាកើតជំងឺទាំងនេះ?[cite: 1]</p>
+                <p class="rom-text"><strong>Rom:</strong> Moulheut avei ban chea kaet chomngu teang neh?[cite: 1]</p>
             </div>
             <div class="action-row">
                 <button class="action-btn play-btn" onclick="handleNativeAudio(8, 'audio/line_8.mp3', this)">▶ Play</button>
-                <button class="action-btn record-btn" onclick="handleMicRecording(8, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(8, this)">🎙️ Record (Max 12s)</button>
                 <button class="action-btn user-play-btn" onclick="playUserAttempt(8)">▶ Play Attempt</button>
             </div>
         </div>
@@ -371,14 +370,14 @@
         <div class="dialogue-line line-odd">
             <div class="speaker-label">Line 9 (Odd - Male)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> Because of eating too sweet. Eating too salty. And eating too much white rice.</p>
-                <p class="zh-text"><strong>中:</strong> 因為吃太甜。吃太鹹。還有吃太多白米飯。</p>
-                <p class="khmer-text"><strong>KH:</strong> មកពីបរិភោគផ្អែមពេក។ បរិភោគប្រៃពេក销។ និងញាំបាយសច្រើនពេក。</p>
-                <p class="rom-text"><strong>Rom:</strong> ...</p>
+                <p class="en-text"><strong>EN:</strong> Because of eating too sweet. Eating too salty. And eating too much white rice.[cite: 1]</p>
+                <p class="zh-text"><strong>中:</strong> 因為吃太甜。吃太鹹。還有吃太多白米飯。[cite: 1]</p>
+                <p class="khmer-text"><strong>KH:</strong> មកពីបរិភោគផ្អែមពេក។ បរិភោគប្រៃពេក។ និងញាំបាយសច្រើនពេក។[cite: 1]</p>
+                <p class="rom-text"><strong>Rom:</strong> Mok pi boripheaog ph'aem pek. Boripheaog prey pek. Nung gnam bay sor jrean pek.[cite: 1]</p>
             </div>
             <div class="action-row">
                 <button class="action-btn play-btn" onclick="handleNativeAudio(9, 'audio/line_9.mp3', this)">▶ Play</button>
-                <button class="action-btn record-btn" onclick="handleMicRecording(9, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(9, this)">🎙️ Record (Max 12s)</button>
                 <button class="action-btn user-play-btn" onclick="playUserAttempt(9)">▶ Play Attempt</button>
             </div>
         </div>
@@ -387,14 +386,14 @@
         <div class="dialogue-line line-even">
             <div class="speaker-label">Line 10 (Even - Female)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> Cambodians eat white rice every day! What should we do?</p>
-                <p class="zh-text"><strong>中:</strong> 柬埔寨人天天吃白米飯！我們該怎麼辦？</p>
-                <p class="khmer-text"><strong>KH:</strong> ប្រជាជនកម្ពុជាញ៉ាំបាយសរាល់ថ្ងៃ! តើយើងគួរធ្វើដូចម្តេច?</p>
-                <p class="rom-text"><strong>Rom:</strong> ...</p>
+                <p class="en-text"><strong>EN:</strong> Cambodians eat white rice every day! What should we do?[cite: 1]</p>
+                <p class="zh-text"><strong>中:</strong> 柬埔寨人天天吃白米飯！我們該怎麼辦？[cite: 1]</p>
+                <p class="khmer-text"><strong>KH:</strong> ប្រជាជនកម្ពុជាញ៉ាំបាយសរាល់ថ្ងៃ! តើយើងគួរធ្វើដូចម្តេច?[cite: 1]</p>
+                <p class="rom-text"><strong>Rom:</strong> Procheachon kampuchea gnam bay sor roal thgai! Tae yeung kour thveu douch mdech?[cite: 1]</p>
             </div>
             <div class="action-row">
                 <button class="action-btn play-btn" onclick="handleNativeAudio(10, 'audio/line_10.mp3', this)">▶ Play</button>
-                <button class="action-btn record-btn" onclick="handleMicRecording(10, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(10, this)">🎙️ Record (Max 12s)</button>
                 <button class="action-btn user-play-btn" onclick="playUserAttempt(10)">▶ Play Attempt</button>
             </div>
         </div>
@@ -403,14 +402,14 @@
         <div class="dialogue-line line-odd">
             <div class="speaker-label">Line 11 (Odd - Male)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> Reduce white rice. Eat beans and fish. And walk 30 minutes every day.</p>
-                <p class="zh-text"><strong>中:</strong> 減少白米飯。多吃豆類和魚。還有每天走路30分鐘。</p>
-                <p class="khmer-text"><strong>KH:</strong> ត្រូវបន្ថយបាយស។ ញ៉ាំសណ្ដែក និងត្រី។ និងដើរ ៣០ នាទីរាល់ថ្ងៃ។</p>
-                <p class="rom-text"><strong>Rom:</strong> ...</p>
+                <p class="en-text"><strong>EN:</strong> Reduce white rice. Eat beans and fish. And walk 30 minutes every day.[cite: 1]</p>
+                <p class="zh-text"><strong>中:</strong> 減少白米飯。多吃豆類和魚。還有每天走路30分鐘。[cite: 1]</p>
+                <p class="khmer-text"><strong>KH:</strong> ត្រូវបន្ថយបាយស។ ញ៉ាំសណ្ដែក និងត្រី។ និងដើរ ៣០ នាទីរាល់ថ្ងៃ។[cite: 1]</p>
+                <p class="rom-text"><strong>Rom:</strong> Trouv bonthoy bay sor. Gnam sondak nung trei. Nung daer sam sopt neaty roal thgai.[cite: 1]</p>
             </div>
             <div class="action-row">
                 <button class="action-btn play-btn" onclick="handleNativeAudio(11, 'audio/line_11.mp3', this)">▶ Play</button>
-                <button class="action-btn record-btn" onclick="handleMicRecording(11, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(11, this)">🎙️ Record (Max 12s)</button>
                 <button class="action-btn user-play-btn" onclick="playUserAttempt(11)">▶ Play Attempt</button>
             </div>
         </div>
@@ -419,14 +418,14 @@
         <div class="dialogue-line line-even">
             <div class="speaker-label">Line 12 (Even - Female)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> I understand. But how can I check my blood pressure?</p>
-                <p class="zh-text"><strong>中:</strong> 我明白了。但我該怎麼檢查我的血壓？</p>
-                <p class="khmer-text"><strong>KH:</strong> ខ្ញុំយល់ហើយ។ ប៉ុន្តែតើខ្ញុំអាចពិនិត្យសម្ពាធឈាមដោយរបៀបណា?</p>
-                <p class="rom-text"><strong>Rom:</strong> ...</p>
+                <p class="en-text"><strong>EN:</strong> I understand. But how can I check my blood pressure?[cite: 1]</p>
+                <p class="zh-text"><strong>中:</strong> 我明白了。但我該怎麼檢查我的血壓？[cite: 1]</p>
+                <p class="khmer-text"><strong>KH:</strong> ខ្ញុំយល់ហើយ។ ប៉ុន្តែតើខ្ញុំអាចពិនិត្យសម្ពាធឈាមដោយរបៀបណា?[cite: 1]</p>
+                <p class="rom-text"><strong>Rom:</strong> Khnom yol heuy. Bontae tae khnom art pinit sompiat chhiam doy robiep na?[cite: 1]</p>
             </div>
             <div class="action-row">
                 <button class="action-btn play-btn" onclick="handleNativeAudio(12, 'audio/line_12.mp3', this)">▶ Play</button>
-                <button class="action-btn record-btn" onclick="handleMicRecording(12, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(12, this)">🎙️ Record (Max 12s)</button>
                 <button class="action-btn user-play-btn" onclick="playUserAttempt(12)">▶ Play Attempt</button>
             </div>
         </div>
@@ -435,14 +434,14 @@
         <div class="dialogue-line line-odd">
             <div class="speaker-label">Line 13 (Odd - Male)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> Please come to our church community center. We check it for you. It is free.</p>
-                <p class="zh-text"><strong>中:</strong> 請到我們的教會社區中心。我們幫您檢查。這是免費的。</p>
-                <p class="khmer-text"><strong>KH:</strong> សូមអញ្ជើញមកកាន់មជ្ឈមណ្ឌលសហគមន៍ព្រះវិហាររបស់យើងខ្ញុំ។ យើងមានការពិនិត្យជូន។ នេះគឺឥតគិតថ្លៃ។</p>
-                <p class="rom-text"><strong>Rom:</strong> ...</p>
+                <p class="en-text"><strong>EN:</strong> Please come to our church community center. We check it for you. It is free.[cite: 1]</p>
+                <p class="zh-text"><strong>中:</strong> 請到我們的教會社區中心。我們幫您檢查。這是免費的。[cite: 1]</p>
+                <p class="khmer-text"><strong>KH:</strong> សូមអញ្ជើញមកកាន់មជ្ឈមណ្ឌលសហគមន៍ព្រះវិហាររបស់យើងខ្ញុំ។ យើងមានការពិនិត្យជូន។ នេះគឺឥតគិតថ្លៃ។[cite: 1]</p>
+                <p class="rom-text"><strong>Rom:</strong> Som anhcheunh mok kan mochmondon sahakom preah vihear roboh yeung khnom. Yeung mien kar pinit choun. Neh kue et kit thlay.[cite: 1]</p>
             </div>
             <div class="action-row">
                 <button class="action-btn play-btn" onclick="handleNativeAudio(13, 'audio/line_13.mp3', this)">▶ Play</button>
-                <button class="action-btn record-btn" onclick="handleMicRecording(13, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(13, this)">🎙️ Record (Max 12s)</button>
                 <button class="action-btn user-play-btn" onclick="playUserAttempt(13)">▶ Play Attempt</button>
             </div>
         </div>
@@ -451,14 +450,14 @@
         <div class="dialogue-line line-even">
             <div class="speaker-label">Line 14 (Even - Female)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> Free check-up? That is very good! Thank you!</p>
-                <p class="zh-text"><strong>中:</strong> 免費檢查？那很好！謝謝你！</p>
-                <p class="khmer-text"><strong>KH:</strong> ពិនិត្យឥតគិតថ្លៃមែនទេ? ល្អណាស់! អរគុណច្រើន!</p>
-                <p class="rom-text"><strong>Rom:</strong> ...</p>
+                <p class="en-text"><strong>EN:</strong> Free check-up? That is very good! Thank you![cite: 1]</p>
+                <p class="zh-text"><strong>中:</strong> 免費檢查？那很好！謝謝你！[cite: 1]</p>
+                <p class="khmer-text"><strong>KH:</strong> ពិនិត្យឥតគិតថ្លៃមែនទេ? ល្អណាស់! អរគុណច្រើន![cite: 1]</p>
+                <p class="rom-text"><strong>Rom:</strong> Pinit et kit thlay men te? L'or nah! Orkun jrean![cite: 1]</p>
             </div>
             <div class="action-row">
                 <button class="action-btn play-btn" onclick="handleNativeAudio(14, 'audio/line_14.mp3', this)">▶ Play</button>
-                <button class="action-btn record-btn" onclick="handleMicRecording(14, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(14, this)">🎙️ Record (Max 12s)</button>
                 <button class="action-btn user-play-btn" onclick="playUserAttempt(14)">▶ Play Attempt</button>
             </div>
         </div>
@@ -467,14 +466,14 @@
         <div class="dialogue-line line-odd">
             <div class="speaker-label">Line 15 (Odd - Male)</div>
             <div class="lang-group">
-                <p class="en-text"><strong>EN:</strong> You are welcome! May God bless you!</p>
-                <p class="zh-text"><strong>中:</strong> 不客氣! 願上帝祝福您!</p>
-                <p class="khmer-text"><strong>KH:</strong> មិនអីទេបាទ! សូមព្រះប្រទានពរ!</p>
-                <p class="rom-text"><strong>Rom:</strong> Min ei te bat! Som preah trong praoh por!</p>
+                <p class="en-text"><strong>EN:</strong> You are welcome! May God bless you![cite: 1]</p>
+                <p class="zh-text"><strong>中:</strong> 不客氣! 願上帝祝福您![cite: 1]</p>
+                <p class="khmer-text"><strong>KH:</strong> មិនអីទេបាទ! សូមព្រះប្រទានពរ![cite: 1]</p>
+                <p class="rom-text"><strong>Rom:</strong> Min ei te bat! Som preah trong praoh por![cite: 1]</p>
             </div>
             <div class="action-row">
                 <button class="action-btn play-btn" onclick="handleNativeAudio(15, 'audio/line_15.mp3', this)">▶ Play</button>
-                <button class="action-btn record-btn" onclick="handleMicRecording(15, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(15, this)">🎙️ Record (Max 12s)</button>
                 <button class="action-btn user-play-btn" onclick="playUserAttempt(15)">▶ Play Attempt</button>
             </div>
         </div>
@@ -499,7 +498,7 @@
         let recordingTimeoutTracker = null;
         let currentActiveRecordingLine = null;
 
-        // 1. Language Toggle Logic (Now targeting ALL nodes safely via querySelectorAll loop)
+        // 1. Language Toggle Logic (Iterates accurately through all targeting nodes)
         function toggleLang(langClass) {
             const targetedElements = document.querySelectorAll('.' + langClass + '-text');
             const targetButton = document.getElementById('btn-' + langClass);
@@ -516,11 +515,9 @@
 
         // 2. Play / Pause / Resume Architecture for Native Tracks
         function handleNativeAudio(lineId, filePath, btnRef) {
-            // Check if player instance already exists
             if (!nativeAudioPlayers[lineId]) {
                 const newAudioInstance = new Audio(filePath);
                 
-                // Track ending cycle back resets
                 newAudioInstance.onended = function() {
                     btnRef.innerText = "▶ Play";
                 };
@@ -539,15 +536,13 @@
             }
         }
 
-        // 3. Audio Recording Handling Structure (10-second automation limit or toggle action)
+        // 3. Audio Recording Handling Structure (With updated 12-second maximum limit loop)
         function handleMicRecording(lineId, buttonElement) {
-            // Stop logic if actively recording this line already
             if (activeMediaRecorder && currentActiveRecordingLine === lineId) {
                 stopRecordingAction();
                 return;
             }
             
-            // Safety measure: stop recording if another row was active
             if (activeMediaRecorder) {
                 stopRecordingAction();
             }
@@ -564,24 +559,22 @@
                         const localBlob = new Blob(voiceDataChunks, { type: 'audio/mp3' });
                         cachedUserRecordings[lineId] = URL.createObjectURL(localBlob);
                         
-                        // Reset line styling properties
                         buttonElement.classList.remove('recording');
-                        buttonElement.innerText = "🎙️ Record (Max 10s)";
+                        buttonElement.innerText = "🎙️ Record (Max 12s)";
                         activeMediaRecorder = null;
                         currentActiveRecordingLine = null;
                     };
 
-                    // Execute recording step
                     activeMediaRecorder.start();
                     buttonElement.classList.add('recording');
                     buttonElement.innerText = "🛑 Stop Rec";
 
-                    // Trigger safety threshold timer configuration
+                    // Extended execution threshold tracking safely at 12000ms (12s)
                     recordingTimeoutTracker = setTimeout(() => {
                         if (activeMediaRecorder && currentActiveRecordingLine === lineId) {
                             stopRecordingAction();
                         }
-                    }, 10000); // Strict 10-second automatic window hook
+                    }, 12000); 
                 })
                 .catch(err => {
                     alert("Microphone configuration permission access denied or unsupported on device browser configuration.");
@@ -591,7 +584,6 @@
         function stopRecordingAction() {
             if (activeMediaRecorder) {
                 activeMediaRecorder.stop();
-                // Clear hardware streams safely
                 activeMediaRecorder.stream.getTracks().forEach(track => track.stop());
                 clearTimeout(recordingTimeoutTracker);
             }
