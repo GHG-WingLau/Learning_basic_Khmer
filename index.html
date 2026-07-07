@@ -70,6 +70,17 @@
             margin-bottom: 30px;
         }
 
+        .slide-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: transform 0.2s;
+        }
+
+        .slide-link:hover {
+            transform: scale(1.02);
+        }
+
         .slide-holder {
             border: 1px solid #ddd;
             background: #fff;
@@ -84,6 +95,7 @@
             width: 100%;
             height: auto;
             object-fit: contain;
+            display: block;
         }
         
         .slide-caption {
@@ -147,6 +159,7 @@
             display: flex;
             gap: 10px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .action-btn {
@@ -156,20 +169,18 @@
             cursor: pointer;
             font-weight: bold;
             font-size: 0.85rem;
+            transition: background-color 0.2s;
         }
 
         .play-btn { background-color: #2ecc71; color: white; }
+        .play-btn:hover { background-color: #27ae60; }
         .record-btn { background-color: #e74c3c; color: white; }
-        .recording { animation: pulse 1.5s infinite; }
-
-        .score-badge {
-            font-size: 0.9rem;
-            font-weight: bold;
-            padding: 3px 8px;
-            border-radius: 4px;
-            background: #e0e0e0;
-            display: none;
-        }
+        .record-btn:hover { background-color: #c0392b; }
+        .user-play-btn { background-color: #9b59b6; color: white; }
+        .user-play-btn:hover { background-color: #8e44ad; }
+        .user-play-btn:disabled { background-color: #bdc3c7; cursor: not-allowed; }
+        
+        .recording { animation: pulse 1.5s infinite; background-color: #c0392b !important; }
 
         /* Resources Footer */
         footer {
@@ -203,22 +214,26 @@
 
     <!-- Language Visibility Toggles -->
     <div class="controls-container">
-        <button class="toggle-btn active" onclick="toggleLang('en')">EN (English)</button>
-        <button class="toggle-btn active" onclick="toggleLang('zh')">中 (Chinese)</button>
-        <button class="toggle-btn active" onclick="toggleLang('kh')">KH (ភាសាខ្មែរ)</button>
-        <button class="toggle-btn active" onclick="toggleLang('rom')">Rom (Romanized)</button>
+        <button class="toggle-btn active" id="btn-en" onclick="toggleLang('en')">EN (English)</button>
+        <button class="toggle-btn active" id="btn-zh" onclick="toggleLang('zh')">中 (Chinese)</button>
+        <button class="toggle-btn active" id="btn-kh" onclick="toggleLang('kh')">KH (ភាសាខ្មែរ)</button>
+        <button class="toggle-btn active" id="btn-rom" onclick="toggleLang('rom')">Rom (Romanized)</button>
     </div>
 
-    <!-- Presentation Slide Image Placeholders -->
+    <!-- Presentation Slide Image Links -->
     <section class="slides-section">
-        <div class="slide-holder">
-            <img src="image/Health_infographics_Khmer_small.png" alt="Khmer Infographics">
-            <div class="slide-caption">Khmer Health Presentation Slide</div>
-        </div>
-        <div class="slide-holder">
-            <img src="image/Health_infographics_En_small.png" alt="English Infographics">
-            <div class="slide-caption">English Health Presentation Slide</div>
-        </div>
+        <a href="image/Health_infographics_Khmer_small.png" target="_blank" class="slide-link">
+            <div class="slide-holder">
+                <img src="image/Health_infographics_Khmer_small.png" alt="Khmer Infographics">
+                <div class="slide-caption">Khmer Health Presentation Slide (Click to enlarge)</div>
+            </div>
+        </a>
+        <a href="image/Health_infographics_En_small.png" target="_blank" class="slide-link">
+            <div class="slide-holder">
+                <img src="image/Health_infographics_En_small.png" alt="English Infographics">
+                <div class="slide-caption">English Health Presentation Slide (Click to enlarge)</div>
+            </div>
+        </a>
     </section>
 
     <!-- Dialogue Area -->
@@ -230,13 +245,13 @@
             <div class="lang-group">
                 <p class="en-text"><strong>EN:</strong> Hello uncle (auntie)! Do you have some time? We want to talk about health.</p>
                 <p class="zh-text"><strong>中:</strong> 您好，叔叔(阿姨)！請問您有時間嗎？我們想聊聊健康。</p>
-                <p class="khmer-text"><strong>KH:</strong> ជម្រាបសួរលោកពូ (អ្នកមីង)! តើមានពេលបន្តិចទេ? យើងខ្ញុំចង់និយាយអំពីសុខភាព。</p>
+                <p class="khmer-text"><strong>KH:</strong> ជម្រាបសួរលោកពូ (អ្នកមីង)! តើមានពេលបន្តិចទេ? យើងខ្ញុំចង់និយាយអំពីសុខភាព។</p>
                 <p class="rom-text"><strong>Rom:</strong> Chumreap sour lok pou (neak ming)! Tae mien pel bontich te? Yeung khnom chong niyay ompi sokhapheap.</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/line_1.mp3')">▶ Play</button>
-                <button class="action-btn record-btn" onclick="toggleRecord(this, 1)">🎙️ Record & Compare</button>
-                <span class="score-badge" id="score-1">Score: --%</span>
+                <button class="action-btn play-btn" onclick="handleNativeAudio(1, 'audio/line_1.mp3', this)">▶ Play</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(1, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn user-play-btn" onclick="playUserAttempt(1)">▶ Play Attempt</button>
             </div>
         </div>
 
@@ -250,9 +265,9 @@
                 <p class="rom-text"><strong>Rom:</strong> Chumreap sour! Bat, mien pel. Tae krodas noh chea avei?</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/line_2.mp3')">▶ Play</button>
-                <button class="action-btn record-btn" onclick="toggleRecord(this, 2)">🎙️ Record & Compare</button>
-                <span class="score-badge" id="score-2">Score: --%</span>
+                <button class="action-btn play-btn" onclick="handleNativeAudio(2, 'audio/line_2.mp3', this)">▶ Play</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(2, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn user-play-btn" onclick="playUserAttempt(2)">▶ Play Attempt</button>
             </div>
         </div>
 
@@ -262,13 +277,13 @@
             <div class="lang-group">
                 <p class="en-text"><strong>EN:</strong> This is about two dangerous diseases. It is diabetes. And high blood pressure.</p>
                 <p class="zh-text"><strong>中:</strong> 這是有關兩種危險的疾病。是糖尿病。還有高血壓。</p>
-                <p class="khmer-text"><strong>KH:</strong> នេះនិយាយពីជំងឺគ្រោះថ្នាក់ពីរ។ គឺជំងឺទឹកនោមផ្អែម។ និងជំងឺលើសឈាម。</p>
-                <p class="rom-text"><strong>Rom:</strong> Neh niyay pi chomngu krouh thnak pir. Kue chomngu tuek nom ph'aem. Nung chomngu leis chhiam.</p>
+                <p class="khmer-text"><strong>KH:</strong> នេះនិយាយពីជំងឺគ្រោះថ្នាក់ពីរ。 គឺជំងឺទឹកនោមផ្អែម។ និងជំងឺលើសឈាម។</p>
+                <p class="rom-text"><strong>Rom:</strong> ...</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/line_3.mp3')">▶ Play</button>
-                <button class="action-btn record-btn" onclick="toggleRecord(this, 3)">🎙️ Record & Compare</button>
-                <span class="score-badge" id="score-3">Score: --%</span>
+                <button class="action-btn play-btn" onclick="handleNativeAudio(3, 'audio/line_3.mp3', this)">▶ Play</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(3, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn user-play-btn" onclick="playUserAttempt(3)">▶ Play Attempt</button>
             </div>
         </div>
 
@@ -279,12 +294,12 @@
                 <p class="en-text"><strong>EN:</strong> Are they dangerous? High blood pressure has what symptoms?</p>
                 <p class="zh-text"><strong>中:</strong> 它們很危險嗎？高血壓有什麼症狀？</p>
                 <p class="khmer-text"><strong>KH:</strong> តើវាគ្រោះថ្នាក់មែនទេ? តើជំងឺលើសឈាមមានរោគសញ្ញាអ្វីខ្លះ?</p>
-                <p class="rom-text"><strong>Rom:</strong> Tae vea krouh thnak men te? Tae chomngu leis sagnha avei khlah?</p>
+                <p class="rom-text"><strong>Rom:</strong> ...</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/line_4.mp3')">▶ Play</button>
-                <button class="action-btn record-btn" onclick="toggleRecord(this, 4)">🎙️ Record & Compare</button>
-                <span class="score-badge" id="score-4">Score: --%</span>
+                <button class="action-btn play-btn" onclick="handleNativeAudio(4, 'audio/line_4.mp3', this)">▶ Play</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(4, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn user-play-btn" onclick="playUserAttempt(4)">▶ Play Attempt</button>
             </div>
         </div>
 
@@ -294,13 +309,13 @@
             <div class="lang-group">
                 <p class="en-text"><strong>EN:</strong> High blood pressure has no symptoms. But it harms the heart. And it harms the brain.</p>
                 <p class="zh-text"><strong>中:</strong> 高血壓沒有症狀。但它會傷心臟。也會傷大腦。</p>
-                <p class="khmer-text"><strong>KH:</strong> ជំងឺលើសឈាមគ្មានរោគសញ្ញាទេ។ ប៉ុន្តែវាបង្កគ្រោះថ្នាក់ដល់បេះដូង។ និងបង្កគ្រោះថ្នាក់ដល់ខួរក្បាល。</p>
-                <p class="rom-text"><strong>Rom:</strong> Chomngu leis chhiam kmean rog sagnha te. Bontae vea bongkor krouh thnak dol behdong. Nung bongkor krouh thnak dol khour kbal.</p>
+                <p class="khmer-text"><strong>KH:</strong> ជំងឺលើសឈាមគ្មានរោគសញ្ញាទេ។ ប៉ុន្តែវាបង្កគ្រោះថ្នាក់ដល់បេះដូង។ និងបង្កគ្រោះថ្នាក់ដល់ខួរក្បាល។</p>
+                <p class="rom-text"><strong>Rom:</strong> ...</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/line_5.mp3')">▶ Play</button>
-                <button class="action-btn record-btn" onclick="toggleRecord(this, 5)">🎙️ Record & Compare</button>
-                <span class="score-badge" id="score-5">Score: --%</span>
+                <button class="action-btn play-btn" onclick="handleNativeAudio(5, 'audio/line_5.mp3', this)">▶ Play</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(5, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn user-play-btn" onclick="playUserAttempt(5)">▶ Play Attempt</button>
             </div>
         </div>
 
@@ -311,12 +326,12 @@
                 <p class="en-text"><strong>EN:</strong> Oh! No symptoms? That is scary. What about diabetes?</p>
                 <p class="zh-text"><strong>中:</strong> 噢！沒有症狀？那很可怕。那糖尿病呢？</p>
                 <p class="khmer-text"><strong>KH:</strong> អា! គ្មានរោគសញ្ញាទេ? គួរឱ្យខ្លាចណាស់។ ចុះជំងឺទឹកនោមផ្អែមវិញ?</p>
-                <p class="rom-text"><strong>Rom:</strong> Ah! Kmean rog sagnha te? Kour aoy khlach nah. Choh chomngu tuek nom ph'aem vinh?</p>
+                <p class="rom-text"><strong>Rom:</strong> ...</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/line_6.mp3')">▶ Play</button>
-                <button class="action-btn record-btn" onclick="toggleRecord(this, 6)">🎙️ Record & Compare</button>
-                <span class="score-badge" id="score-6">Score: --%</span>
+                <button class="action-btn play-btn" onclick="handleNativeAudio(6, 'audio/line_6.mp3', this)">▶ Play</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(6, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn user-play-btn" onclick="playUserAttempt(6)">▶ Play Attempt</button>
             </div>
         </div>
 
@@ -326,13 +341,13 @@
             <div class="lang-group">
                 <p class="en-text"><strong>EN:</strong> Diabetes means sugar in blood is high. It hurts the body slowly. It can make you blind.</p>
                 <p class="zh-text"><strong>中:</strong> 糖尿病代表血糖很高。它會慢慢傷害身體。它會讓人失明。</p>
-                <p class="khmer-text"><strong>KH:</strong> ជំងឺទឹកនោមផ្អែមគឺស្ករក្នុងឈាមខ្ពស់។ វាបំផ្លាញរាងកាយយឺតៗ。 វាអាចធ្វើឱ្យងងឹតភ្នែក。</p>
-                <p class="rom-text"><strong>Rom:</strong> Chomngu tuek nom ph'aem kue sgkor knong chhiam khpos. Vea bomphlanh reangkay yeut-yeut. Vea art thveu aoy ngonget phnek.</p>
+                <p class="khmer-text"><strong>KH:</strong> ជំងឺទឹកនោមផ្អែមគឺស្ករក្នុងឈាមខ្ពស់។ វាបំផ្លាញរាងកាយយឺតៗ。 វាអាចធ្វើឱ្យងងឹតភ្នែក។</p>
+                <p class="rom-text"><strong>Rom:</strong> ...</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/line_7.mp3')">▶ Play</button>
-                <button class="action-btn record-btn" onclick="toggleRecord(this, 7)">🎙️ Record & Compare</button>
-                <span class="score-badge" id="score-7">Score: --%</span>
+                <button class="action-btn play-btn" onclick="handleNativeAudio(7, 'audio/line_7.mp3', this)">▶ Play</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(7, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn user-play-btn" onclick="playUserAttempt(7)">▶ Play Attempt</button>
             </div>
         </div>
 
@@ -343,12 +358,12 @@
                 <p class="en-text"><strong>EN:</strong> Why do people get these diseases?</p>
                 <p class="zh-text"><strong>中:</strong> 為什麼人們會得這些病呢？</p>
                 <p class="khmer-text"><strong>KH:</strong> មូលហេតុអ្វីបានជាកើតជំងឺទាំងនេះ?</p>
-                <p class="rom-text"><strong>Rom:</strong> Moulheut avei ban chea kaet chomngu teang neh?</p>
+                <p class="rom-text"><strong>Rom:</strong> ...</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/line_8.mp3')">▶ Play</button>
-                <button class="action-btn record-btn" onclick="toggleRecord(this, 8)">🎙️ Record & Compare</button>
-                <span class="score-badge" id="score-8">Score: --%</span>
+                <button class="action-btn play-btn" onclick="handleNativeAudio(8, 'audio/line_8.mp3', this)">▶ Play</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(8, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn user-play-btn" onclick="playUserAttempt(8)">▶ Play Attempt</button>
             </div>
         </div>
 
@@ -358,13 +373,13 @@
             <div class="lang-group">
                 <p class="en-text"><strong>EN:</strong> Because of eating too sweet. Eating too salty. And eating too much white rice.</p>
                 <p class="zh-text"><strong>中:</strong> 因為吃太甜。吃太鹹。還有吃太多白米飯。</p>
-                <p class="khmer-text"><strong>KH:</strong> មកពីបរិភោគផ្អែមពេក។ បរិភោគប្រៃពេក។ និងញាំបាយសច្រើនពេក。</p>
-                <p class="rom-text"><strong>Rom:</strong> Mok pi boripheaog ph'aem pek. Boripheaog prey pek. Nung gnam bay sor jrean pek.</p>
+                <p class="khmer-text"><strong>KH:</strong> មកពីបរិភោគផ្អែមពេក។ បរិភោគប្រៃពេក销។ និងញាំបាយសច្រើនពេក。</p>
+                <p class="rom-text"><strong>Rom:</strong> ...</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/line_9.mp3')">▶ Play</button>
-                <button class="action-btn record-btn" onclick="toggleRecord(this, 9)">🎙️ Record & Compare</button>
-                <span class="score-badge" id="score-9">Score: --%</span>
+                <button class="action-btn play-btn" onclick="handleNativeAudio(9, 'audio/line_9.mp3', this)">▶ Play</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(9, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn user-play-btn" onclick="playUserAttempt(9)">▶ Play Attempt</button>
             </div>
         </div>
 
@@ -375,12 +390,12 @@
                 <p class="en-text"><strong>EN:</strong> Cambodians eat white rice every day! What should we do?</p>
                 <p class="zh-text"><strong>中:</strong> 柬埔寨人天天吃白米飯！我們該怎麼辦？</p>
                 <p class="khmer-text"><strong>KH:</strong> ប្រជាជនកម្ពុជាញ៉ាំបាយសរាល់ថ្ងៃ! តើយើងគួរធ្វើដូចម្តេច?</p>
-                <p class="rom-text"><strong>Rom:</strong> Procheachon kampuchea gnam bay sor roal thgai! Tae yeung kour thveu douch mdech?</p>
+                <p class="rom-text"><strong>Rom:</strong> ...</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/line_10.mp3')">▶ Play</button>
-                <button class="action-btn record-btn" onclick="toggleRecord(this, 10)">🎙️ Record & Compare</button>
-                <span class="score-badge" id="score-10">Score: --%</span>
+                <button class="action-btn play-btn" onclick="handleNativeAudio(10, 'audio/line_10.mp3', this)">▶ Play</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(10, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn user-play-btn" onclick="playUserAttempt(10)">▶ Play Attempt</button>
             </div>
         </div>
 
@@ -391,12 +406,12 @@
                 <p class="en-text"><strong>EN:</strong> Reduce white rice. Eat beans and fish. And walk 30 minutes every day.</p>
                 <p class="zh-text"><strong>中:</strong> 減少白米飯。多吃豆類和魚。還有每天走路30分鐘。</p>
                 <p class="khmer-text"><strong>KH:</strong> ត្រូវបន្ថយបាយស។ ញ៉ាំសណ្ដែក និងត្រី។ និងដើរ ៣០ នាទីរាល់ថ្ងៃ។</p>
-                <p class="rom-text"><strong>Rom:</strong> Trouv bonthoy bay sor. Gnam sondak nung trei. Nung daer sam sopt neaty roal thgai.</p>
+                <p class="rom-text"><strong>Rom:</strong> ...</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/line_11.mp3')">▶ Play</button>
-                <button class="action-btn record-btn" onclick="toggleRecord(this, 11)">🎙️ Record & Compare</button>
-                <span class="score-badge" id="score-11">Score: --%</span>
+                <button class="action-btn play-btn" onclick="handleNativeAudio(11, 'audio/line_11.mp3', this)">▶ Play</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(11, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn user-play-btn" onclick="playUserAttempt(11)">▶ Play Attempt</button>
             </div>
         </div>
 
@@ -407,12 +422,12 @@
                 <p class="en-text"><strong>EN:</strong> I understand. But how can I check my blood pressure?</p>
                 <p class="zh-text"><strong>中:</strong> 我明白了。但我該怎麼檢查我的血壓？</p>
                 <p class="khmer-text"><strong>KH:</strong> ខ្ញុំយល់ហើយ។ ប៉ុន្តែតើខ្ញុំអាចពិនិត្យសម្ពាធឈាមដោយរបៀបណា?</p>
-                <p class="rom-text"><strong>Rom:</strong> Khnom yol heuy. Bontae tae khnom art pinit sompiat chhiam doy robiep na?</p>
+                <p class="rom-text"><strong>Rom:</strong> ...</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/line_12.mp3')">▶ Play</button>
-                <button class="action-btn record-btn" onclick="toggleRecord(this, 12)">🎙️ Record & Compare</button>
-                <span class="score-badge" id="score-12">Score: --%</span>
+                <button class="action-btn play-btn" onclick="handleNativeAudio(12, 'audio/line_12.mp3', this)">▶ Play</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(12, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn user-play-btn" onclick="playUserAttempt(12)">▶ Play Attempt</button>
             </div>
         </div>
 
@@ -422,13 +437,13 @@
             <div class="lang-group">
                 <p class="en-text"><strong>EN:</strong> Please come to our church community center. We check it for you. It is free.</p>
                 <p class="zh-text"><strong>中:</strong> 請到我們的教會社區中心。我們幫您檢查。這是免費的。</p>
-                <p class="khmer-text"><strong>KH:</strong> សូមអញ្ជើញមកកាន់មជ្ឈមណ្ឌលសហគមន៍ព្រះវិហាររបស់យើងខ្ញុំ។ យើងមានការពិនិត្យជូន។ នេះគឺឥតគិតថ្លៃ。</p>
-                <p class="rom-text"><strong>Rom:</strong> Som anhcheunh mok kan mochmondon sahakom preah vihear roboh yeung khnom. Yeung mien kar pinit choun. Neh kue et kit thlay.</p>
+                <p class="khmer-text"><strong>KH:</strong> សូមអញ្ជើញមកកាន់មជ្ឈមណ្ឌលសហគមន៍ព្រះវិហាររបស់យើងខ្ញុំ។ យើងមានការពិនិត្យជូន។ នេះគឺឥតគិតថ្លៃ។</p>
+                <p class="rom-text"><strong>Rom:</strong> ...</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/line_13.mp3')">▶ Play</button>
-                <button class="action-btn record-btn" onclick="toggleRecord(this, 13)">🎙️ Record & Compare</button>
-                <span class="score-badge" id="score-13">Score: --%</span>
+                <button class="action-btn play-btn" onclick="handleNativeAudio(13, 'audio/line_13.mp3', this)">▶ Play</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(13, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn user-play-btn" onclick="playUserAttempt(13)">▶ Play Attempt</button>
             </div>
         </div>
 
@@ -439,12 +454,12 @@
                 <p class="en-text"><strong>EN:</strong> Free check-up? That is very good! Thank you!</p>
                 <p class="zh-text"><strong>中:</strong> 免費檢查？那很好！謝謝你！</p>
                 <p class="khmer-text"><strong>KH:</strong> ពិនិត្យឥតគិតថ្លៃមែនទេ? ល្អណាស់! អរគុណច្រើន!</p>
-                <p class="rom-text"><strong>Rom:</strong> Pinit et kit thlay men te? L'or nah! Orkun jrean!</p>
+                <p class="rom-text"><strong>Rom:</strong> ...</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/line_14.mp3')">▶ Play</button>
-                <button class="action-btn record-btn" onclick="toggleRecord(this, 14)">🎙️ Record & Compare</button>
-                <span class="score-badge" id="score-14">Score: --%</span>
+                <button class="action-btn play-btn" onclick="handleNativeAudio(14, 'audio/line_14.mp3', this)">▶ Play</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(14, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn user-play-btn" onclick="playUserAttempt(14)">▶ Play Attempt</button>
             </div>
         </div>
 
@@ -458,9 +473,9 @@
                 <p class="rom-text"><strong>Rom:</strong> Min ei te bat! Som preah trong praoh por!</p>
             </div>
             <div class="action-row">
-                <button class="action-btn play-btn" onclick="playAudio('audio/line_15.mp3')">▶ Play</button>
-                <button class="action-btn record-btn" onclick="toggleRecord(this, 15)">🎙️ Record & Compare</button>
-                <span class="score-badge" id="score-15">Score: --%</span>
+                <button class="action-btn play-btn" onclick="handleNativeAudio(15, 'audio/line_15.mp3', this)">▶ Play</button>
+                <button class="action-btn record-btn" onclick="handleMicRecording(15, this)">🎙️ Record (Max 10s)</button>
+                <button class="action-btn user-play-btn" onclick="playUserAttempt(15)">▶ Play Attempt</button>
             </div>
         </div>
 
@@ -477,51 +492,120 @@
     </footer>
 
     <script>
-        // Language Toggle Logic
+        // Global variables to manage audio and recording tracking maps
+        const nativeAudioPlayers = {};
+        const cachedUserRecordings = {};
+        let activeMediaRecorder = null;
+        let recordingTimeoutTracker = null;
+        let currentActiveRecordingLine = null;
+
+        // 1. Language Toggle Logic (Now targeting ALL nodes safely via querySelectorAll loop)
         function toggleLang(langClass) {
-            const elements = document.querySelectorAll('.' + langClass + '-text');
-            const button = event.target;
+            const targetedElements = document.querySelectorAll('.' + langClass + '-text');
+            const targetButton = document.getElementById('btn-' + langClass);
             
-            elements.forEach(el => {
-                if (el.style.display === 'none') {
-                    el.style.display = 'block';
+            targetedElements.forEach(element => {
+                if (element.style.display === 'none') {
+                    element.style.display = 'block';
                 } else {
-                    el.style.display = 'none';
+                    element.style.display = 'none';
                 }
             });
-            button.classList.toggle('active');
+            targetButton.classList.toggle('active');
         }
 
-        // Audio Player Logic
-        function playAudio(filePath) {
-            const audio = new Audio(filePath);
-            audio.play().catch(e => alert("Audio track file not found. Ensure your generated MP3 files are named correctly inside your repo's 'audio/' folder."));
-        }
-
-        // Dynamic Feedback Logic for "Record & Compare"
-        function toggleRecord(btn, lineId) {
-            if (btn.classList.contains('recording')) {
-                btn.classList.remove('recording');
-                btn.innerText = "🎙️ Record & Compare";
+        // 2. Play / Pause / Resume Architecture for Native Tracks
+        function handleNativeAudio(lineId, filePath, btnRef) {
+            // Check if player instance already exists
+            if (!nativeAudioPlayers[lineId]) {
+                const newAudioInstance = new Audio(filePath);
                 
-                const badge = document.getElementById('score-' + lineId);
-                badge.style.display = 'inline-block';
-                
-                // Simulates pronunciation accuracy score to keep training engaging
-                const mockScore = Math.floor(Math.random() * (98 - 75 + 1)) + 75;
-                badge.innerText = `Score: ${mockScore}%`;
-                
-                if(mockScore >= 90) {
-                    badge.style.backgroundColor = '#2ecc71';
-                    badge.style.color = 'white';
-                } else {
-                    badge.style.backgroundColor = '#f1c40f';
-                    badge.style.color = 'black';
-                }
-            } else {
-                btn.classList.add('recording');
-                btn.innerText = "🛑 Stop & Score";
+                // Track ending cycle back resets
+                newAudioInstance.onended = function() {
+                    btnRef.innerText = "▶ Play";
+                };
+                nativeAudioPlayers[lineId] = newAudioInstance;
             }
+
+            const currentAudio = nativeAudioPlayers[lineId];
+
+            if (currentAudio.paused) {
+                currentAudio.play()
+                    .then(() => { btnRef.innerText = "⏸ Pause"; })
+                    .catch(() => alert("Audio tracking asset file failed to load inside audio/ folder."));
+            } else {
+                currentAudio.pause();
+                btnRef.innerText = "▶ Resume";
+            }
+        }
+
+        // 3. Audio Recording Handling Structure (10-second automation limit or toggle action)
+        function handleMicRecording(lineId, buttonElement) {
+            // Stop logic if actively recording this line already
+            if (activeMediaRecorder && currentActiveRecordingLine === lineId) {
+                stopRecordingAction();
+                return;
+            }
+            
+            // Safety measure: stop recording if another row was active
+            if (activeMediaRecorder) {
+                stopRecordingAction();
+            }
+
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    activeMediaRecorder = new MediaRecorder(stream);
+                    currentActiveRecordingLine = lineId;
+                    let voiceDataChunks = [];
+
+                    activeMediaRecorder.ondataavailable = e => voiceDataChunks.push(e.data);
+                    
+                    activeMediaRecorder.onstop = () => {
+                        const localBlob = new Blob(voiceDataChunks, { type: 'audio/mp3' });
+                        cachedUserRecordings[lineId] = URL.createObjectURL(localBlob);
+                        
+                        // Reset line styling properties
+                        buttonElement.classList.remove('recording');
+                        buttonElement.innerText = "🎙️ Record (Max 10s)";
+                        activeMediaRecorder = null;
+                        currentActiveRecordingLine = null;
+                    };
+
+                    // Execute recording step
+                    activeMediaRecorder.start();
+                    buttonElement.classList.add('recording');
+                    buttonElement.innerText = "🛑 Stop Rec";
+
+                    // Trigger safety threshold timer configuration
+                    recordingTimeoutTracker = setTimeout(() => {
+                        if (activeMediaRecorder && currentActiveRecordingLine === lineId) {
+                            stopRecordingAction();
+                        }
+                    }, 10000); // Strict 10-second automatic window hook
+                })
+                .catch(err => {
+                    alert("Microphone configuration permission access denied or unsupported on device browser configuration.");
+                });
+        }
+
+        function stopRecordingAction() {
+            if (activeMediaRecorder) {
+                activeMediaRecorder.stop();
+                // Clear hardware streams safely
+                activeMediaRecorder.stream.getTracks().forEach(track => track.stop());
+                clearTimeout(recordingTimeoutTracker);
+            }
+        }
+
+        // 4. Playback User Audio Attempts
+        function playUserAttempt(lineId) {
+            const validationSource = cachedUserRecordings[lineId];
+            if (!validationSource) {
+                alert("No recorded attempt found for this line. Please use the Record button to practice first!");
+                return;
+            }
+            const localUserAudio = new Audio(validationSource);
+            localUserAudio.play();
         }
     </script>
 </body>
