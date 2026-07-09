@@ -490,15 +490,13 @@
         </p>
     </footer>
 
-    <script>
-        // Global variables to manage audio and recording tracking maps
+   <script>
         const nativeAudioPlayers = {};
         const cachedUserRecordings = {};
         let activeMediaRecorder = null;
         let recordingTimeoutTracker = null;
         let currentActiveRecordingLine = null;
 
-        // 1. Language Toggle Logic
         function toggleLang(langClass) {
             const targetedElements = document.querySelectorAll('.' + langClass + '-text');
             const targetButton = document.getElementById('btn-' + langClass);
@@ -513,14 +511,14 @@
             targetButton.classList.toggle('active');
         }
 
-        // 2. Play / Pause / Resume Architecture for Native Tracks
+        // Modified to continuously loop the transcript line MP3
         function handleNativeAudio(lineId, filePath, btnRef) {
             if (!nativeAudioPlayers[lineId]) {
                 const newAudioInstance = new Audio(filePath);
                 
-                newAudioInstance.onended = function() {
-                    btnRef.innerText = "▶ Play";
-                };
+                // Set the audio asset to loop continuously
+                newAudioInstance.loop = true; 
+                
                 nativeAudioPlayers[lineId] = newAudioInstance;
             }
 
@@ -536,7 +534,6 @@
             }
         }
 
-        // 3. Audio Recording Handling Structure (Max 12s limit loop)
         function handleMicRecording(lineId, buttonElement) {
             if (activeMediaRecorder && currentActiveRecordingLine === lineId) {
                 stopRecordingAction();
@@ -588,7 +585,7 @@
             }
         }
 
-        // 4. Playback User Audio Attempts
+        // Left as originally requested (plays standard single-playback)
         function playUserAttempt(lineId) {
             const validationSource = cachedUserRecordings[lineId];
             if (!validationSource) {
