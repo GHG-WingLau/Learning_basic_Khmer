@@ -489,9 +489,9 @@
             <a href="https://www.i2ocr.com/free-online-khmer-ocr" target="_blank">Free Online Khmer OCR Tool</a>
         </p>
     </footer>
-
- <script>
+<script>
         const nativeAudioPlayers = {};
+        const nativePlaybackCounts = {}; // Track repetitions for each line
         const cachedUserRecordings = {};
         let activeMediaRecorder = null;
         let recordingTimeoutTracker = null;
@@ -511,15 +511,26 @@
             targetButton.classList.toggle('active');
         }
 
-        // Modified with an explicit 'ended' event listener to force seamless looping
+        // Modified to play the native MP3 line exactly 3 times consecutively
         function handleNativeAudio(lineId, filePath, btnRef) {
             if (!nativeAudioPlayers[lineId]) {
                 const newAudioInstance = new Audio(filePath);
                 
-                // Explicit event listener fallback ensuring continuous playback across all browsers
+                // Initialize the counter for this specific line
+                nativePlaybackCounts[lineId] = 1; 
+                
                 newAudioInstance.addEventListener('ended', function() {
-                    this.currentTime = 0;
-                    this.play().catch(() => { btnRef.innerText = "▶ Play"; });
+                    if (nativePlaybackCounts[lineId] < 3) {
+                        nativePlaybackCounts[lineId]++;
+                        this.currentTime = 0;
+                        this.play().catch(() => { 
+                            btnRef.innerText = "▶ Play"; 
+                        });
+                    } else {
+                        // Reset counter and button text when 3 plays are finished
+                        nativePlaybackCounts[lineId] = 1; 
+                        btnRef.innerText = "▶ Play";
+                    }
                 }, false);
                 
                 nativeAudioPlayers[lineId] = newAudioInstance;
@@ -598,5 +609,6 @@
             localUserAudio.play();
         }
     </script>
+ 
 </body>
 </html>
