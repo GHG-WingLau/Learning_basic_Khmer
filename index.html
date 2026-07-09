@@ -490,7 +490,7 @@
         </p>
     </footer>
 
-   <script>
+ <script>
         const nativeAudioPlayers = {};
         const cachedUserRecordings = {};
         let activeMediaRecorder = null;
@@ -511,13 +511,16 @@
             targetButton.classList.toggle('active');
         }
 
-        // Modified to continuously loop the transcript line MP3
+        // Modified with an explicit 'ended' event listener to force seamless looping
         function handleNativeAudio(lineId, filePath, btnRef) {
             if (!nativeAudioPlayers[lineId]) {
                 const newAudioInstance = new Audio(filePath);
                 
-                // Set the audio asset to loop continuously
-                newAudioInstance.loop = true; 
+                // Explicit event listener fallback ensuring continuous playback across all browsers
+                newAudioInstance.addEventListener('ended', function() {
+                    this.currentTime = 0;
+                    this.play().catch(() => { btnRef.innerText = "▶ Play"; });
+                }, false);
                 
                 nativeAudioPlayers[lineId] = newAudioInstance;
             }
@@ -585,7 +588,6 @@
             }
         }
 
-        // Left as originally requested (plays standard single-playback)
         function playUserAttempt(lineId) {
             const validationSource = cachedUserRecordings[lineId];
             if (!validationSource) {
