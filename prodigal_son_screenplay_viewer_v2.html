@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Grace of the Father - Interactive Screenplay</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Noto Serif Khmer & Noto Serif TC -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+Khmer:wght@400;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons for Stage Theme -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #f8fafc;
+        }
+        .font-khmer {
+            font-family: 'Noto Serif Khmer', 'Inter', sans-serif;
+        }
+        .font-chinese {
+            font-family: 'Noto Serif TC', serif;
+        }
+        /* Custom smooth transition transitions */
+        .dialogue-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .dimmed {
+            opacity: 0.25;
+            filter: grayscale(80%) blur(0.5px);
+            pointer-events: none;
+        }
+        /* Printable Styles Override */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: white !important;
+                color: black !important;
+            }
+            .dialogue-card {
+                border: 1px solid #e2e8f0 !important;
+                box-shadow: none !important;
+                background-color: white !important;
+                page-break-inside: avoid;
+            }
+            .dimmed {
+                opacity: 1 !important;
+                filter: none !important;
+                pointer-events: auto !important;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Header Banner -->
+    <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white shadow-xl no-print">
+        <div class="max-w-6xl mx-auto px-4 py-8 text-center relative overflow-hidden">
+            <!-- Decorative Light Ray Background Effect -->
+            <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-96 h-96 bg-indigo-500 rounded-full blur-3xl opacity-20 pointer-events-none"></div>
+            
+            <div class="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-3">
+                <i class="fa-solid fa-masks-theater"></i> Luke 15:11-32 Stage Play
+            </div>
+            <h1 class="text-3xl md:text-5xl font-bold font-serif tracking-tight text-amber-100">The Grace of the Father</h1>
+            <p class="text-indigo-200 mt-2 text-sm md:text-base max-w-2xl mx-auto">
+                A 15-Minute, 3-Act Stage Play specifically designed for multilingual amateur actors, focusing on the boundless mercy and grace of the Father.
+            </p>
+            <div class="mt-4 text-xs text-indigo-300 border-t border-indigo-900/60 pt-4 inline-block">
+                <span>Cast: <strong>Grace</strong> (Narrator) • <strong>Wing</strong> (Father) • <strong>Issac</strong> (Elder Son) • <strong>Lun</strong> (Younger Son) • <strong>Yan</strong> (Hog Owner) • <strong>Various Players</strong></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Control Hub Panel (Sticky for easy rehearsal toggling) -->
+    <div class="sticky top-0 z-50 bg-slate-100/95 backdrop-blur-md border-b border-slate-200 shadow-md py-4 px-4 no-print">
+        <div class="max-w-6xl mx-auto flex flex-col gap-4">
+            <!-- Row 1: Character Filter Buttons -->
+            <div>
+                <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                    <i class="fa-solid fa-user-ninja mr-1"></i> Character Focus / Practice Mode:
+                </span>
+                <div class="flex flex-wrap gap-2" id="character-filters">
+                    <button onclick="selectCharacter('all')" id="btn-char-all" class="char-btn active px-3.5 py-1.5 text-xs font-semibold rounded-full bg-indigo-600 text-white shadow-sm border border-indigo-700 transition-all">
+                        Show All Cast
+                    </button>
+                    <button onclick="selectCharacter('Grace')" id="btn-char-Grace" class="char-btn px-3.5 py-1.5 text-xs font-semibold rounded-full bg-white text-slate-700 border border-slate-300 hover:border-indigo-400 transition-all">
+                        Grace (Narrator)
+                    </button>
+                    <button onclick="selectCharacter('Wing')" id="btn-char-Wing" class="char-btn px-3.5 py-1.5 text-xs font-semibold rounded-full bg-white text-slate-700 border border-slate-300 hover:border-amber-400 transition-all">
+                        Wing (Father)
+                    </button>
+                    <button onclick="selectCharacter('Lun')" id="btn-char-Lun" class="char-btn px-3.5 py-1.5 text-xs font-semibold rounded-full bg-white text-slate-700 border border-slate-300 hover:border-emerald-400 transition-all">
+                        Lun (Younger Son)
+                    </button>
+                    <button onclick="selectCharacter('Issac')" id="btn-char-Issac" class="char-btn px-3.5 py-1.5 text-xs font-semibold rounded-full bg-white text-slate-700 border border-slate-300 hover:border-rose-400 transition-all">
+                        Issac (Elder Son)
+                    </button>
+                    <button onclick="selectCharacter('Yan')" id="btn-char-Yan" class="char-btn px-3.5 py-1.5 text-xs font-semibold rounded-full bg-white text-slate-700 border border-slate-300 hover:border-cyan-400 transition-all">
+                        Yan (Hog Owner)
+                    </button>
+                    <button onclick="selectCharacter('Bystander')" id="btn-char-Bystander" class="char-btn px-3.5 py-1.5 text-xs font-semibold rounded-full bg-white text-slate-700 border border-slate-300 hover:border-purple-400 transition-all">
+                        Bystanders & Friends
+                    </button>
+                </div>
+            </div>
+
+            <!-- Row 2: Display Filters & Play Utilities -->
+            <div class="flex flex-wrap items-center justify-between gap-4 border-t border-slate-200/60 pt-3">
+                <!-- Language Toggles -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider mr-2">
+                        <i class="fa-solid fa-language mr-1"></i> Visible Languages:
+                    </span>
+                    <button onclick="toggleLanguage('en')" id="btn-lang-en" class="lang-btn px-3 py-1 text-xs font-medium rounded-md bg-indigo-50 border border-indigo-200 text-indigo-700 font-semibold shadow-xs">
+                        English
+                    </button>
+                    <button onclick="toggleLanguage('zh')" id="btn-lang-zh" class="lang-btn px-3 py-1 text-xs font-medium rounded-md bg-indigo-50 border border-indigo-200 text-indigo-700 font-semibold shadow-xs">
+                        繁體中文
+                    </button>
+                    <button onclick="toggleLanguage('km')" id="btn-lang-km" class="lang-btn px-3 py-1 text-xs font-medium rounded-md bg-indigo-50 border border-indigo-200 text-indigo-700 font-semibold shadow-xs font-khmer">
+                        ភាសាខ្មែរ
+                    </button>
+                    <button onclick="toggleLanguage('rom')" id="btn-lang-rom" class="lang-btn px-3 py-1 text-xs font-medium rounded-md bg-indigo-50 border border-indigo-200 text-indigo-700 font-semibold shadow-xs">
+                        Khmer Romanized
+                    </button>
+                </div>
+
+                <!-- Mode Options & Utilities -->
+                <div class="flex items-center gap-2">
+                    <!-- Filter Mode Switcher -->
+                    <select id="filter-mode" onchange="applyFilters()" class="bg-white border border-slate-300 text-slate-700 text-xs rounded-md px-2.5 py-1.5 font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        <option value="highlight">Highlight Mode (Dims others)</option>
+                        <option value="hide">Focus Mode (Hides others)</option>
+                    </select>
+
+                    <!-- Reset & Print -->
+                    <button onclick="resetAll()" title="Reset Filters" class="p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-200 rounded-md transition-all">
+                        <i class="fa-solid fa-arrow-rotate-left text-sm"></i>
+                    </button>
+                    <button onclick="window.print()" title="Print Script" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium px-3 py-1.5 rounded-md flex items-center gap-1.5 shadow-xs transition-all">
+                        <i class="fa-solid fa-print"></i> Print Script
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Screenplay Script Canvas -->
+    <main class="flex-grow max-w-4xl mx-auto px-4 py-8 w-full">
+
+        <!-- Stage Setting Overview -->
+        <section class="mb-12 bg-amber-50/50 border border-amber-100 rounded-2xl p-6 shadow-xs relative">
+            <h2 class="text-amber-800 font-bold text-lg mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-circle-info"></i> Staging Setup & Production Notes / 舞台佈置與製作說明
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600">
+                <div>
+                    <h3 class="font-bold text-slate-700 mb-1">Props Suggested / 建議道具：</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li><strong>Act I / 第一幕：</strong> A leather pouch/bag representing money inheritance. <span class="text-slate-500 font-chinese">(代表財產繼承的皮革錢包/袋子。)</span></li>
+                        <li><strong>Act II / 第二幕：</strong> Mud/straw on floor, a wooden bowl with pig pods. <span class="text-slate-500 font-chinese">(地板上的泥土/稻草，裝有豬豆莢的木碗。)</span></li>
+                        <li><strong>Act III / 第三幕：</strong> A premium bright colored robe, a gold ring, sandals. <span class="text-slate-500 font-chinese">(一件高級鮮豔的袍子、一枚金戒指、涼鞋。)</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-700 mb-1">Acting Guidelines (Amateurs) / 演員表演指引（業餘演員適用）：</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Keep expressions big! Stage acting relies on physical body language. <span class="text-slate-500 font-chinese">(表情要誇張！舞台表演非常依賴肢體語言。)</span></li>
+                        <li>Wing (Father) should show physical tenderness: open arms, warm smile. <span class="text-slate-500 font-chinese">(父親 Wing 應展現身體上的溫柔：張開雙臂，帶著溫暖的微笑。)</span></li>
+                        <li>Take pauses between languages to let the crowd digest the emotional scenes. <span class="text-slate-500 font-chinese">(在不同語言的台詞之間稍作停頓，讓觀眾消化情感戲劇。)</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ACT I ================= -->
+        <section class="mb-16">
+            <div class="border-b-2 border-indigo-900 pb-2 mb-6 flex items-center justify-between">
+                <h2 class="text-2xl font-serif font-bold text-indigo-950 uppercase tracking-wide">
+                    Act I: The Request & Departure
+                </h2>
+                <span class="text-xs font-semibold bg-indigo-100 text-indigo-800 px-2.5 py-1 rounded-full uppercase">Scene 1</span>
+            </div>
+            
+            <div class="space-y-2 mb-6 italic text-slate-500 text-xs border-l-4 border-slate-300 pl-4 py-1">
+                <p><strong>Stage Setup:</strong> Center stage has a comfortable bench representing the Father's wealthy home. Wing (Father) is sitting on the bench reading or checking scrolls. Issac (Elder Son) is working hard on the right, carrying tools or looking over ledgers. Lun (Younger Son) stands on the left side, looking restless and looking off-stage.</p>
+                <p class="font-chinese text-slate-500 not-italic"><strong>舞台佈置：</strong>舞台中央有一張舒適的長椅，代表父親富裕的家。父親（Wing）坐在長椅上閱讀或查看卷軸。哥哥（Issac）在右側辛勤工作，拿著工具或查看賬本。小兒子（Lun）站在左側，顯得焦躁不安並望向台外。</p>
+            </div>
+
+            <!-- Dialogue 1: Grace (Narrator) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Grace">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-bullhorn text-[10px]"></i> Grace (Narrator)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Grace</span>
+                </div>
+                <!-- Multilingual Text Blocks -->
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">Once, there was a loving father who had two sons. They had everything they needed in their home. Yet, the younger son wanted something more.</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">從前，有一位慈祥的父親，他有兩個兒子。他們在家中應有盡有，但小兒子卻渴望著別的東西。</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">កាលពីមុន មានឪពុកដ៏មានសេចក្ដីស្រឡាញ់ម្នាក់ មានកូនប្រុសពីរនាក់។ ពួកគេមានអ្វីៗគ្រប់យ៉ាងដែលត្រូវការនៅក្នុងផ្ទះ។ ប៉ុន្តែ កូនពៅចង់បានអ្វីដែលច្រើនជាងនេះ។</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">Kal pi mun, mean ov-puk dor mean sec-kdei sror-lanh mnak, mean koun proh pi neak. Puk-kei mean avei-avei krob-yang kdel trov-kar noat-knong ptheah. Bon-tae koun-pov chong-ban avei kdel chreun cheang nih.</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 2: Lun (Younger Son) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Lun">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-user-circle text-[10px]"></i> Lun (Younger Son)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Lun / [To Father, with confidence]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"Father, give me my share of the estate now. I want to build my own life."</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「父親，請把我財產中我應得的一份現在就給我。我想過我自己的生活。」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«លោកឪពុក សូមប្រគល់ចំណែកមរដកដែលត្រូវចែកដល់ខ្ញុំមកឥឡូវនេះ។ ខ្ញុំចង់កសាងជីវិតផ្ទាល់ខ្លួនរបស់ខ្ញុំ។»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Lok ov-puk, soum bro-kol chom-nek mor-dor kdel trov chek dol knhom mok el-lov-nih. Knhom chong kor-sang chi-vit phtol-khluon ro-bos knhom."</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 3: Wing (Father) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Wing">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-person-shelter text-[10px]"></i> Wing (Father)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Wing / [Looking saddened but gentle]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"My son, are you sure you want to leave? This home is always open to you."</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「我的孩子，你確定要離開嗎？這裡永遠是你的家。」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«កូនប្រុសរបស់ពុក តើកូនពិតជាចង់ចាកចេញមែនទេ? ផ្ទះនេះតែងតែបើកស្វាគមន៍កូនជានិច្ច។»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Koun proh ro-bos puk, tae koun pit-cheor chong chak-chenh men-te? Ptheah nih teng-tae berk sva-kom koun cheor-nich."</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 4: Lun (Younger Son) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Lun">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-user-circle text-[10px]"></i> Lun (Younger Son)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Lun / [Determined, turning away]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"Yes, Father. I want to see the world. I want my freedom."</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「是的，父親。我想去看看世界，我想要我的自由。」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«បាទ លោកឪពុក។ ខ្ញុំចង់ទៅមើលពិភពលោក។ ខ្ញុំចង់បានសេរីភាព。»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Bat lok ov-puk. Knhom chong tov merl pi-pob lok. Knhom chong ban se-rei-pheap."</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 5: Wing (Father) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Wing">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-person-shelter text-[10px]"></i> Wing (Father)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Wing / [Hands over the pouch of money, with deep emotion]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"(Sighs) If this is your wish, I will grant it. May peace be with you, my beloved son."</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「（嘆息）如果這是你的心願，我便成全你。願你一路平安，我心愛的孩子。」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«（ដកដង្ហើមធំ）បើនេះជាបំណងរបស់កូន ពុកនឹងចែកឲ្យកូន。 សូមឲ្យកូនជួបតែសេចក្តីសុខសាន្ត កូនសម្លាញ់របស់ពុក។»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"(Dok-dong-herm thom) Ber nih cheor bom-nong ro-bos koun, puk neng chek oy koun. Soum oy koun chuob tae sec-kdei sok-sant, koun sror-lanh ro-bos puk."</p>
+                </div>
+            </div>
+
+            <div class="space-y-2 italic text-slate-500 text-xs border-l-4 border-slate-300 pl-4 py-1">
+                <p><strong>Stage Action:</strong> Lun takes the pouch, smiles happily, waves, and walks off-stage with high energy. Wing watches him leave with a hand on his chest, visibly hurting. Issac walks up to Wing, looking unhappy with Lun's departure, but says nothing yet. Lights fade down slowly.</p>
+                <p class="font-chinese text-slate-500 not-italic"><strong>舞台動作：</strong>Lun 接過錢包，高興地微笑、揮手，並精力充沛地走下舞台。Wing 手撫胸口看著他離去，顯然十分痛心。Issac 走向 Wing，對 Lun 的離去顯得不高興，但暫時什麼也沒說。燈光漸漸變暗。</p>
+            </div>
+        </section>
+
+        <!-- ================= ACT II ================= -->
+        <section class="mb-16">
+            <div class="border-b-2 border-indigo-900 pb-2 mb-6 flex items-center justify-between">
+                <h2 class="text-2xl font-serif font-bold text-indigo-950 uppercase tracking-wide">
+                    Act II: The Fall & Repentance
+                </h2>
+                <span class="text-xs font-semibold bg-indigo-100 text-indigo-800 px-2.5 py-1 rounded-full uppercase">Scene 2</span>
+            </div>
+            
+            <div class="space-y-2 mb-6 italic text-slate-500 text-xs border-l-4 border-slate-300 pl-4 py-1">
+                <p><strong>Stage Setup:</strong> The home bench is removed. Stage looks darker. On the right, some party-goers (Bystanders/Friends) are holding cups, laughing with Lun. Lun is throwing money around, acting drunk and arrogant. Soon, the scene shifts—the friends run away with his remaining money, leaving Lun alone, dirty and hungry.</p>
+                <p class="font-chinese text-slate-500 not-italic"><strong>舞台佈置：</strong>移開家中的長椅。舞台顯得較暗。在右側，一些派對參與者（旁觀者/朋友）拿著杯子，與 Lun 一起大笑。Lun 在到處扔錢，表現得醉醺醺且傲慢。很快，場景轉變——朋友們帶著他剩下的錢跑掉，留下 Lun 一個人，又髒又餓。</p>
+            </div>
+
+            <!-- Dialogue 6: Grace (Narrator) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Grace">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-bullhorn text-[10px]"></i> Grace (Narrator)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Grace</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">The younger son traveled to a distant country. There, he wasted all his father's money on wild living. Soon, a terrible hunger struck the land, and he had nothing left.</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">小兒子去了遙遠的國家。在那裡，他生活放蕩，揮霍了父親給他的所有財產。不久，那地遭遇了嚴重的饑荒，他變得一無所有。</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">កូនពៅបានធ្វើដំណើរទៅឯស្រុកឆ្ងាយ។ នៅទីនោះ វាបានបង្ហិនទ្រព្យសម្បត្តិរបស់ឪពុកទាំងអស់ដោយល្បែងស៊ីផឹកហួសប្រមាណ។ មិនយូរប៉ុន្មាន កើតមានអំណត់ជាខ្លាំងនៅស្រុកនោះ ហើយវាក៏លែងមានអ្វីសល់ទៀតដែរ។</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">Koun pov ban thver dom-ner tov ek srok chngay. Noat ti-noh, vea ban bong-hen throp-som-bat ro-bos ov-puk tang-os doy l-beng si-phek huoh-bro-man. Men yu bon-man, kert mean om-not cheor khlang noat srok noh, heuy vea kor leng mean avei sol tiet der.</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 7: Bystander (Friends) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Bystander">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-users text-[10px]"></i> Friends (Various People)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Various Friends / [Laughing mockingly, rejecting Lun]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"No money, Lun? Then you are no friend of ours! Get away from us!"</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「沒錢了，阿倫（Lun）？那你就不是我們的朋友！離我們遠點！」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«គ្មានលុយទៀតទេមែនទេ លន់? បើអញ្ចឹងឯងមិនមែនជាមិត្តភក្តិរបស់យើងទៀតទេ! ទៅឱ្យឆ្ងាយពីយើងទៅ!»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Kmean luy tiet te men-te, Lun? Ber-on-cheng eng men-men cheor mett-pheak ro-boh yerng tiet te! Tov oy chngay pi yerng tov!"</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 8: Yan (Hog Owner) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Yan">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-600 bg-cyan-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-industry text-[10px]"></i> Yan (Hog Owner)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Yan / [Harshly, pointing to the ground]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"You want a job? Fine. Go feed my pigs on the farm. That is the only work for you!"</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「你想找工作？好吧。去我的農場替我餵豬。這是我唯一能給你的差事！」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«ឯងចង់បានការងារធ្វើមែនទេ? ល្អហើយ! ទៅឃ្វាលហ្វូងជ្រូករបស់ខ្ញុំនៅលើចំការទៅ។ នោះជាការងារតែមួយគត់សម្រាប់ឯង!»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Eng chong ban kar-ngeor thver men-te? L-or heuy! Tov khveal fvong chrouk ro-boh knhom noat ler chom-kar tov. Noh cheor kar-ngeor tae mouy kot som-rab eng!"</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 9: Lun (Younger Son) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Lun">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-user-circle text-[10px]"></i> Lun (Younger Son)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Lun / [Kneeling, holding a pig-food bowl, crying]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"I am so hungry... Even this pig food looks delicious. Nobody will help me."</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「我好餓... 就連這些餵豬的豆莢，看起來都那麼好吃。沒有任何人願意幫我。」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«ខ្ញុំឃ្លានខ្លាំងណាស់... សូម្បីតែចំណីជ្រូកនេះក៏គួរឱ្យចង់ស៊ីដែរ។ គ្មាននរណាម្នាក់ជួយខ្ញុំទាល់តែសោះ។»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Knhom khlean khlang nah... soum-bi tae chom-nei chrouk nih kor kuor oy chong si der. Kmean nor-na mnak chuoy knhom thal-tae soh."</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 10: Lun (Younger Son) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Lun">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-user-circle text-[10px]"></i> Lun (Younger Son)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Lun / [Sudden realization, looking upward with hope]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"My father’s servants have plenty of food, but here I am, dying of hunger! I will go home to my father!"</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「我父親有多少的雇工，口糧都有餘，我竟然在這裡餓死嗎！我要回我父親那裡去！」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«តើមានជើងឈ្នួលរបស់លោកឪពុកខ្ញុំប៉ុន្មាននាក់ ដែលមានអាហារបរិបូរ? តែនៅទីនេះ ខ្ញុំជិតដាច់ពោះស្លាប់ហើយ! ខ្ញុំនឹងត្រឡប់ទៅរកលោកឪពុកវិញ!»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Tae mean cherng-chnuol ro-bos lok ov-puk knhom pon-man neak, kdel mean ar-har bo-ri-bour? Tae noat ti-nih, knhom chit dach-poh slab heuy! Knhom neng tror-lop tov rok lok ov-puk vinh!"</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 11: Lun (Younger Son) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Lun">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-user-circle text-[10px]"></i> Lun (Younger Son)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Lun / [Rehearsing his apology, crying with humility]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"I will say: 'Father, I have sinned against heaven and against you. Treat me as one of your servants.'"</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「我要說：『父親！我得罪了天，也得罪了你。請把我當作你的一個雇工吧。』」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«ខ្ញុំនឹងនិយាយថា៖ លោកឪពុក ខ្ញុំបានធ្វើបាបនឹងព្រះ ហើយនឹងលោកឪពុកដែរ សូមទទួលខ្ញុំទុកដូចជាជើងឈ្នួលរបស់លោកឪពុកវិញចុះ។»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Knhom neng ni-yeay tha: Lok ov-puk, knhom ban thver-bab neng prah, heuy neng lok ov-puk der, soum to-tuol knhom tok-doch-cheor cherng-chnuol ro-bos lok ov-puk vinh choh."</p>
+                </div>
+            </div>
+
+            <div class="space-y-2 italic text-slate-500 text-xs border-l-4 border-slate-300 pl-4 py-1">
+                <p><strong>Stage Action:</strong> Lun slowly stands up, limping, looking weak, and begins walking slowly to the other side of the stage representing the journey back home. Lights adjust from blue/dim to a warm yellow.</p>
+                <p class="font-chinese text-slate-500 not-italic"><strong>舞台動作：</strong>Lun 慢慢站起來，一拐一拐地走著，顯得十分虛弱，並開始慢慢走向舞台的另一側，代表回家的旅程。燈光從藍色/昏暗調整為溫慢的黃色。</p>
+            </div>
+        </section>
+
+        <!-- ================= ACT III ================= -->
+        <section class="mb-16">
+            <div class="border-b-2 border-indigo-900 pb-2 mb-6 flex items-center justify-between">
+                <h2 class="text-2xl font-serif font-bold text-indigo-950 uppercase tracking-wide">
+                    Act III: The Father's Grace & Celebration
+                </h2>
+                <span class="text-xs font-semibold bg-indigo-100 text-indigo-800 px-2.5 py-1 rounded-full uppercase">Scene 3</span>
+            </div>
+            
+            <div class="space-y-2 mb-6 italic text-slate-500 text-xs border-l-4 border-slate-300 pl-4 py-1">
+                <p><strong>Stage Setup:</strong> Center stage has the home bench restored. Wing (Father) stands, looking into the distance as if waiting. Suddenly he spots Lun at a distance. He throws away his walking stick and runs toward Lun.</p>
+                <p class="font-chinese text-slate-500 not-italic"><strong>舞台佈置：</strong>舞台中央恢復了家中的長椅。父親（Wing）站著，望向遠方，彷彿在等待。突然，他遠遠地看見了 Lun。他扔掉拐杖，奔向 Lun。</p>
+            </div>
+
+            <!-- Dialogue 12: Grace (Narrator) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Grace">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-bullhorn text-[10px]"></i> Grace (Narrator)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Grace</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">So he got up and went to his father. But while he was still a long way off, his father saw him and was filled with compassion.</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">於是他站起來，往他父親那裡去。相離還遠，他父親看見，就動了慈心。</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">រួចវាក៏ក្រោកឡើងដើរទៅរកឪពុកវា។ លុះឪពុកឃើញកូនពីចម្ងាយហើយ ក៏មានចិត្តអាណិតអាសូរក្រៃលែង។</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">Ruoch vea kor krok-lerng der tov rok ov-puk vea. Luh ov-puk merl-khern koun pi chom-ngay heuy, kor mean chit ar-nit ar-sour krei-leng.</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 13: Wing (Father) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Wing">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-person-shelter text-[10px]"></i> Wing (Father)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Wing / [Running towards Lun with open arms, crying out]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"Lun! My son! Is that really you?!"</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「阿倫（Lun）！我的孩子！真的是你嗎？！」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«លន់! កូនប្រុសរបស់ពុក! តើពិតជាកូនមែនទេ?!»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Lun! Koun proh ro-bos puk! Tae pit-cheor cheor koun men-te?!"</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 14: Lun (Younger Son) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Lun">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-user-circle text-[10px]"></i> Lun (Younger Son)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Lun / [Kneeling in front of Father, crying]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"Father, I have sinned against heaven and you. I am not worthy to be your son!"</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「父親！我得罪了天，也得罪了你。我再也不配稱為你的兒子！」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«លោកឪពុក ខ្ញុំបានធ្វើបាបនឹងព្រះ ហើយនឹងលោកឪពុកដែរ ខ្ញុំមិនគួរឱ្យគេហៅជាកូនរបស់លោកឪពុកទៀតទេ។»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Lok ov-puk, knhom ban thver-bab neng prah, heuy neng lok ov-puk der, knhom men kuor oy kei hav cheor koun ro-bos lok ov-puk tiet te."</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 15: Wing (Father) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Wing">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-person-shelter text-[10px]"></i> Wing (Father)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Wing / [Pulls Lun up to a hug, wiping his tears, calling to servants]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"No, my son! (To servants) Bring the best robe! Put a ring on his finger and sandals on his feet!"</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「不，我的孩子！（對僕人們說）快拿最好的袍子給他穿上！把戒指戴在他指頭上，把鞋穿在他腳上！」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«មិនអីទេកូនរបស់ពុក! (ប្រាប់ទៅអ្នកបម្រើ) ចូរយកអាវល្អបំផុតមកបំពាក់ឱ្យវា ហើយយកចិញ្ចៀននឹងស្បែកជើងមកពាក់ឱ្យផង!»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Men-ei-te koun ro-bos puk! (Broab tov neak-bo-rer) Chour yok arv l-or bom-phot mok bom-peak oy vea, heuy yok chin-chien neng sbek-cherng mok peak oy phong!"</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 16: Wing (Father) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Wing">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-person-shelter text-[10px]"></i> Wing (Father)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Wing / [Beaming with pure joy, facing audience/cast]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"Let us have a feast and celebrate! For my son was dead and is alive again; he was lost and is found!"</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「我們來吃喝慶祝吧！因為我這個兒子是死而復生，失而復得的！」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«យើងនឹងបរិភោគឱ្យសប្បាយចិត្ត ដ្បិតកូនពុកនេះបានស្លាប់ ឥឡូវរស់ឡើងវិញ បាត់បង់ទៅ ឥឡូវរកឃើញវិញហើយ!»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Yerng neng bo-ri-phek oy sob-bay-chit, dbit koun puk nih ban slab el-lov roh lerng vinh, bat-bong tov, el-lov rok khern vinh heuy!"</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 17: Grace (Narrator) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Grace">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-bullhorn text-[10px]"></i> Grace (Narrator)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Grace</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">Now the elder son, Issac, came back from the fields. As he came near the house, he heard the music and dancing.</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">那時，大兒子阿義（Issac）正在田裡工作。當他回來走近家門，聽見了歡樂的音樂與跳舞聲。</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">ឯកូនច្បង អាយហ្សេក នៅឯចំការ។ កាលវាត្រឡប់មកជិតដល់ផ្ទះ ក៏ឮសូរភ្លេង និងរបាំយ៉ាងសប្បាយ។</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">Ek koun-chbong, Issac, noat ek chom-kar. Kal vea tror-lop mok chit dol ptheah, kor leu sour phleng neng ro-bam yeang sob-bay.</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 18: Issac (Elder Son) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Issac">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-angry text-[10px]"></i> Issac (Elder Son)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Issac / [To a Bystander / Servant, looking confused]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"What is going on? Why are they celebrating?"</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「發生了什麼事？為什麼他們在慶祝？」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«តើគេធ្វើអ្វីហ្នឹង? ហេតុអ្វីបានជាមានការជប់លៀង?»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Tae kei thver avei neng? Het-avei ban-cheor mean kar chob-leang?"</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 19: Bystander (Servant/Friend) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Bystander">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-users text-[10px]"></i> Bystander (Servant/Friend)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Bystander / [Excitedly]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"Your brother has returned! Your father killed the fattened calf because he is home safe and sound!"</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「你弟弟安全回來了！你父親因為他平安無恙地回來，特別宰了那隻肥牛犢！」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«ប្អូនលោកត្រឡប់មកវិញហើយ! ហើយលោកឪពុកបានសម្លាប់កូនគោដែលបំប៉ន ដោយព្រោះបានវាមកវិញដោយសុខសាន្ត!»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Poun lok tror-lop mok vinh heuy! Heuy lok ov-puk ban som-lab koun-ko kdel bom-pon, doy proh ban vea mok vinh doy sok-sant!"</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 20: Issac (Elder Son) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Issac">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-angry text-[10px]"></i> Issac (Elder Son)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Issac / [Angry, refusing to enter the house, confronting Father]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"This is not fair! I have worked like a slave for you for years, and you never gave me even a young goat! But for this son of yours who wasted your money, you kill the fatted calf!"</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「這不公平！我伺候你這麼多年，你從來沒有給我一隻小山羊讓我慶祝！但他吞盡了你的財產，他一回來，你倒為他宰了肥牛犢！」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«នេះមិនយុត្តិធម៌ទេ! ខ្ញុំបានបម្រើលោកឪពុកប៉ុន្មានឆ្នាំនេះមកហើយ តែលោកឪពុកមិនដែលឱ្យកូនពពែសូម្បីតែមួយដល់ខ្ញុំសោះ! តែចំណែកកូនលោកឪពុកម្នាក់នេះ ដែលវាបានបង្ហិនបំផ្លាញសម្បត្តិអស់ លោកឪពុកបែរជាសម្លាប់កូនគោដែលបំប៉នឱ្យវាភ្លាម!»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Nih men yut-ti-thor te! Knhom ban bo-rer lok ov-puk pon-man thnam nih mok heuy, tae lok ov-puk men-del oy koun-por-pe soum-bi tae mouy dol knhom soh! Tae chom-nek koun lok ov-puk mnak nih, kdel vea ban bong-hen som-bat os, lok ov-puk ber-cheor som-lab koun-ko kdel bom-pon oy vea phleam!"</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 21: Wing (Father) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Wing">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-person-shelter text-[10px]"></i> Wing (Father)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Wing / [Puts a comforting hand on Issac's shoulder, with immense grace]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"My son, you are always with me, and everything I have is already yours. We had to celebrate."</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「孩子！你常和我同在，我一切所有的都是你的。但我們必須歡喜快樂。」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«កូនអើយ កូនបាននៅជាមួយពុកជានិច្ច ហើយអ្វីៗទាំងអស់របស់ពុក ក៏ជាជារបស់កូនដែរ។ ប៉ុន្តែយើងត្រូវតែជប់លៀងអបអរសប្បាយ។»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Koun euy, koun ban noat cheor-mouy puk cheor-nich, heuy avei-avei tang-os ro-bos puk, kor cheor ro-bos koun der. Bon-tae yerng trov-tae chob-leang op-or-sob-bay."</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 22: Wing (Father) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Wing">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-person-shelter text-[10px]"></i> Wing (Father)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Wing / [Smiles tenderly, looking at both sons, extending arms to both]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">"Because this brother of yours was dead and is alive again; he was lost and is found. You are both my beloved sons."</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">「因為你這個弟弟是死而復生、失而復得的。你們兩個都是我最親愛的兒子。」</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">«ពីព្រោះប្អូនប្រុសរបស់កូននេះបានស្លាប់ តែឥឡូវបានរស់ឡើងវិញ បាត់បង់ទៅ តែឥឡូវរកឃើញវិញហើយ។ កូនទាំងពីរគឺជាកូនសម្លាញ់របស់ពុក។»</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">"Pi-proh poun-proh ro-bos koun nih ban slab, tae el-lov ban roh lerng vinh, bat-bong tov, tae el-lov rok khern vinh heuy. Koun tang-pi keor-cheor koun sror-lanh ro-bos puk."</p>
+                </div>
+            </div>
+
+            <!-- Dialogue 23: Grace (Narrator) -->
+            <div class="dialogue-card p-5 mb-6 rounded-xl border border-slate-200 bg-white hover:shadow-md" data-character="Grace">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-bullhorn text-[10px]"></i> Grace (Narrator)
+                    </span>
+                    <span class="text-xs text-slate-400 italic">Grace / [Final blessing to audience]</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="lang-en text-slate-800 text-base font-medium">The Father's grace is beautiful and endless. He runs to meet us when we fall, and He assures us of His eternal love. Let us walk in His grace together.</p>
+                    <p class="lang-zh text-slate-700 font-chinese text-[15px] leading-relaxed">父親的恩典是如此美麗且無止境。在我們跌倒時，祂奔跑來迎接我們，並向我們保證祂永恆的愛。讓我們一同行在祂的恩典中。</p>
+                    <p class="lang-km text-slate-700 font-khmer text-[15px] leading-relaxed">សេចក្តីមេត្តាករុណារបស់ឪពុកពិតជាស្រស់ស្អាត និងគ្មានទីបញ្ចប់ឡើយ។ ទ្រង់រត់មកទទួលយើងនៅពេលយើងដួល ហើយផ្តល់ក្តីស្រឡាញ់ដ៏នៅអស់កល្បជានិច្ចដល់យើង។ ចូរយើងដើរក្នុងសេចក្តីមេត្តាករុណារបស់ទ្រង់ជាមួយគ្នា។</p>
+                    <p class="lang-rom text-slate-500 text-xs italic">Sec-kdei met-ta-ko-ru-na ro-bos ov-puk pit-cheor sros-sart neng kmean ti-bon-chop loey. Trong rot mok to-tuol yerng noat-pel yerng doul, heuy phtol kdei sror-lanh dor noat os-kol-cheor-nich dol yerng. Chour yerng der knhong sec-kdei met-ta-ko-ru-na ro-bos trong cheor-mouy-knea.</p>
+                </div>
+            </div>
+
+            <div class="space-y-2 italic text-slate-500 text-xs border-l-4 border-slate-300 pl-4 py-1">
+                <p><strong>Stage Action:</strong> Wing pulls both Issac and Lun into a single warm family embrace. Lun has his head rested on Wing's shoulder, weeping softly. Issac slowly lets go of his anger, putting his hand around Wing and Lun. The other bystanders clap joyfully. Lights fade to dark. **CURTAIN FALLS**.</p>
+                <p class="font-chinese text-slate-500 not-italic"><strong>舞台動作：</strong>Wing 將 Issac 和 Lun 拉進一個溫暖的家庭擁抱中。Lun 將頭靠在 Wing 的肩膀上，輕輕啜泣。Issac 漸漸放下憤怒，將手摟住 Wing 和 Lun。其他旁觀者高興地鼓掌。燈光漸暗。【落幕】。</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Production & Technical Tips Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-10 mt-auto border-t border-slate-800 no-print">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <p class="text-sm font-semibold text-amber-400 mb-2">Stage Director's Quick Checklist:</p>
+            <p class="text-xs max-w-2xl mx-auto mb-6">
+                Ensure sound effects (music & dancing) are queued properly for Act III. Hand out paper scripts to actors after picking their language combination. Keep practice sessions short to build memory comfort.
+            </p>
+            <p class="text-xs text-slate-600">
+                Created collaboratively for Wing, Grace, Issac, Lun, Yan & Crew • Luke 15:11-32 Stage Play
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Default UI States
+        let currentCharacter = 'all';
+        let enabledLanguages = {
+            en: true,
+            zh: true,
+            km: true,
+            rom: true
+        };
+
+        // Initialize display state on load
+        window.onload = function() {
+            applyFilters();
+        }
+
+        // Handle Character filtering
+        function selectCharacter(charId) {
+            currentCharacter = charId;
+            
+            // Update filter buttons styling
+            const buttons = document.querySelectorAll('.char-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-700', 'active');
+                btn.classList.add('bg-white', 'text-slate-700', 'border-slate-300');
+            });
+
+            const activeBtn = document.getElementById('btn-char-' + charId);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-slate-700', 'border-slate-300');
+                activeBtn.classList.add('bg-indigo-600', 'text-white', 'border-indigo-700', 'active');
+            }
+
+            applyFilters();
+        }
+
+        // Toggle visibility of specific languages
+        function toggleLanguage(langId) {
+            enabledLanguages[langId] = !enabledLanguages[langId];
+
+            // UI Button Active State Styling
+            const btn = document.getElementById('btn-lang-' + langId);
+            if (btn) {
+                if (enabledLanguages[langId]) {
+                    btn.classList.remove('bg-slate-100', 'text-slate-400', 'border-slate-200');
+                    btn.classList.add('bg-indigo-50', 'text-indigo-700', 'border-indigo-200');
+                } else {
+                    btn.classList.remove('bg-indigo-50', 'text-indigo-700', 'border-indigo-200');
+                    btn.classList.add('bg-slate-100', 'text-slate-400', 'border-slate-200');
+                }
+            }
+
+            applyFilters();
+        }
+
+        // Core filter mechanism
+        function applyFilters() {
+            const cards = document.querySelectorAll('.dialogue-card');
+            const mode = document.getElementById('filter-mode').value;
+
+            cards.forEach(card => {
+                const cardChar = card.getAttribute('data-character');
+                
+                // 1. Process character filtering mode
+                if (currentCharacter === 'all') {
+                    card.classList.remove('dimmed', 'hidden');
+                } else {
+                    if (cardChar === currentCharacter) {
+                        card.classList.remove('dimmed', 'hidden');
+                        // Highlight style
+                        card.classList.add('ring-2', 'ring-indigo-500', 'shadow-lg');
+                    } else {
+                        card.classList.remove('ring-2', 'ring-indigo-500', 'shadow-lg');
+                        if (mode === 'hide') {
+                            card.classList.add('hidden');
+                            card.classList.remove('dimmed');
+                        } else {
+                            card.classList.remove('hidden');
+                            card.classList.add('dimmed');
+                        }
+                    }
+                }
+
+                // 2. Process language visibility inside each card
+                const langEn = card.querySelector('.lang-en');
+                const langZh = card.querySelector('.lang-zh');
+                const langKm = card.querySelector('.lang-km');
+                const langRom = card.querySelector('.lang-rom');
+
+                if (langEn) langEn.style.display = enabledLanguages.en ? 'block' : 'none';
+                if (langZh) langZh.style.display = enabledLanguages.zh ? 'block' : 'none';
+                if (langKm) langKm.style.display = enabledLanguages.km ? 'block' : 'none';
+                if (langRom) langRom.style.display = enabledLanguages.rom ? 'block' : 'none';
+            });
+        }
+
+        // Reset all states
+        function resetAll() {
+            currentCharacter = 'all';
+            enabledLanguages = {
+                en: true,
+                zh: true,
+                km: true,
+                rom: true
+            };
+
+            // Reset Character buttons
+            const charButtons = document.querySelectorAll('.char-btn');
+            charButtons.forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-700', 'active');
+                btn.classList.add('bg-white', 'text-slate-700', 'border-slate-300');
+            });
+            document.getElementById('btn-char-all').classList.add('bg-indigo-600', 'text-white', 'border-indigo-700', 'active');
+
+            // Reset Language buttons
+            const langButtons = document.querySelectorAll('.lang-btn');
+            langButtons.forEach(btn => {
+                btn.classList.remove('bg-slate-100', 'text-slate-400', 'border-slate-200');
+                btn.classList.add('bg-indigo-50', 'text-indigo-700', 'border-indigo-200');
+            });
+
+            document.getElementById('filter-mode').value = 'highlight';
+
+            applyFilters();
+        }
+    </script>
+</body>
+</html>
