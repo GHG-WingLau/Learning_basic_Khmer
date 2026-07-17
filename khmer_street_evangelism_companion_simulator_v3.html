@@ -1,0 +1,1831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khmer Street Evangelism Companion & Simulator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for English, Khmer, and Chinese typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Kantumruy+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', 'Kantumruy Pro', 'Noto Sans TC', sans-serif;
+            background-color: #f7f9fc;
+        }
+        .khmer-font {
+            font-family: 'Kantumruy Pro', sans-serif;
+        }
+        .chinese-font {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        /* Pulsing sound play effect */
+        @keyframes sound-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.08); opacity: 1; }
+        }
+        .audio-playing {
+            animation: sound-pulse 1s infinite;
+            background-color: #f59e0b !important;
+            color: white !important;
+            border-color: #d97706 !important;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <header class="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
+                    <i class="fa-solid fa-cross text-2xl text-amber-100"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-xl tracking-tight">Khmer Gospel Street Simulator</h1>
+                    <p class="text-xs text-amber-100 font-medium">Bilingual Training with Integrated Recording Practice Console</p>
+                </div>
+            </div>
+            <!-- Navigation Tabs -->
+            <nav class="flex gap-2 bg-black/15 p-1 rounded-xl overflow-x-auto max-w-full">
+                <button onclick="switchTab('simulator')" id="btn-simulator" class="tab-btn px-4 py-2 rounded-lg text-sm font-semibold transition bg-white text-orange-700 shadow-sm shrink-0">
+                    <i class="fa-solid fa-comments mr-1.5"></i> Simulator / 互動模擬
+                </button>
+                <button onclick="switchTab('guide')" id="btn-guide" class="tab-btn px-4 py-2 rounded-lg text-sm font-semibold transition text-white hover:bg-white/10 shrink-0">
+                    <i class="fa-solid fa-book-open mr-1.5"></i> Phrase Deck / 詞彙卡
+                </button>
+                <button onclick="switchTab('gospel')" id="btn-gospel" class="tab-btn px-4 py-2 rounded-lg text-sm font-semibold transition text-white hover:bg-white/10 shrink-0">
+                    <i class="fa-solid fa-clock mr-1.5"></i> 5-Min Strategy / 5分鐘策略
+                </button>
+                <button onclick="switchTab('builder')" id="btn-builder" class="tab-btn px-4 py-2 rounded-lg text-sm font-semibold transition text-white hover:bg-white/10 shrink-0">
+                    <i class="fa-solid fa-hands-praying mr-1.5"></i> Prayer Builder / 禱告建構
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-6">
+        
+        <!-- ================= SIMULATOR TAB ================= -->
+        <section id="tab-simulator" class="tab-content block">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <!-- Left panel: Select Character -->
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                        <h2 class="text-lg font-bold text-slate-800 mb-1 flex items-center gap-2">
+                            <i class="fa-solid fa-user-group text-orange-500"></i>
+                            Select a local to talk to:
+                        </h2>
+                        <p class="text-xs text-orange-700 font-bold mb-3 chinese-font">請選擇要對話的當地人：</p>
+                        <p class="text-xs text-slate-500 leading-relaxed mb-4">
+                            Street evangelism requires listening to people's specific life concerns first, then showing them how Jesus brings the true solution. Choose a profile below:<br>
+                            <span class="text-slate-400 chinese-font">街頭佈道需要先傾聽人們具體的生活擔憂，然後向他們展示耶穌如何帶來真正的解決方案。請選擇以下人物檔案：</span>
+                        </p>
+                        
+                        <!-- Characters list -->
+                        <div class="space-y-3">
+                            <!-- Character 1: Sophal (Male, Driver) -->
+                            <button onclick="selectCharacter('sophal')" id="char-sophal" class="char-btn w-full text-left p-3 rounded-xl border-2 border-orange-500 bg-orange-50/50 transition duration-150 hover:bg-orange-50 flex gap-3">
+                                <div class="bg-amber-100 text-amber-700 h-11 w-11 rounded-full flex items-center justify-center font-bold shrink-0 text-lg">
+                                    🛺
+                                </div>
+                                <div class="truncate">
+                                    <h4 class="font-bold text-sm text-slate-800">Uncle Sophal (42) / 索法叔叔</h4>
+                                    <p class="text-xs text-orange-700 font-medium">Busy Tuk-Tuk Driver / 繁忙的嘟嘟車司機</p>
+                                    <p class="text-[11px] text-slate-500 truncate mt-0.5">Concern: Hard labor, paying bills / 擔憂：辛苦體力活、付帳單</p>
+                                </div>
+                            </button>
+
+                            <!-- Character 2: Devout Grandmother -->
+                            <button onclick="selectCharacter('chenda')" id="char-chenda" class="char-btn w-full text-left p-3 rounded-xl border border-slate-100 hover:bg-slate-50 transition duration-150 flex gap-3">
+                                <div class="bg-red-100 text-red-700 h-11 w-11 rounded-full flex items-center justify-center font-bold shrink-0 text-lg">
+                                    👵
+                                </div>
+                                <div class="truncate">
+                                    <h4 class="font-bold text-sm text-slate-800">Yeay Chenda (68) / 珍達奶奶</h4>
+                                    <p class="text-xs text-red-700 font-medium">Devout Buddhist Grandma / 虔誠的佛教徒奶奶</p>
+                                    <p class="text-[11px] text-slate-500 truncate mt-0.5">Concern: Bad Karma, reincarnation / 擔憂：惡業、因果輪迴恐懼</p>
+                                </div>
+                            </button>
+
+                            <!-- Character 3: University Student -->
+                            <button onclick="selectCharacter('sreyneang')" id="char-sreyneang" class="char-btn w-full text-left p-3 rounded-xl border border-slate-100 hover:bg-slate-50 transition duration-150 flex gap-3">
+                                <div class="bg-emerald-100 text-emerald-700 h-11 w-11 rounded-full flex items-center justify-center font-bold shrink-0 text-lg">
+                                    🎒
+                                </div>
+                                <div class="truncate">
+                                    <h4 class="font-bold text-sm text-slate-800">Sreyneang (20) / 絲蕾寧</h4>
+                                    <p class="text-xs text-emerald-700 font-medium">Curious English Student / 好奇的英語系學生</p>
+                                    <p class="text-[11px] text-slate-500 truncate mt-0.5">Concern: English, future career / 擔憂：英語學習、未來職涯前途</p>
+                                </div>
+                            </button>
+
+                            <!-- Character 4: Food Vendor -->
+                            <button onclick="selectCharacter('rotha')" id="char-rotha" class="char-btn w-full text-left p-3 rounded-xl border border-slate-100 hover:bg-slate-50 transition duration-150 flex gap-3">
+                                <div class="bg-blue-100 text-blue-700 h-11 w-11 rounded-full flex items-center justify-center font-bold shrink-0 text-lg">
+                                    🍲
+                                </div>
+                                <div class="truncate">
+                                    <h4 class="font-bold text-sm text-slate-800">Brother Rotha (31) / 羅薩大哥</h4>
+                                    <p class="text-xs text-blue-700 font-medium">Street Noodle Vendor / 街頭炒麵小販</p>
+                                    <p class="text-[11px] text-slate-500 truncate mt-0.5">Concern: Family ancestor wrath / 擔憂：家族祖先靈魂、神靈降怒</p>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Guide Card -->
+                    <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 text-xs space-y-2">
+                        <h4 class="font-bold text-amber-900 flex items-center gap-1.5">
+                            <i class="fa-solid fa-microphone"></i> Practice Console Guide / 錄音練習控制面板
+                        </h4>
+                        <p class="text-amber-800 leading-relaxed">
+                            Use the unified audio button deck on any phrase:
+                        </p>
+                        <div class="space-y-1 text-[11px] text-amber-950 font-medium bg-white/60 p-2.5 rounded-lg border border-amber-100">
+                            <div class="flex items-center gap-1.5"><i class="fa-solid fa-play text-orange-600 w-3 text-center"></i> <span>Play/Pause TTS / 播放/暫停真人語音</span></div>
+                            <div class="flex items-center gap-1.5"><i class="fa-solid fa-microphone text-red-600 w-3 text-center"></i> <span>Record Attempt (Max 12s) / 錄音練習 (上限12秒)</span></div>
+                            <div class="flex items-center gap-1.5"><i class="fa-solid fa-headphones text-emerald-600 w-3 text-center"></i> <span>Play Saved Attempt / 播放您的錄音</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right panel: Interactive Chat Console -->
+                <div class="lg:col-span-8 flex flex-col h-[700px] bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <!-- Chat Header -->
+                    <div class="p-4 border-b bg-slate-50 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span id="target-avatar" class="text-2xl bg-white shadow-sm p-1.5 rounded-full border">🛺</span>
+                            <div>
+                                <h3 id="target-name" class="font-bold text-sm text-slate-800">Conversation with Sophal / 與 索法叔叔 對話</h3>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    <p id="target-desc" class="text-xs text-slate-500">Busy Tuk-Tuk Driver • Softly skeptical of foreign beliefs</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="resetConversation()" class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold px-2.5 py-1.5 rounded-lg transition">
+                            <i class="fa-solid fa-arrow-rotate-left mr-1"></i> Restart Chat / 重新開始
+                        </button>
+                    </div>
+
+                    <!-- Chat Log -->
+                    <div id="chat-log" class="flex-grow overflow-y-auto p-4 space-y-4 bg-slate-50/50">
+                        <!-- Messages dynamically added here -->
+                    </div>
+
+                    <!-- Action Panel / Options Picker -->
+                    <div class="p-4 border-t bg-white">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Choose your response in Khmer:</p>
+                        <p class="text-[11px] text-orange-600 font-semibold mb-2 chinese-font">請選擇您的柬埔寨語回覆：</p>
+                        <div id="options-container" class="space-y-2 max-h-[260px] overflow-y-auto">
+                            <!-- Options dynamically populated -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= KHMER PHRASE DECK TAB ================= -->
+        <section id="tab-guide" class="tab-content hidden">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-book-open text-orange-500"></i>
+                            Essential Street-Preaching Vocabulary / 街頭佈道核心詞彙
+                        </h2>
+                        <p class="text-sm text-slate-500">Practice your pronunciation and review grammatical breakdowns and cultural context.</p>
+                        <p class="text-xs text-slate-400 mt-0.5 chinese-font">練習您的發音，並查看詳細的語法分解和文化背景說明。</p>
+                    </div>
+                    <!-- Quick filter bar -->
+                    <div class="flex gap-2">
+                        <button onclick="filterPhrases('all')" class="phrase-filter-btn px-3 py-1 text-xs font-semibold rounded-lg bg-orange-600 text-white">All / 全部</button>
+                        <button onclick="filterPhrases('greetings')" class="phrase-filter-btn px-3 py-1 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700">Greetings / 問候</button>
+                        <button onclick="filterPhrases('gospel')" class="phrase-filter-btn px-3 py-1 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700">Gospel / 福音</button>
+                        <button onclick="filterPhrases('prayer')" class="phrase-filter-btn px-3 py-1 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700">Prayer / 禱告</button>
+                    </div>
+                </div>
+
+                <!-- Phrase cards grid -->
+                <div id="phrases-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Dynamic phrases generated in JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 5-MINUTE GOSPEL STRATEGY TAB ================= -->
+        <section id="tab-gospel" class="tab-content hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Left Outline Column -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                        <h2 class="text-xl font-bold text-slate-800 mb-1 flex items-center gap-2">
+                            <i class="fa-solid fa-route text-amber-500"></i> The 5-Minute Street Evangelism Flow
+                        </h2>
+                        <h3 class="text-xs text-orange-600 font-bold mb-2 chinese-font">5分鐘街頭福音對話流程</h3>
+                        <p class="text-sm text-slate-500 mb-6">
+                            Since street encounters are transient, you must move quickly and respectfully. This script is designed to establish relationship, address objections, share Jesus, and pray in under five minutes.<br>
+                            <span class="text-slate-400 text-xs mt-1 block leading-relaxed chinese-font">由於街頭遇見的時間短暫，對話必須快速且充滿尊重。本流程設計用於在5分鐘內建立關係、解答疑慮、分享耶穌，並帶入禱告。</span>
+                        </p>
+
+                        <!-- Timeline steps -->
+                        <div class="space-y-8 relative before:absolute before:inset-y-0 before:left-3 before:w-0.5 before:bg-slate-100">
+                            
+                            <!-- Step 1 -->
+                            <div class="relative pl-8">
+                                <div class="absolute left-0 top-1 w-6 h-6 bg-amber-500 text-white rounded-full flex items-center justify-center text-xs font-bold ring-4 ring-amber-50">1</div>
+                                <h3 class="font-bold text-slate-800 text-base">Step 1: Relate & Care <span class="text-xs text-slate-400 font-normal ml-2">(Minutes 0-1)</span></h3>
+                                <p class="text-xs text-orange-600 font-bold mt-0.5 chinese-font">步驟 1: 建立關係與關懷 (0-1 分鐘)</p>
+                                <p class="text-sm text-slate-600 mt-1">
+                                    Greet politely. Note their context (e.g., street vendor is hot, driver is tired). Express genuine care to build a bridge.<br>
+                                    <span class="text-slate-400 text-xs mt-0.5 block leading-relaxed chinese-font">有禮貌地問候。注意他們的處境（例如：路邊攤販很熱、司機很累）。表達真誠的關心，建立互信橋樑。</span>
+                                </p>
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-150 mt-2 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                                    <div class="flex-grow text-xs">
+                                        <p class="font-semibold text-slate-800">Example Greeting / 範例問候:</p>
+                                        <p class="khmer-font text-sm text-amber-900 font-bold mt-1">ជំរាបសួរ អ៊ំ! ខ្ញុំស្រឡាញ់ប្រទេសខ្មែរ! តើអ៊ំសុខសប្បាយទេ?</p>
+                                        <p class="italic mt-0.5 text-slate-700 font-medium">"Choum-reap-sour Om! Khnhom srolanh bray-tes khmer! Tae om sok-saby te?"</p>
+                                        <p class="text-slate-500 mt-0.5 font-bold">"Hello Uncle! I love Cambodia! Are you doing well?"</p>
+                                        <p class="text-orange-700 font-bold mt-0.5 chinese-font">「叔叔您好！我很喜愛柬埔寨！您最近過得好嗎？」</p>
+                                    </div>
+                                    <!-- Play-Pause-Record Deck -->
+                                    <div id="deck-strategy-1" class="shrink-0"></div>
+                                </div>
+                            </div>
+
+                            <!-- Step 2 -->
+                            <div class="relative pl-8">
+                                <div class="absolute left-0 top-1 w-6 h-6 bg-amber-500 text-white rounded-full flex items-center justify-center text-xs font-bold ring-4 ring-amber-50">2</div>
+                                <h3 class="font-bold text-slate-800 text-base">Step 2: Locate the Spiritual Need <span class="text-xs text-slate-400 font-normal ml-2">(Minutes 1-2)</span></h3>
+                                <p class="text-xs text-orange-600 font-bold mt-0.5 chinese-font">步驟 2: 引導至屬靈需求 (1-2 分鐘)</p>
+                                <p class="text-sm text-slate-600 mt-1">
+                                    Transition into spiritual topics by offering immediate value. Ask if you can share a story of a Father's love, or ask about their daily burden.<br>
+                                    <span class="text-slate-400 text-xs mt-0.5 block leading-relaxed chinese-font">透過提供屬靈慰藉切入話題。詢問是否能分享關於天父慈愛的故事，或關心他們日常的重擔。</span>
+                                </p>
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-150 mt-2 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                                    <div class="flex-grow text-xs">
+                                        <p class="font-semibold text-slate-800">Bridge Statement / 橋樑對話:</p>
+                                        <p class="khmer-font text-sm text-amber-900 font-bold mt-1">ខ្ញុំមានដំណឹងល្អពីព្រះជាម្ចាស់ ដែលអាចផ្តល់សេចក្តីសុខសម្រាប់អ៊ំ។</p>
+                                        <p class="italic mt-0.5 text-slate-700 font-medium">"Khnhom mean dom-neung-laor pi Preah-cheah-mchas dae arch phdor-ni-sokh som-rap om."</p>
+                                        <p class="text-slate-500 mt-0.5 font-bold">"I have Good News from the Creator God that can bring peace to you."</p>
+                                        <p class="text-orange-700 font-bold mt-0.5 chinese-font">「我有一個來自創造主上帝的好消息，能為您帶來平安。」</p>
+                                    </div>
+                                    <!-- Play-Pause-Record Deck -->
+                                    <div id="deck-strategy-2" class="shrink-0"></div>
+                                </div>
+                            </div>
+
+                            <!-- Step 3 -->
+                            <div class="relative pl-8">
+                                <div class="absolute left-0 top-1 w-6 h-6 bg-amber-500 text-white rounded-full flex items-center justify-center text-xs font-bold ring-4 ring-amber-50">3</div>
+                                <h3 class="font-bold text-slate-800 text-base">Step 3: Proclaim the Finished Work <span class="text-xs text-slate-400 font-normal ml-2">(Minutes 2-4)</span></h3>
+                                <p class="text-xs text-orange-600 font-bold mt-0.5 chinese-font">步驟 3: 宣講耶穌成就的救贖 (2-4 分鐘)</p>
+                                <p class="text-sm text-slate-600 mt-1">
+                                    Explain the Gospel: Creator Father God loves us but sin separates us. We try to make merit (Karmic cycle) but cannot wash sin away. Jesus is the Son of God, took our bad karma (sin), died, and rose again!<br>
+                                    <span class="text-slate-400 text-xs mt-0.5 block leading-relaxed chinese-font">傳講福音：創造主天父愛我們，但罪惡使我們與祂分離。人類試圖積德行善（因果輪迴）卻無法洗淨罪。耶穌是上帝的獨生子，承擔了我們所有的惡業（罪），受死並復活！</span>
+                                </p>
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-150 mt-2 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                                    <div class="flex-grow text-xs">
+                                        <p class="font-semibold text-slate-800">Core Gospel Summary / 福音精要:</p>
+                                        <p class="khmer-font text-sm text-amber-900 font-bold mt-1">ព្រះយេស៊ូវបានសុគតដើម្បីលុបលាងបាបទាំងអស់របស់ខ្ញុំ និងអ៊ំ។ រួចព្រះអង្គមានជន្មរស់ឡើងវិញ!</p>
+                                        <p class="italic mt-0.5 text-slate-700 font-medium">"Preah-ye-sov ban sok-kot deim-bey lop-leang bab-rop-os khnhom neng om. Ruoch Preah-ong mean chon roas laung vinh!"</p>
+                                        <p class="text-slate-500 mt-0.5 font-bold">"Jesus died to cleanse away your sins and my sins. Then He rose back to life!"</p>
+                                        <p class="text-orange-700 font-bold mt-0.5 chinese-font">「耶穌受死是為了洗淨您和我的罪孽，然後祂復活了！」</p>
+                                    </div>
+                                    <!-- Play-Pause-Record Deck -->
+                                    <div id="deck-strategy-3" class="shrink-0"></div>
+                                </div>
+                            </div>
+
+                            <!-- Step 4 -->
+                            <div class="relative pl-8">
+                                <div class="absolute left-0 top-1 w-6 h-6 bg-amber-500 text-white rounded-full flex items-center justify-center text-xs font-bold ring-4 ring-amber-50">4</div>
+                                <h3 class="font-bold text-slate-800 text-base">Step 4: The Prayer Invitation <span class="text-xs text-slate-400 font-normal ml-2">(Minute 4-5)</span></h3>
+                                <p class="text-xs text-orange-600 font-bold mt-0.5 chinese-font">步驟 4: 邀請一同禱告 (4-5 分鐘)</p>
+                                <p class="text-sm text-slate-600 mt-1">
+                                    Ask for permission to pray over them *right now*. In Khmer culture, praying for blessings, health, and peace is highly welcome, even among devout Buddhists. This is when the Spirit works!<br>
+                                    <span class="text-slate-400 text-xs mt-0.5 block leading-relaxed chinese-font">請求允許*現在*為他們祈禱。在柬埔寨文化中，為祝福、健康和平安祈禱是非常受歡迎的，即使對虔誠的佛教徒也是如此。這是聖靈動工的時刻！</span>
+                                </p>
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-150 mt-2 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                                    <div class="flex-grow text-xs">
+                                        <p class="font-semibold text-slate-800">Prayer Ask / 邀請禱告文:</p>
+                                        <p class="khmer-font text-sm text-amber-900 font-bold mt-1">តើខ្ញុំអាចអធិស្ឋានសម្រាប់អ៊ំឥឡូវនេះ ដើម្បីឲ្យព្រះផ្តល់សេចក្តីសុខសប្បាយ និងល្អបានទេ?</p>
+                                        <p class="italic mt-0.5 text-slate-700 font-medium">"Tae khnhom arch a-thi-sathan som-rap om deim-bey aoy Preah phdor sok-saby neng laor ban te?"</p>
+                                        <p class="text-slate-500 mt-0.5 font-bold">"Can I pray for you right now so God will give you peace and goodness?"</p>
+                                        <p class="text-orange-700 font-bold mt-0.5 chinese-font">「我現在可以為您禱告，讓上帝賜予您平安與美好嗎？」</p>
+                                    </div>
+                                    <!-- Play-Pause-Record Deck -->
+                                    <div id="deck-strategy-4" class="shrink-0"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side Strategy & Cultural Context Card -->
+                <div class="space-y-6">
+                    <div class="bg-gradient-to-br from-amber-600 to-orange-700 text-white p-6 rounded-2xl shadow-md text-xs">
+                        <h3 class="font-bold text-lg mb-1 flex items-center gap-1.5 text-white">
+                            <i class="fa-solid fa-lightbulb"></i> Key Cultural Tips
+                        </h3>
+                        <h4 class="text-xs text-amber-200 font-bold mb-3 chinese-font">柬埔寨宣教核心文化指南</h4>
+                        <ul class="space-y-3">
+                            <li class="flex gap-2">
+                                <span class="text-amber-300 font-bold">✓</span>
+                                <div><strong>Body Language (Sampeah) / 合十禮:</strong> Join your palms together at your chest when greeting or saying thank you. It shows immense respect.<br><span class="text-amber-200 text-[11px] chinese-font">打招呼或道謝時，雙手合十置於胸前。這展現了極大的敬意。</span></div>
+                            </li>
+                            <li class="flex gap-2">
+                                <span class="text-amber-300 font-bold">✓</span>
+                                <div><strong>The Karma Trap / 因果輪迴的框架:</strong> Buddhists believe in doing good to cancel bad. Emphasize that Jesus paid the karma price that human effort can't wash away.<br><span class="text-amber-200 text-[11px] chinese-font">佛教徒相信靠行善彌補業障。強調耶穌已經代替我們付清了人類靠自己無法洗淨的罪障（業障）代價。</span></div>
+                            </li>
+                            <li class="flex gap-2">
+                                <span class="text-amber-300 font-bold">✓</span>
+                                <div><strong>Don't Argue / 切勿辯論:</strong> If they say they cannot change ancestors' religion, respond gently with: "I respect your ancestors. Jesus command us to honor parents."<br><span class="text-amber-200 text-[11px] chinese-font">如果他們表明不能背棄祖先的信仰，溫和地回應：「我非常尊重您的祖先。耶穌也命令我們孝敬父母。」</span></div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 text-slate-700 text-xs">
+                        <h4 class="font-bold text-slate-800 mb-1"><i class="fa-solid fa-shield-halved text-orange-500"></i> Why pray immediately?</h4>
+                        <h5 class="text-xs text-orange-600 font-bold mb-2 chinese-font">為什麼要立即為他們禱告？</h5>
+                        <p class="leading-relaxed text-slate-500 mb-2">
+                            Intellectual arguments rarely win the hearts of locals. However, a compassionate, bold prayer in the name of **Jesus (Preah Ye-sov)** breaks spiritual chains.
+                        </p>
+                        <p class="leading-relaxed text-slate-400 chinese-font">
+                            理性的辯論很難贏得當地人的心。然而，奉**耶穌 (Preah Ye-sov)** 之名進行充滿慈愛、大有能力的禱告，能夠打破屬靈的鎖鏈，親自體會上帝的真實。
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= PRAYER BUILDER TAB ================= -->
+        <section id="tab-builder" class="tab-content hidden">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 max-w-3xl mx-auto">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-slate-800">
+                        <i class="fa-solid fa-hands-praying text-amber-600 mr-1.5"></i> Custom Khmer Prayer Builder
+                    </h2>
+                    <h3 class="text-xs text-orange-600 font-bold mt-1 chinese-font">客製化柬埔寨語禱告文建構器</h3>
+                    <p class="text-sm text-slate-500 mt-2">Compose a powerful short prayer by choosing relevant block segments. Perfect to study and memorize for the street!</p>
+                    <p class="text-xs text-slate-400 mt-0.5 chinese-font">透過選擇相關的禱告語句模組，拼湊出大有能力的短篇禱告文。非常適合用於街頭宣教前的學習與背誦！</p>
+                </div>
+
+                <!-- Interactive block selectors (Rendered dynamically in JS) -->
+                <div class="space-y-6">
+                    
+                    <!-- Section 1: Salutation -->
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700">1. Call upon the Sovereign Father God / 1. 稱呼主宰天父上帝：</label>
+                        <div id="salutation-options" class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Request for Mercy/Open Eyes -->
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700">2. Ask to open their eyes and heart / 2. 祈求開啟他們的眼睛和心：</label>
+                        <div id="petition-options" class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Deliverance/Blessing -->
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700">3. Declare Peace and Freedom / 3. 宣告平安與得釋放：</label>
+                        <div id="blessing-options" class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Authority of Jesus -->
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700">4. Concluding in Jesus' Name / 4. 奉耶穌的名結尾：</label>
+                        <div id="close-options" class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Output Area -->
+                    <div class="mt-8 bg-slate-50 p-6 rounded-2xl border border-dashed border-slate-200 flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div class="flex-grow space-y-2 w-full text-center md:text-left">
+                            <h3 class="font-bold text-xs text-slate-400 uppercase tracking-wider">Your Compiled Khmer Prayer / 您拼湊的柬埔寨語禱告文：</h3>
+                            <p id="compiled-khmer" class="khmer-font text-xl font-semibold text-amber-900 leading-relaxed"></p>
+                            <p id="compiled-romanized" class="text-sm italic text-slate-700 font-medium mt-1"></p>
+                            <p id="compiled-english" class="text-xs text-slate-500 mt-1 font-semibold"></p>
+                            <p id="compiled-chinese" class="text-xs text-orange-700 mt-1 font-semibold chinese-font"></p>
+                        </div>
+                        <div class="flex flex-col gap-3 shrink-0 w-full md:w-auto items-center">
+                            
+                            <div class="flex items-center gap-2 bg-white shadow-sm p-2 rounded-xl border border-slate-200 w-full justify-center">
+                                <span class="text-xs font-bold text-slate-500 mr-1">Rehearse Compiler / 朗讀與錄音 practice:</span>
+                                <!-- Compile TTS Player -->
+                                <button id="tts-btn-prayer_compiled" onclick="toggleCompiledPrayerPlayback('tts-btn-prayer_compiled')" class="w-9 h-9 rounded-lg flex items-center justify-center bg-orange-100 text-orange-700 hover:bg-orange-200 transition border border-orange-200" title="Speak Full Prayer Sequence / 播放整段禱告">
+                                    <i class="fa-solid fa-play text-sm"></i>
+                                </button>
+                                <!-- Record Attempt -->
+                                <button id="rec-btn-prayer_compiled" onclick="startRecording('prayer_compiled', 'rec-btn-prayer_compiled')" class="w-9 h-9 rounded-lg flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-red-100 hover:text-red-700 transition" title="Record Attempt / 錄音練習">
+                                    <i class="fa-solid fa-microphone text-sm"></i>
+                                </button>
+                                <!-- Play Attempt -->
+                                <button id="play-rec-btn-prayer_compiled" onclick="playAttempt('prayer_compiled', 'play-rec-btn-prayer_compiled')" class="w-9 h-9 rounded-lg flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-emerald-100 hover:text-emerald-700 transition" title="Play Record Attempt / 播放錄音">
+                                    <i class="fa-solid fa-headphones text-sm"></i>
+                                </button>
+                            </div>
+
+                            <button onclick="copyCompiledPrayer()" class="w-full md:w-auto px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl transition flex items-center justify-center gap-2 text-xs">
+                                <i class="fa-solid fa-copy"></i> Copy Text / 複製文本
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-center py-6 mt-12 border-t border-slate-800 text-xs">
+        <p class="mb-1">“Go into all the world and preach the gospel to all creation.” — Mark 16:15</p>
+        <p class="chinese-font">「你們往普天下去，傳福音給萬民聽。」— 馬可福音 16:15</p>
+        <p class="mt-2 text-slate-500">Built as an interactive conversational guide for street encounters in Cambodia. Rely on the Holy Spirit!</p>
+    </footer>
+
+    <!-- Script Logic -->
+    <script>
+        // Tab switching logic
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('block'));
+            
+            const targetTab = document.getElementById('tab-' + tabName);
+            targetTab.classList.remove('hidden');
+            targetTab.classList.add('block');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'text-orange-700', 'shadow-sm');
+                btn.classList.add('text-white', 'hover:bg-white/10');
+            });
+
+            const activeBtn = document.getElementById('btn-' + tabName);
+            activeBtn.classList.remove('text-white', 'hover:bg-white/10');
+            activeBtn.classList.add('bg-white', 'text-orange-700', 'shadow-sm');
+        }
+
+        // ================= UNIVERSAL PLAYBACK & RECORDING ENGINE =================
+        window.userRecordings = {}; // Keep all rehearsed Object URLs globally
+        
+        let activeTTSAudio = null;
+        let activeTTSKey = null;
+        let activeTTSBtnId = null;
+
+        let activeAttemptAudio = null;
+        let activeAttemptKey = null;
+        let activeAttemptBtnId = null;
+
+        let mediaRecorder = null;
+        let recordedChunks = [];
+        let recordingTimeout = null;
+        let currentRecordingKey = null;
+        let currentRecordingBtnId = null;
+
+        // Custom notification system
+        function showToast(message) {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none';
+                document.body.appendChild(container);
+            }
+            
+            const toast = document.createElement('div');
+            toast.className = 'bg-slate-900 text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-lg flex items-center gap-2 transform translate-y-2 opacity-0 transition-all duration-300 ease-out pointer-events-auto border border-slate-800';
+            toast.innerHTML = `
+                <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                <span class="chinese-font">${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3500);
+        }
+
+        // --- TTS PLAY/PAUSE/RESUME CONTROLLER ---
+        function toggleTTS(filename, key, btnId) {
+            // Stop any playing rehearsal attempt first
+            if (activeAttemptAudio) {
+                activeAttemptAudio.pause();
+                resetAttemptUI(activeAttemptBtnId);
+            }
+
+            const btn = document.getElementById(btnId);
+            const icon = btn ? btn.querySelector('i') : null;
+
+            // Clicking already active sound element toggles pause/play
+            if (activeTTSKey === key && activeTTSAudio) {
+                if (activeTTSAudio.paused) {
+                    activeTTSAudio.play();
+                    if (icon) icon.className = 'fa-solid fa-pause text-xs';
+                    if (btn) btn.classList.add('audio-playing');
+                } else {
+                    activeTTSAudio.pause();
+                    if (icon) icon.className = 'fa-solid fa-play text-xs';
+                    if (btn) btn.classList.remove('audio-playing');
+                }
+                return;
+            }
+
+            // Stop previously active sound elements
+            stopAllActiveTTS();
+
+            const audioPath = `khmer_phrases_mp3/${filename}`;
+            const audio = new Audio(audioPath);
+            activeTTSAudio = audio;
+            activeTTSKey = key;
+            activeTTSBtnId = btnId;
+
+            if (btn && icon) {
+                btn.classList.add('audio-playing');
+                icon.className = 'fa-solid fa-pause text-xs';
+            }
+
+            audio.play().catch(err => {
+                console.warn("Audio resource missing/blocked:", audioPath, err);
+                showToast("Missing voice file. Ensure 'generate_audio.py' has finished! / 語音文件不存在，請先完成語音生成！");
+                if (btn && icon) {
+                    btn.classList.remove('audio-playing');
+                    icon.className = 'fa-solid fa-play text-xs';
+                }
+                activeTTSAudio = null;
+                activeTTSKey = null;
+                activeTTSBtnId = null;
+            });
+
+            audio.onended = () => {
+                if (btn && icon) {
+                    btn.classList.remove('audio-playing');
+                    icon.className = 'fa-solid fa-play text-xs';
+                }
+                activeTTSAudio = null;
+                activeTTSKey = null;
+                activeTTSBtnId = null;
+            };
+        }
+
+        function stopAllActiveTTS() {
+            if (activeTTSAudio) {
+                activeTTSAudio.pause();
+                const prevBtn = document.getElementById(activeTTSBtnId);
+                if (prevBtn) {
+                    prevBtn.classList.remove('audio-playing');
+                    const prevIcon = prevBtn.querySelector('i');
+                    if (prevIcon) prevIcon.className = 'fa-solid fa-play text-xs';
+                }
+                activeTTSAudio = null;
+                activeTTSKey = null;
+                activeTTSBtnId = null;
+            }
+        }
+
+        // --- MICROPHONE RECORDER (MAX 12 SECONDS) ---
+        function startRecording(key, btnId) {
+            // Stop active playback elements first
+            stopAllActiveTTS();
+            if (activeAttemptAudio) {
+                activeAttemptAudio.pause();
+                resetAttemptUI(activeAttemptBtnId);
+            }
+
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                stopRecording();
+                return;
+            }
+
+            recordedChunks = [];
+            currentRecordingKey = key;
+            currentRecordingBtnId = btnId;
+
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                showToast("Recording features are restricted or unsupported in this window sandbox. / 麥克風錄音環境可能不支援此沙盒。");
+                return;
+            }
+
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.ondataavailable = event => {
+                        if (event.data.size > 0) {
+                            recordedChunks.push(event.data);
+                        }
+                    };
+                    mediaRecorder.onstop = () => {
+                        const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+                        const audioURL = URL.createObjectURL(blob);
+                        window.userRecordings[key] = audioURL;
+                        
+                        // Stop tracks to release microphone
+                        stream.getTracks().forEach(track => track.stop());
+                        
+                        updateRecordButtonUI(btnId, false);
+                        showToast("Rehearsal Saved! Press the headphone button to listen. / 錄音成功！點擊耳機按鈕播放。");
+                    };
+
+                    mediaRecorder.start();
+                    updateRecordButtonUI(btnId, true);
+                    showToast("Recording attempt started... (Max 12s) / 開始錄音練習... (上限12秒)");
+
+                    // 12-second security countdown stop
+                    recordingTimeout = setTimeout(() => {
+                        if (mediaRecorder && mediaRecorder.state === 'recording') {
+                            stopRecording();
+                            showToast("12s limit reached! Saved automatically. / 已達12秒上限，錄音自動停止並儲存。");
+                        }
+                    }, 12000);
+                })
+                .catch(err => {
+                    console.error("Microphone grab blocked:", err);
+                    showToast("Microphone permissions denied. Check page settings! / 麥克風權限獲取失敗，請檢查權限設定！");
+                });
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+            }
+            if (recordingTimeout) {
+                clearTimeout(recordingTimeout);
+                recordingTimeout = null;
+            }
+        }
+
+        function updateRecordButtonUI(btnId, isRecording) {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+            const icon = btn.querySelector('i');
+            if (isRecording) {
+                btn.classList.add('bg-red-500', 'text-white', 'animate-pulse');
+                btn.classList.remove('bg-slate-100', 'text-slate-600', 'hover:bg-red-100', 'hover:text-red-700');
+                if (icon) icon.className = 'fa-solid fa-stop text-xs';
+            } else {
+                btn.classList.remove('bg-red-500', 'text-white', 'animate-pulse');
+                btn.classList.add('bg-slate-100', 'text-slate-600', 'hover:bg-red-100', 'hover:text-red-700');
+                if (icon) icon.className = 'fa-solid fa-microphone text-xs';
+            }
+        }
+
+        // --- PLAY ATTEMPT PLAYBACK CONTROLLER ---
+        function playAttempt(key, btnId) {
+            const url = window.userRecordings[key];
+            if (!url) {
+                showToast("No rehearsal recording saved yet! Press Record first. / 尚未錄音！請先點擊紅色按鈕錄音。");
+                return;
+            }
+
+            // Clean active sessions
+            stopAllActiveTTS();
+            if (activeAttemptAudio) {
+                activeAttemptAudio.pause();
+                resetAttemptUI(activeAttemptBtnId);
+                if (activeAttemptKey === key) {
+                    return; // Toggle behavior (pause current and return)
+                }
+            }
+
+            const btn = document.getElementById(btnId);
+            const icon = btn ? btn.querySelector('i') : null;
+
+            const audio = new Audio(url);
+            activeAttemptAudio = audio;
+            activeAttemptKey = key;
+            activeAttemptBtnId = btnId;
+
+            if (btn && icon) {
+                btn.classList.add('bg-emerald-500', 'text-white');
+                btn.classList.remove('bg-slate-100', 'text-slate-600', 'hover:bg-emerald-100', 'hover:text-emerald-700');
+                icon.className = 'fa-solid fa-pause text-xs';
+            }
+
+            audio.play().catch(err => {
+                console.error("Attempt playback blocked:", err);
+                showToast("Attempt playback failed. Try recording again! / 播放失敗，請重新錄音！");
+                resetAttemptUI(btnId);
+            });
+
+            audio.onended = () => {
+                resetAttemptUI(btnId);
+            };
+        }
+
+        function resetAttemptUI(btnId) {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+            btn.classList.remove('bg-emerald-500', 'text-white');
+            btn.classList.add('bg-slate-100', 'text-slate-600', 'hover:bg-emerald-100', 'hover:text-emerald-700');
+            const icon = btn.querySelector('i');
+            if (icon) icon.className = 'fa-solid fa-headphones text-xs';
+            activeAttemptAudio = null;
+            activeAttemptKey = null;
+            activeAttemptBtnId = null;
+        }
+
+        // --- AUDIO CONTROL DECK RENDERER HELPERS ---
+        function generateAudioConsole(filename, key) {
+            return `
+                <div class="flex items-center gap-1 bg-slate-100/80 p-1 rounded-lg shrink-0 border border-slate-200/60 shadow-sm">
+                    <!-- Play Pronunciation -->
+                    <button id="tts-btn-${key}" onclick="toggleTTS('${filename}', '${key}', 'tts-btn-${key}')" class="w-8 h-8 rounded-md flex items-center justify-center bg-white text-orange-600 hover:bg-orange-50 transition border border-slate-200/60" title="Play/Pause Pronunciation / 播放/暫停發音">
+                        <i class="fa-solid fa-play text-xs"></i>
+                    </button>
+                    <!-- Record Attempt -->
+                    <button id="rec-btn-${key}" onclick="startRecording('${key}', 'rec-btn-${key}')" class="w-8 h-8 rounded-md flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-red-100 hover:text-red-700 transition" title="Record Attempt (Max 12s) / 開始錄音練習">
+                        <i class="fa-solid fa-microphone text-xs"></i>
+                    </button>
+                    <!-- Play Attempt -->
+                    <button id="play-rec-btn-${key}" onclick="playAttempt('${key}', 'play-rec-btn-${key}')" class="w-8 h-8 rounded-md flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-emerald-100 hover:text-emerald-700 transition" title="Play Saved Attempt / 播放您的錄音">
+                        <i class="fa-solid fa-headphones text-xs"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        // ================= PLAY CUSTOM SEQUENTIAL PRAYER CONTROLLER =================
+        let prayerPlaylist = [];
+        let prayerPlaylistIndex = 0;
+        let isPrayerSequenceActive = false;
+
+        async function toggleCompiledPrayerPlayback(btnId) {
+            const btn = document.getElementById(btnId);
+            const icon = btn ? btn.querySelector('i') : null;
+
+            if (isPrayerSequenceActive) {
+                stopCompiledPrayerPlayback(btnId);
+                return;
+            }
+
+            stopAllActiveTTS();
+            if (activeAttemptAudio) {
+                activeAttemptAudio.pause();
+                resetAttemptUI(activeAttemptBtnId);
+            }
+
+            isPrayerSequenceActive = true;
+            if (btn && icon) {
+                btn.classList.add('bg-orange-600', 'text-white');
+                icon.className = 'fa-solid fa-circle-stop';
+            }
+
+            prayerPlaylist = [
+                `prayer_sal_${selectedPrayer.salutation}.mp3`,
+                `prayer_pet_${selectedPrayer.petition}.mp3`,
+                `prayer_bles_${selectedPrayer.blessing}.mp3`,
+                `prayer_cl_${selectedPrayer.close}.mp3`
+            ];
+            prayerPlaylistIndex = 0;
+
+            showToast("Playing full sequential prayer compilation... / 正在連續播放自訂禱告文...");
+            playNextSequenceBlock(btnId);
+        }
+
+        function playNextSequenceBlock(btnId) {
+            if (!isPrayerSequenceActive) return;
+
+            if (prayerPlaylistIndex >= prayerPlaylist.length) {
+                stopCompiledPrayerPlayback(btnId);
+                return;
+            }
+
+            const filename = prayerPlaylist[prayerPlaylistIndex];
+            const audioPath = `khmer_phrases_mp3/${filename}`;
+            const audio = new Audio(audioPath);
+            activeTTSAudio = audio;
+            activeTTSKey = "prayer_compiled_seq";
+            activeTTSBtnId = btnId;
+
+            audio.play().catch(err => {
+                console.warn("Prayer chunk failed: ", filename, err);
+                prayerPlaylistIndex++;
+                playNextSequenceBlock(btnId);
+            });
+
+            audio.onended = () => {
+                prayerPlaylistIndex++;
+                playNextSequenceBlock(btnId);
+            };
+        }
+
+        function stopCompiledPrayerPlayback(btnId) {
+            isPrayerSequenceActive = false;
+            if (activeTTSAudio && activeTTSKey === "prayer_compiled_seq") {
+                activeTTSAudio.pause();
+                activeTTSAudio = null;
+                activeTTSKey = null;
+                activeTTSBtnId = null;
+            }
+            const btn = document.getElementById(btnId);
+            const icon = btn ? btn.querySelector('i') : null;
+            if (btn && icon) {
+                btn.classList.remove('bg-orange-600', 'text-white');
+                icon.className = 'fa-solid fa-play';
+            }
+        }
+
+
+        // ================= PHRASE DECK DATA =================
+        const phraseData = [
+            {
+                id: 1,
+                category: 'greetings',
+                khmer: 'ជំរាបសួរ អ៊ំ/បង/ប្អូន',
+                romanization: 'Choum-reap-sour Om / Bong / P-oun',
+                english: 'Hello (Respectful to: Uncle/Elder/Younger sibling)',
+                chinese: '您好！（依年齡長幼尊重稱呼：叔叔/哥哥/弟弟或妹妹）',
+                audio: 'deck_1.mp3',
+                notes: 'Perform the "Sampeah" gesture (palms joined at chest) while speaking this phrase. "Om" is for elders, "Bong" is for peers or elder siblings, "P-oun" is for younger individuals.<br><span class="chinese-font">說此話時請行「合十禮」（雙手在胸前合十微鞠躬）。Om 用於叔叔或年長長輩，Bong 用於哥哥或同輩，P-oun 用於比自己年輕的人。</span>'
+            },
+            {
+                id: 2,
+                category: 'greetings',
+                khmer: 'តើអ្នកសុខសប្បាយទេ?',
+                romanization: 'Tae nek sok-saby te?',
+                english: 'How are you? Are you happy and well?',
+                chinese: '你過得好嗎？身體安康、心情愉快嗎？',
+                audio: 'deck_2.mp3',
+                notes: '"Sok-saby" merges the concepts of physical peace/health ("sok") and emotional happiness ("saby"). It is the warmest standard greeting.<br><span class="chinese-font">「Sok-saby」融合了肉體的平安健康（Sok）與內心的快樂（Saby），是當地最溫暖、最普遍的問候語。</span>'
+            },
+            {
+                id: 3,
+                category: 'gospel',
+                khmer: 'ព្រះជាម្ចាស់បង្កើតពិភពលោក និងស្រឡាញ់អ្នកខ្លាំងណាស់',
+                romanization: 'Preah-cheah-mchas bong-koet pi-pob-lok neng sro-lanh nek klang-nas',
+                english: 'The Creator God made the world and loves you very much.',
+                chinese: '創造主上帝創造了世界，並且非常愛你。',
+                audio: 'deck_3.mp3',
+                notes: '"Preah-cheah-mchas" means "Lord Creator God". Cambodian Buddhists instantly understand this to refer to the supreme, original God.<br><span class="chinese-font">「Preah-cheah-mchas」意為「造物主天父」。柬埔寨佛教徒一聽就能理解這是指至高無上、宇宙最初源頭的真神。</span>'
+            },
+            {
+                id: 4,
+                category: 'gospel',
+                khmer: 'មនុស្សគ្រប់គ្នាមានបាប ដែលធ្វើឲ្យយើងបែកពីព្រះ',
+                romanization: 'Mo-nosh krob-knea mean bab, dae thver aoy yeung bek pi Preah',
+                english: 'Everyone has sin, which causes us to be separated from God.',
+                chinese: '每個人都有罪（惡業），這使我們與上帝分離。',
+                audio: 'deck_4.mp3',
+                notes: '"Bab" translates locally as demerit, bad karma, or sin. This word bridges the biblical concept of sin with local karmic vocabulary.<br><span class="chinese-font">「Bab」在當地翻譯為罪業、惡報或惡業。使用這個詞能完美將聖經的罪與佛教的因果業力概念搭起橋梁。</span>'
+            },
+            {
+                id: 5,
+                category: 'gospel',
+                khmer: 'ព្រះយេស៊ូវជាបុត្រារបស់ព្រះអង្គ បានសុគតលើឈើឆ្កាង ដើម្បីលុបលាងបាបរបស់យើង',
+                romanization: 'Preah-ye-sov chea bot-tra ro-bos preah-ong, ban sok-kot leu cher-chkang deim-bey lop-leang bab yeung',
+                english: 'Jesus is His Son, died on the cross to wash away our sins.',
+                chinese: '耶穌是祂的兒子，死在十字架上以洗淨我們的罪孽。',
+                audio: 'deck_5.mp3',
+                notes: '"Lop-leang" means to totally blot out or wash off. It offers a powerful image of fully erasing past bad karma/debts.<br><span class="chinese-font">「Lop-leang」意為完全塗抹、洗淨。這提供了一個強大的視覺意象，即彻底抹除並抵銷過去的所有業障與債務。</span>'
+            },
+            {
+                id: 6,
+                category: 'gospel',
+                khmer: 'បីថ្ងៃក្រោយមក ព្រះអង្គមានព្រះជន្មរស់ឡើងវិញ!',
+                romanization: 'Bey tngay kroy-mok, preah-ong mean preah-chon roas laung vinh!',
+                english: 'Three days later, He rose back to life!',
+                chinese: '三天后，祂復活了！',
+                audio: 'deck_6.mp3',
+                notes: 'The resurrection is critical. It declares that Jesus holds ultimate authority over death, bad spirits, and ancestral fears.<br><span class="chinese-font">基督復活是核心。這宣告了耶穌對死亡、邪靈和祖先靈魂的恐懼擁有絕對、至高無上的得勝權能。</span>'
+            },
+            {
+                id: 7,
+                category: 'prayer',
+                khmer: 'តើខ្ញុំអាចអធិស្ឋានសុំពរសម្រាប់អ្នកឥឡូវនេះបានទេ?',
+                romanization: 'Tae khnhom arch a-thi-sathan som por som-rap nek i-lor-nih ban te?',
+                english: 'Can I pray to ask blessing for you right now?',
+                chinese: '我現在可以為你禱告祈求祝福嗎？',
+                audio: 'deck_7.mp3',
+                notes: '"A-thi-sathan" means pray. "Som por" refers to asking high spiritual blessings. Cambodians gladly welcome prayers of blessing.<br><span class="chinese-font">「A-thi-sathan」意為祈禱，「Som por」意為尋求天上的福分。柬埔寨人通常非常高興並渴望接受別人的祝福禱告。</span>'
+            },
+            {
+                id: 8,
+                category: 'prayer',
+                khmer: 'សូមព្រះបើកភ្នែក និងចិត្តរបស់អ្នក ដើម្បីឃើញសេចក្តីល្អរបស់ព្រះយេស៊ូវ',
+                romanization: 'Som Preah beurk phnek neng chet ro-bos nek, deim-bey khernh sech-kdey-laor ro-bos Preah-ye-sov',
+                english: 'May God open your eyes and heart to see the goodness of Jesus.',
+                chinese: '願上帝開啟你的眼睛和心，看見耶穌的美好。',
+                audio: 'deck_8.mp3',
+                notes: 'A prayer targeted against spiritual blindness, inviting direct spiritual encounters.<br><span class="chinese-font">此段禱告特別針對屬靈的盲目，邀請耶穌親自觸摸其心靈並帶來屬靈覺醒。</span>'
+            }
+        ];
+
+        function renderPhrases() {
+            const grid = document.getElementById('phrases-grid');
+            grid.innerHTML = '';
+            phraseData.forEach(item => {
+                grid.innerHTML += `
+                    <div class="phrase-card p-5 bg-slate-50 hover:bg-amber-50/40 rounded-xl border border-slate-150 transition cursor-pointer flex flex-col md:flex-row justify-between items-start gap-4" data-category="${item.category}" onclick="togglePhraseNotes(${item.id})">
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start">
+                                <span class="px-2 py-0.5 text-[10px] uppercase tracking-wider font-bold rounded-full ${getCategoryBadgeColor(item.category)}">
+                                    ${item.category}
+                                </span>
+                            </div>
+                            <h4 class="khmer-font text-lg font-bold text-amber-900 mt-2">${item.khmer}</h4>
+                            <p class="text-xs italic font-semibold text-slate-700 mt-1">${item.romanization}</p>
+                            <p class="text-xs text-slate-600 mt-1 font-medium">${item.english}</p>
+                            <p class="text-xs text-orange-700 mt-0.5 font-bold chinese-font">${item.chinese}</p>
+                            
+                            <div id="notes-${item.id}" class="hidden mt-3 pt-3 border-t border-dashed border-amber-200/60 text-xs text-slate-500">
+                                <strong class="text-slate-700 block mb-1">Cultural Context / 文化背景：</strong>
+                                ${item.notes}
+                            </div>
+                        </div>
+                        <div class="shrink-0 self-end md:self-start" onclick="event.stopPropagation()">
+                            ${generateAudioConsole(item.audio, `deck_${item.id}`)}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function getCategoryBadgeColor(cat) {
+            if (cat === 'greetings') return 'bg-sky-100 text-sky-800';
+            if (cat === 'gospel') return 'bg-emerald-100 text-emerald-800';
+            return 'bg-amber-100 text-amber-800';
+        }
+
+        function togglePhraseNotes(id) {
+            const notesEl = document.getElementById(`notes-${id}`);
+            if (notesEl) {
+                notesEl.classList.toggle('hidden');
+            }
+        }
+
+        function filterPhrases(category) {
+            document.querySelectorAll('.phrase-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-orange-600', 'text-white');
+                btn.classList.add('bg-slate-100', 'text-slate-700');
+            });
+            event.target.classList.remove('bg-slate-100', 'text-slate-700');
+            event.target.classList.add('bg-orange-600', 'text-white');
+
+            document.querySelectorAll('.phrase-card').forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // ================= SIMULATOR SCENARIO DATABASE =================
+        const simulatorData = {
+            sophal: {
+                name: 'Uncle Sophal',
+                role: 'Busy Tuk-Tuk Driver',
+                avatar: '🛺',
+                desc: 'Concerned with making money, tired of daily life, doubts "free" love.',
+                story: [
+                    {
+                        id: 'start',
+                        speaker: 'local',
+                        english_text: "Hello! Where do you want to go, foreigner? Very hot day! Tuk-tuk ride?",
+                        chinese_text: "你好！外國朋友，你想去哪裡？今天真熱！要坐嘟嘟車嗎？",
+                        text: 'ជំរាបសួរ បាទ! តើប្អូនចង់ទៅណា? ថ្ងៃនេះក្តៅណាស់! ជិះកង់បីទេ?',
+                        romanization: 'Choum-reap-sour bat! Tae p-oun chong tou na? Tngay-nih kdau nas! Chih kong-bey te?',
+                        audio: 'sim_sophal_start.mp3',
+                        options: [
+                            {
+                                text_english: "Hello Uncle! I don't need a tuk-tuk, but I love Cambodian people very much. Are you doing well?",
+                                text_chinese: "叔叔您好！我不需要搭車，但我非常喜愛柬埔寨人民。您過得好嗎？",
+                                next: 'greetings_reply',
+                                khmer: "ជំរាបសួរអ៊ំ! ខ្ញុំមិនត្រូវការកង់បីទេ ប៉ុន្តែខ្ញុំស្រឡាញ់ជនជាតិខ្មែរខ្លាំងណាស់。 តើអ៊ំសុខសប្បាយទេ?",
+                                romanization: "Choum-reap-sour Om! Khnhom mun trov-kar kong-bey te, pon-tae khnhom sro-lanh chon-cheat khmer klang-nas. Tae Om sok-saby te?",
+                                audio: "sim_user_sophal_start_0.mp3"
+                            },
+                            {
+                                text_english: "Jesus loves you! You must believe in Him to be saved!",
+                                text_chinese: "耶穌愛你！你必須相信祂才能得救！",
+                                next: 'blunt_reply',
+                                khmer: "ព្រះយេស៊ូវស្រឡាញ់អ្នក អ៊ំត្រូវជឿលើទ្រង់ដើម្បីបានសង្គ្រោះ!",
+                                romanization: "Preah-ye-sov sro-lanh nek, Om trov cheur leu trong deim-bey ban song-kruas!",
+                                audio: "sim_user_sophal_start_1.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'greetings_reply',
+                        speaker: 'local',
+                        english_text: "Thank you. I am fine, but honestly, very tired. Gas is expensive. Not many customers. Life is very hard work, day and night, just to eat.",
+                        chinese_text: "謝謝。我還好，但說實話，非常累。汽油很貴，客人也很少。為了糊口，沒日沒夜地辛苦工作，生活很不容易。",
+                        text: 'អរគុណបាទ។ ខ្ញុំមិនសូវស្រួលទេ ហត់ណាស់។ សាំងឡើងថ្លៃ ម៉ូយក៏តិច。 ជីវិតត្រូវធ្វើការហត់នឿយយប់ថ្ងៃ ទើបមានអីហូប។',
+                        romanization: 'Or-kun bat. Khnhom mun-sov sruol te, hot nas. Sang laung thlay, moy kor tich. Chee-vit trov thver-kar hot-nuerb yob tngay, teib mean ey hob.',
+                        audio: 'sim_sophal_greetings_reply.mp3',
+                        options: [
+                            {
+                                text_english: "I understand you, Uncle. The Creator God who made us knows that life is difficult, and He wants to give true peace.",
+                                text_chinese: "叔叔，我理解您。創造我們的造物主上帝知道生活有多艱辛，祂渴望賜予您真正的平安與安息。",
+                                next: 'gospel_bridge',
+                                khmer: "ខ្ញុំយល់ចិត្តអ៊ំ។ ព្រះជាម្ចាស់ដែលបង្កើតយើង ទ្រង់ដឹងថាជីវិតពិបាក ហើយទ្រង់ចង់ផ្តល់សេចក្តីសុខសាន្តពិតប្រាកដ。",
+                                romanization: "Khnhom yol-chet Om. Preah-cheah-mchas dae bong-koet yeung, trong deng tha chee-vit pi-bak, neng trong chong phdor sech-kdey sok-san pit-prak-dor.",
+                                audio: "sim_user_sophal_greetings_reply_0.mp3"
+                            },
+                            {
+                                text_english: "Money is not as important as the soul. Uncle, you must worry about the things of God!",
+                                text_chinese: "金錢不如靈魂來得重要。叔叔，您此時應該多關心上帝的事！",
+                                next: 'insensitive_reply',
+                                khmer: "លុយកាក់មិនសំខាន់ដូចព្រលឹងវិញ្ញាណទេ។ អ៊ំត្រូវបារម្ភពីរឿងព្រះ!",
+                                romanization: "Loy-kak mun som-khan doch pro-leng vinh-nean te. Om trov bar-rom pi reung Preah!",
+                                audio: "sim_user_sophal_greetings_reply_1.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'gospel_bridge',
+                        speaker: 'local',
+                        english_text: "A God who wants to give rest? My religion says everything is about karma. If I am poor and work hard, it is because of my bad karma from past life. I must work to survive.",
+                        chinese_text: "一位想給予休息的上帝？但我的宗教說一切都是因果業報。如果我貧窮又辛苦，那是因為我前世的惡業。我必須拼命工作才能存活。",
+                        text: 'ព្រះដែលចង់ឲ្យសម្រាក? សាសនាខ្ញុំថារាល់យ៉ាងមកពីកម្មផល。 បើខ្ញុំក្រហើយហត់នឿយ គឺមកពីបាបចាស់ពីជាតិមុន។ ខ្ញុំត្រូវតែធ្វើការដើម្បីរស់។',
+                        romanization: 'Preah dae chong aoy som-rak? Sas-na khnhom tha roal-yang mok pee kam-phol. Ber khnhom kro heuy hot-nuerb, kue mok pee bab-chas pee cheat-mun. Khnhom trov-tae thver-kar deim-bey ros.',
+                        audio: 'sim_sophal_gospel_bridge.mp3',
+                        options: [
+                            {
+                                text_english: "Jesus knows that we cannot wash away our sins by ourselves. He died on the cross to pay for all of your sins, Uncle.",
+                                text_chinese: "耶穌知道我們無法靠一己之力洗淨罪孽（業障）。祂在十字架上受死，已經為您所有的罪業付清了全部代價。",
+                                next: 'core_gospel',
+                                khmer: "ព្រះយេស៊ូវដឹងថា យើងមិនអាចលុបលាងបាបដោយខ្លួនឯងបានទេ។ ទ្រង់បានសុគតលើឈើឆ្កាងដើម្បីបង់ថ្លៃបាបទាំងអស់របស់អ៊ំ。",
+                                romanization: "Preah-ye-sov deng tha yeung mun arch lop-leang bab doy khluon-eng ban te. Trong ban sok-kot leu cher-chkang deim-bey bong thlay bab tang-os ro-bos Om.",
+                                audio: "sim_user_sophal_gospel_bridge_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'core_gospel',
+                        speaker: 'local',
+                        english_text: "He paid it for me? That sounds very good... but how can I know He has the power to do that? Our temples are strong and old.",
+                        chinese_text: "祂為我付了代價？聽起來很美好……但我怎麼知道祂擁有這樣做的力量？我們的佛寺如此宏偉古老。",
+                        text: 'ទ្រង់បង់ថ្លៃឲ្យខ្ញុំ? ឮទៅល្អណាស់... ប៉ុន្តែធ្វើម៉េចខ្ញុំដឹងថាទ្រង់មានអំណាចធ្វើចឹងបាន? វិហារយើងមាំមួន និងចាស់ណាស់។',
+                        romanization: 'Trong bong-thlay aoy khnhom? Luer tou laor nas... pon-tae thver-mec khnhom deng tha trong mean om-nach thver-cheng ban? Vi-hear yeung mam-muon neng chas nas.',
+                        audio: 'sim_sophal_core_gospel.mp3',
+                        options: [
+                            {
+                                text_english: "Because three days later, Jesus rose again! He has come back to life to prove that He has power over death and sin.",
+                                text_chinese: "因為三天后，耶穌復活了！祂重獲生命，證明祂擁有戰勝死亡和罪惡（業障）的無上權能。",
+                                next: 'resurrection_power',
+                                khmer: "ពីព្រោះបីថ្ងៃក្រោយមក ព្រះយេស៊ូវបានរស់ឡើងវិញ! ព្រះអង្គមានព្រះជន្មរស់ឡើងវិញដើម្បីបញ្ជាក់ថាទ្រង់មានអំណាចលើសេចក្តីស្លាប់ និងបាប。",
+                                romanization: "Pee-prouch bey tngay kroy-mok, Preah-ye-sov ban roas laung vinh! Preah-ong mean chon roas laung vinh deim-bey ban-chak tha trong mean om-nach leu sech-kdey-slab neng bab.",
+                                audio: "sim_user_sophal_core_gospel_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'resurrection_power',
+                        speaker: 'local',
+                        english_text: "Alive again... I have never heard of a god who came back to life to help poor people like me. I wish I could experience this peace.",
+                        chinese_text: "重新活著……我從未聽說過有哪位神明會復活，來幫助像我這樣辛苦的窮人。真希望我也能體驗到這份平安。",
+                        text: 'រស់ឡើងវិញ... ខ្ញុំមិនដែលឮពីព្រះណាដែលរស់ឡើងវិញដើម្បីជួយអ្នកក្រដូចខ្ញុំសោះ។ ខ្ញុំចង់ទទួលសេចក្តីសុខនេះណាស់។',
+                        romanization: 'Roas laung vinh... khnhom mun-dael luer pee preah na dae roas laung vinh deim-bey chuoy nek-kro doch khnhom soh. Khnhom chong to-tuol sech-kdey sok nih nas.',
+                        audio: 'sim_sophal_resurrection_power.mp3',
+                        options: [
+                            {
+                                text_english: "Can I pray to ask for blessing for you right now, Uncle? May God open your heart's eyes to see His goodness.",
+                                text_chinese: "叔叔，我現在可以為您禱告祈求祝福嗎？願上帝開啟您心靈的眼睛，親自看見祂的美好與大能。",
+                                next: 'prayer_invitation',
+                                khmer: "តើខ្ញុំអាចអធិស្ឋានសុំពរសម្រាប់អ៊ំឥឡូវនេះបានទេ? សូមព្រះបើកភ្នែកចិត្តអ៊ំឱ្យឃើញសេចក្តីល្អរបស់ព្រះអង្គ。",
+                                romanization: "Tae khnhom arch a-thi-sathan som por som-rap Om i-lor-nih ban te? Som Preah beurk phnek chet Om aoy khernh sech-kdey-laor ro-bos preah-ong.",
+                                audio: "sim_user_sophal_resurrection_power_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'prayer_invitation',
+                        speaker: 'local',
+                        english_text: "Yes! Please pray for me, foreigner. I want this peace in my heavy heart.",
+                        chinese_text: "好啊！請為我禱告，外國朋友。我非常渴望在我沉重的心中，能得到這份平安與解脫。",
+                        text: 'បាទ! សូមអធិស្ឋានឲ្យខ្ញុំផង ប្អូនបរទេស。 ខ្ញុំចង់បានសេចក្តីសុខនេះក្នុងចិត្តដែលធ្ងន់របស់ខ្ញុំ។',
+                        romanization: 'Bat! Som a-thi-sathan aoy khnhom phong, p-oun bor-te-tes. Khnhom chong ban sech-kdey sok nih klong chet dae thgon ro-bos khnhom.',
+                        audio: 'sim_sophal_prayer_invitation.mp3',
+                        options: [
+                            {
+                                text_english: "May Jesus bless you!",
+                                text_chinese: "願耶穌基督大大賜福與您！",
+                                next: 'success',
+                                khmer: "សូមព្រះយេស៊ូវប្រទានពរ!",
+                                romanization: "Som Preah-ye-sov pro-tean por!",
+                                audio: "sim_user_sophal_prayer_invitation_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'blunt_reply',
+                        speaker: 'local',
+                        english_text: "Oh... yes, yes, Christianity, right? Many foreigners come to tell me this. But I have no time to think about this. I must find customers, sorry.",
+                        chinese_text: "哦……對，對，基督教對吧？很多外國人都跑來跟我講這個。但我實在沒時間想這些，我得去找客人，抱歉啦。",
+                        text: 'អូ... បាទៗ គ្រីស្ទសាសនា មែនទេ? បរទេសច្រើនណាស់មកប្រាប់ខ្ញុំរឿងនេះ។ ប៉ុន្តែខ្ញុំគ្មានពេលគិតរឿងនេះទេ។ ខ្ញុំត្រូវរកម៉ូយ សុំទោសណា។',
+                        romanization: 'Oh... bat bat, kris-sas-na men-te? Bor-te-tes chreun nas mok prab khnhom reung nih. Pon-tae khnhom kmean pel kit reung nih te. Khnhom trov rok moy, som-tos na.',
+                        audio: 'sim_sophal_blunt_reply.mp3',
+                        options: [
+                            {
+                                text_english: "I am sorry, Uncle! I just wanted to ask about your well-being. Is driving very tiring today?",
+                                text_chinese: "抱歉，叔叔！我沒有要勉強您。我只是想關心您的近況。今天開車一定非常累吧？",
+                                next: 'greetings_reply',
+                                khmer: "សូមទោសអ៊ំ! ខ្ញុំគ្រាន់តែចង់ដឹងពីសុខទុក្ខរបស់អ៊ំ។ តើការបើកបរថ្ងៃនេះហត់ខ្លាំងទេ?",
+                                romanization: "Som-tos Om! Khnhom kran-tae chong deng pi sok-touk ro-bos Om. Tae kar beurk-bor tngay-nih hot klang te?",
+                                audio: "sim_user_sophal_blunt_reply_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'insensitive_reply',
+                        speaker: 'local',
+                        english_text: "Easy for you to say, foreigner. You have money from your country. For me, if I do not work, my children do not eat. I cannot afford to study spiritual things.",
+                        chinese_text: "外國朋友，你說得倒容易。你帶著家鄉的富裕來。對我來說，我不工作，孩子今天就得挨餓。我根本沒有閒錢和時間去研究靈魂的事。",
+                        text: 'និយាយស្រួលណាស់ប្អូនបរទេស。 ប្អូនមានលុយពីស្រុកប្អូន。 សម្រាប់ខ្ញុំ បើខ្ញុំមិនធ្វើការ កូនខ្ញុំអត់បាយហើយ។ ខ្ញុំគ្មានលុយទៅរៀនធម៌អាថ៌អីទេ។',
+                        romanization: 'Ni-yeay sruol nas p-oun bor-te-tes. P-oun mean loy pee srok p-oun. Som-rap khnhom, ber khnhom mun thver-kar, kon khnhom ot bay heuy. Khnhom kmean loy tou rean thor-at ey te.',
+                        audio: 'sim_sophal_insensitive_reply.mp3',
+                        options: [
+                            {
+                                text_english: "I am sorry, Uncle. God really cares about your stomach and your family very much. He wants to help you.",
+                                text_chinese: "對不起，叔叔是我失言了。其實上帝非常關心您的溫飽，也極愛您的家人，祂渴望親自幫助您渡過難關。",
+                                next: 'gospel_bridge',
+                                khmer: "សូមទោសអ៊ំ។ ព្រះជាម្ចាស់ពិតជាខ្វល់ខ្វាយពីរឿងក្រពះ និងគ្រួសារអ៊ំខ្លាំងណាស់។ ទ្រង់ចង់ជួយអ៊ំ。",
+                                romanization: "Som-tos Om. Preah-cheah-mchas pit-chea khvol-khvay pi reung kro-por neng kruo-sar Om klang-nas. Trong chong chuoy Om.",
+                                audio: "sim_user_sophal_insensitive_reply_0.mp3"
+                            }
+                        ]
+                    }
+                ]
+            },
+            chenda: {
+                name: 'Yeay Chenda',
+                role: 'Devout Buddhist Grandmother',
+                avatar: '👵',
+                desc: 'A 68-year old grandmother sweeping outside her house, heavily invested in ancestral rites and temple merits.',
+                story: [
+                    {
+                        id: 'start',
+                        speaker: 'local',
+                        english_text: "Hello, child. Are you lost? It is very hot.",
+                        chinese_text: "你好，孩子。你迷路了嗎？今天太陽真大，快到陰涼處躲躲。",
+                        text: 'ជំរាបសួរ ចៅ。 វង្វេងផ្លូវមែនទេ? ថ្ងៃនេះក្តៅណាស់។',
+                        romanization: 'Choum-reap-sour Chau. Vong-veng phlov men-te? Tngay-nih kdau nas.',
+                        audio: 'sim_chenda_start.mp3',
+                        options: [
+                            {
+                                text_english: "Hello Grandma! Are you in good health as usual?",
+                                text_chinese: "奶奶您好！您最近身體健康都安好嗎？",
+                                next: 'yeay_greetings',
+                                khmer: "ជំរាបសួរយាយ! តើលោកយាយមានសុខភាពល្អជាធម្មតាទេ?",
+                                romanization: "Choum-reap-sour Yeay! Tae lok-yeay mean sok-hap-pheap laor chea thom-mo-da te?",
+                                audio: "sim_user_chenda_start_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'yeay_greetings',
+                        speaker: 'local',
+                        english_text: "Oh, you are very polite! I am old, my knees hurt, but I keep sweeping. I must make good merit at the pagoda so my next life will be peaceful, though I fear my sins are too many.",
+                        chinese_text: "噢，你這孩子真有禮貌！我老了，膝蓋每天痛，但還是得天天掃地。我必須去寺廟多做功德，好讓來世能過得平安安穩，只怕我這輩子的罪孽積得太多了。",
+                        text: 'អូ ចៅដឹងខុសត្រូវណាស់! យាយចាស់ហើយ ឈឺជង្គង់ តែត្រូវបោសដីជារាល់ថ្ងៃ។ យាយត្រូវធ្វើបុណ្យនៅវត្តច្រើនដើម្បីជាតិក្រោយបានសុខ ទោះបីយាយបារម្ភថាបាបយាយច្រើនក៏ដោយ។',
+                        romanization: 'Oh, chau deng khos-trov nas! Yeay chas heuy, chhue chong-kong, tae trov baos dey chea roal tngay. Yeay trov thver-bon nov voat chreun deim-bey cheat kroy ban sok, tuoh-bey yeay bar-rom tha bab yeay chreun kor doy.',
+                        audio: 'sim_chenda_yeay_greetings.mp3',
+                        options: [
+                            {
+                                text_english: "Grandma, the Creator God who made us loves you, and He promises to wash away all fears.",
+                                text_chinese: "奶奶，創造我們的造物主上帝非常愛您，祂應許要親自洗去您心中所有的不安與恐懼。",
+                                next: 'yeay_merit_bridge',
+                                khmer: "លោកយាយ ព្រះជាម្ចាស់ដែលបង្កើតយើង ទ្រង់ស្រឡាញ់លោកយាយ ហើយទ្រង់សន្យាថានឹងលុបលាងរាល់ការភ័យខ្លាចទាំងអស់。",
+                                romanization: "Lok-yeay, Preah-cheah-mchas dae bong-koet yeung, trong sro-lanh lok-yeay neng trong son-ya tha neng lop-leang roal kar phay-khlach tang-os.",
+                                audio: "sim_user_chenda_yeay_greetings_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'yeay_merit_bridge',
+                        speaker: 'local',
+                        english_text: "But how can anyone wash away sin? Only doing good works (Kusal) can balance our bad karma (Akusal). We must pay for our own deeds.",
+                        chinese_text: "但又有誰能幫別人洗罪呢？只有多做善事功德（善業）才能抵銷我們犯下的惡業。我們自己做過的事，必須自己償還代價。",
+                        text: 'ចុះធ្វើម៉េចអាចលុបបាបបាន? 有បាបកម្មទើបអាចទប់ទល់នឹងបាបកម្មបាន។ យើងត្រូវសងរាល់អំពើដែលយើងធ្វើ។',
+                        romanization: 'Choh thver mec arch lop bab ban? Mean tae kar thver-bon teib arch tob-thol neng bab-kam ban. Yeung trov song roal om-puer dae yeung thver.',
+                        audio: 'sim_chenda_yeay_merit_bridge.mp3',
+                        options: [
+                            {
+                                text_english: "Grandma, Jesus died on the cross to receive the hardships and sins in your place already. This is a free gift.",
+                                text_chinese: "奶奶，耶穌基督已經在十字架上受死，代替您承受了所有的重擔與罪孽。這是一份白白得來的恩典與救贖禮物。",
+                                next: 'yeay_cross_solution',
+                                khmer: "លោកយាយ ព្រះយេស៊ូវបានសុគតលើឈើឆ្កាង ដើម្បីទទួលការលំបាក និងបាបជំនួសលោកយាយរួចហើយ។ នេះជាអំណោយទានឥតគិតថ្លៃ។",
+                                romanization: "Lok-yeay, Preah-ye-sov ban sok-kot leu cher-chkang deim-bey to-tuol kar lom-bak neng bab chom-nuas lok-yeay ruoch-heuy. Nih chea om-noy-tean et-kit-thlay.",
+                                audio: "sim_user_chenda_yeay_merit_bridge_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'yeay_cross_solution',
+                        speaker: 'local',
+                        english_text: "A free gift that erases karma? This is unheard of... But I am Khmer, I must follow my ancestors. If I follow Jesus, will I be abandoning my family?",
+                        chinese_text: "白白送給人、能徹底消除業障的禮物？這真是一輩子沒聽說過……但我一出生就是柬埔寨人，必須世世代代拜我們的祖先。如果我信了耶穌，不就等於背棄我的家族了嗎？",
+                        text: 'អំណោយទានឥតគិតថ្លៃដែលលុបកម្មផលបាន? យាយមិនដែលឮសោះ... តែយាយជាខ្មែរ យាយត្រូវកាន់តាមដូនតា។ បើកាន់តាមព្រះយេស៊ូវ តើយាយចោលគ្រួសារមែនទេ?',
+                        romanization: 'Om-noy-tean et-kit-thlay dae lop kam-phol ban? Yeay mun dael luer soh... tae yeay chea khmer, yeay trov kan tam don-ta. Ber kan tam Preah-ye-sov, tae yeay chol kruo-sar men-te?',
+                        audio: 'sim_chenda_yeay_cross_solution.mp3',
+                        options: [
+                            {
+                                text_english: "Jesus commands us to respect our parents. Believing in Him brings true blessings to your family and your ancestors, Grandma.",
+                                text_chinese: "奶奶，耶穌其實嚴格命令我們要極度孝敬和尊重父母。信靠祂反而會將真正的天上福分與保障，帶給您的家族與祖先。",
+                                next: 'yeay_ancestor_comfort',
+                                khmer: "ព្រះយេស៊ូវបង្គាប់ឱ្យយើងគោរពឪពុកម្តាយ។ ការជឿលើទ្រង់ នាំមកនូវពរជ័យពិតប្រាកដដល់គ្រួសារ និងដូនតារបស់លោកយាយ。",
+                                romanization: "Preah-ye-sov bong-kob aoy yeung kor-rop ov-pouk mday. Kar cheur leu trong, nam mok nov por-jey pit-prak-dor dol kruo-sar neng don-ta ro-bos lok-yeay.",
+                                audio: "sim_user_chenda_yeay_cross_solution_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'yeay_ancestor_comfort',
+                        speaker: 'local',
+                        english_text: "My family really needs blessings. My grandson is very sick, and my knees are in constant pain. Can your Lord help with these?",
+                        chinese_text: "我的家族真的太需要祝福和保佑了。我的小孫子現在病得很重，我的雙膝又疼得走不動。你口中的這位主，能幫上這些忙嗎？",
+                        text: 'គ្រួសារយាយត្រូវការពរជ័យណាស់។ ចៅប្រុសយាយឈឺខ្លាំង ហើយជង្គង់យាយក៏ឈឺមិនឈប់សោះ។ តើព្រះរបស់ចៅអាចជួយរឿងនេះបានទេ?',
+                        romanization: 'Kruo-sar yeay trov-kar por-jey nas. Chau-pros yeay chhue klang, heuy chong-kong yeay kor chhue mun chhob soh. Tae Preah ro-bos chau arch chuoy reung-nih ban te?',
+                        audio: 'sim_chenda_yeay_ancestor_comfort.mp3',
+                        options: [
+                            {
+                                text_english: "Grandma, can I pray to ask Jesus to grant healing and peace to you and your grandson right now?",
+                                text_chinese: "奶奶，我現在可以禱告，求主耶穌親自降下醫治與出人意外的平安，在您和您的孫子身上嗎？",
+                                next: 'yeay_prayer_consent',
+                                khmer: "លោកយាយ តើខ្ញុំអាចអធិស្ឋានសុំឱ្យព្រះយេស៊ូវប្រទានការព្យាបាល និងសេចក្តីសុខសាន្តដល់លោកយាយ និងចៅឥឡូវនេះបានទេ?",
+                                romanization: "Lok-yeay, tae khnhom arch a-thi-sathan som aoy Preah-ye-sov pro-tean kar-pyar-bal neng sech-kdey-sok-san dol lok-yeay neng chau i-lor-nih ban te?",
+                                audio: "sim_user_chenda_yeay_ancestor_comfort_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'yeay_prayer_consent',
+                        speaker: 'local',
+                        english_text: "Yes, pray to your God of love. Let Him heal my family.",
+                        chinese_text: "好的！請向你口中那位充滿愛心的上帝禱告吧。願祂施恩醫治我的孫子和家人。",
+                        text: 'បាទ! សូមអធិស្ឋានឲ្យព្រះរបស់ចៅជួយផង។ សូមឲ្យទ្រង់ព្យាបាលគ្រួសារយាយ។',
+                        romanization: 'Bat! Som a-thi-sathan aoy Preah ro-bos chau chuoy phong. Som aoy trong pyar-bal kruo-sar yeay.',
+                        audio: 'sim_chenda_yeay_prayer_consent.mp3',
+                        options: [
+                            {
+                                text_english: "Amen!",
+                                text_chinese: "阿們！",
+                                next: 'success',
+                                khmer: "អាម៉ែន!",
+                                romanization: "Ah-men!",
+                                audio: "sim_user_chenda_yeay_prayer_consent_0.mp3"
+                            }
+                        ]
+                    }
+                ]
+            },
+            sreyneang: {
+                name: 'Sreyneang',
+                role: 'University Student',
+                avatar: '🎒',
+                desc: 'A 20-year old student near Royal University. Eager to practice English but gets confused about deep spiritual terms.',
+                story: [
+                    {
+                        id: 'start',
+                        speaker: 'local',
+                        english_text: "Hello! Oh, are you from America? I love English! Can we talk to practice?",
+                        chinese_text: "哈囉！哇，你是從美國來的嗎？我非常喜歡學英文！我們可以聊聊天練習一下嗎？",
+                        text: 'សួស្តី! អូ បងមកពីអាមេរិកមែនទេ? ខ្ញុំចូលចិត្តភាសាអង់គ្លេសណាស់! យើងអាចជជែកគ្នាបានទេ?',
+                        romanization: 'Sour-sdey! Oh, bong mok pee America men-te? Khnhom chol-chet pheasa-ang-kles nas! Yeung arch cho-chek knea ban te?',
+                        audio: 'sim_sreyneang_start.mp3',
+                        options: [
+                            {
+                                text_english: "Hello! I want to chat with you. What are you studying? God has a good plan for your future.",
+                                text_chinese: "你好！我也很樂意跟你聊天。你主修什麼專業呢？要知道，上帝對你的未來有著最美好的計畫。",
+                                next: 'student_talk',
+                                khmer: "ជំរាប់សួរ! ខ្ញុំចង់ជជែកលេងជាមួយប្អូន។ តើប្អូនរៀនផ្នែកអ្វីដែរ? ព្រះជាម្ចាស់មានផែនការដ៏ល្អសម្រាប់អនាគតប្អូន。",
+                                romanization: "Choum-reap-sour! Khnhom chong cho-chek leng cheam-uoy p-oun. Tae p-oun rean pnek a-vey dae? Preah-cheah-mchas mean phen-kar dor laor som-rap a-na-kot p-oun.",
+                                audio: "sim_user_sreyneang_start_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'student_talk',
+                        speaker: 'local',
+                        english_text: "I study Management! I want to get a good job to help my parents. But sometimes I worry so much about failing exams. My friends and I often go to fortune-tellers for luck.",
+                        chinese_text: "我主修企管！我非常希望能找到一份好工作來奉養我爸媽。但有時我也好擔心期末考考砸。我和朋友們經常會去拜拜和找算命師算命來祈求好運。",
+                        text: 'ខ្ញុំរៀនផ្នែកគ្រប់គ្រង! ខ្ញុំចង់បានការងារល្អដើម្បីជួយប៉ាម៉ាក់។ តែជួនកាលខ្ញុំបារម្ភខ្លាំងរឿងប្រឡងធ្លាក់។ ខ្ញុំនិងមិត្តភក្តិតែងតែទៅមើលក្បួនទាយដើម្បីសុំសេចក្តីសុខ។',
+                        romanization: 'Khnhom rean pnek krob-krong! Khnhom chong ban kar-ngea laor deim-bey chuoy pa-mak. Tae chuon-kal khnhom bar-rom klang reung pro-long thlak. Khnhom neng mit-pheap taeng-tae tou merl kbuon-teay deim-bey som sech-kdey sok.',
+                        audio: 'sim_sreyneang_student_talk.mp3',
+                        options: [
+                            {
+                                text_english: "You don't need to worry! God is a Father who loves you, He knows your future and wants you to have true peace.",
+                                text_chinese: "你不用感到焦慮！上帝是一位深愛你的天父，祂完全掌握你的未來，並且渴望賜予你生命中真正的出路和平安。",
+                                next: 'student_fortune',
+                                khmer: "ប្អូនមិនចាំបាច់បារម្ភទេ! ព្រះជាម្ចាស់ជាព្រះវរបិតាដែលស្រឡាញ់ប្អូន ទ្រង់ជ្រាបពីអនាគត និងចង់ឱ្យប្អូនមានសេចក្តីសុខសាន្តពិត។",
+                                romanization: "P-oun mun cham-bach bar-rom te! Preah-cheah-mchas chea Preah-vob-bada dae sro-lanh p-oun, trong chreab pi a-na-kot neng chong aoy p-oun mean sech-kdey-sok-san pit.",
+                                audio: "sim_user_sreyneang_student_talk_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'student_fortune',
+                        speaker: 'local',
+                        english_text: "A Father in heaven who loves me personally? In our tradition, we think of gods as cold, powerful spirits we must bribe with food offerings. How is your God different?",
+                        chinese_text: "一位在天上、並且親自深深愛著我的天父？在我們的傳統觀念裡，神明都是冷酷而威嚴的靈體，我們必須拿豐盛的供品去祭拜祂們才能求得恩惠。你說的這位神有什麼不同？",
+                        text: 'ព្រះវរបិតានៅស្ថានសួគ៌ដែលស្រឡាញ់ខ្ញុំផ្ទាល់ខ្លួន? តាមទម្លាប់យើង គិតថាព្រះត្រជាក់ និងមានអំណាច ដែលយើងត្រូវសែនព្រេនដើម្បីសុំលាភ។ តើព្រះរបស់បងខុសគ្នាយ៉ាងម៉េច?',
+                        romanization: 'Preah-vob-bada nov stan-sour dae sro-lanh khnhom phtual-khluon? Tam tom-loab yeung, kit tha Preah tro-cheak neng mean om-nach, dae yeung trov sen-pren deim-bey som leap. Tae Preah ro-bos bong khos knea yang-mec?',
+                        audio: 'sim_sreyneang_student_fortune.mp3',
+                        options: [
+                            {
+                                text_english: "Jesus does not need food offerings or sacrifices. He is the Son of God, and He sacrificed His life to be your best friend.",
+                                text_chinese: "主耶穌完全不需要任何人拿任何金錢或食物供品來賄賂或祭祀祂。祂是上帝的獨生子，祂甚至為你捨棄了自己的生命，只為了成為你一生最好的朋友和守護者。",
+                                next: 'student_gospel_heart',
+                                khmer: "ព្រះយេស៊ូវមិនត្រូវការតង្វាយសែនព្រេនទេ។ ទ្រង់ជាបុត្រារបស់ព្រះ ហើយទ្រង់បានបូជាជីវិតដើម្បីធ្វើជាមិត្តដ៏ល្អបំផុតរបស់ប្អូន។",
+                                romanization: "Preah-ye-sov mun trov-kar tong-vay sen-pren te. Trong chea bot-tra ro-bos Preah, neng trong ban bo-chea chee-vit deim-bey thver chea mit dor laor bom-phot ro-bos p-oun.",
+                                audio: "sim_user_sreyneang_student_fortune_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'student_gospel_heart',
+                        speaker: 'local',
+                        english_text: "A personal friend... that is beautiful. My young generation wants real love and hope, not just scary old spirits. How do I connect with Him?",
+                        chinese_text: "一位最親密的朋友……這太美好了。我們這一代年輕人真正渴望的是真實的愛與盼望，而不是那些令人感到恐懼和沉重的神靈規條。我該怎麼與祂建立這種關係呢？",
+                        text: 'មិត្តផ្ទាល់ខ្លួន... ពិតជាស្អាតណាស់។ ជំនាន់ក្មេងៗដូចខ្ញុំចង់បានសេចក្តីស្រឡាញ់ និងសេចក្តីសង្ឃឹមពិត មិនមែនតែវិញ្ញាណគួរឱ្យខ្លាចនោះទេ។ តើត្រូវធ្វើម៉េចដើម្បីភ្ជាប់ទំនាក់ទំនងជាមួយទ្រង់?',
+                        romanization: 'Mit phtual-khluon... pit-chea s-at nas. Chom-nan kmeng-kmeng doch khnhom chong ban sech-kdey srolanh neng sech-kdey song-khem pit, mun-men tae vinh-nean kuor-aoy-klach noh te. Tae trov thver-mec deim-bey chhoab tumnak-tumnong cheam-uoy trong?',
+                        audio: 'sim_sreyneang_student_gospel_heart.mp3',
+                        options: [
+                            {
+                                text_english: "We can talk to Him through prayer. Can I pray to ask Jesus to help with your studies and your future right now?",
+                                text_chinese: "我們能透過隨時隨地的「禱告」直接向祂傾心吐意。我現在可以為你禱告，請求耶穌親自帶領你的課業和精彩的未來嗎？",
+                                next: 'student_prayer_ask',
+                                khmer: "យើងអាចនិយាយជាមួយទ្រង់តាមរយៈការអធិស្ឋាន។ តើខ្ញុំអាចអធិស្ឋានសុំឱ្យព្រះយេស៊ូវជួយលើការរៀនសូត្រ និងអនាគតប្អូនឥឡូវនេះបានទេ?",
+                                romanization: "Yeung arch ni-yeay cheam-uoy trong tam-rye kar a-thi-sathan. Tae khnhom arch a-thi-sathan som aoy Preah-ye-sov chuoy leu kar rean-sot neng a-na-kot p-oun i-lor-nih ban te?",
+                                audio: "sim_user_sreyneang_student_gospel_heart_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'student_prayer_ask',
+                        speaker: 'local',
+                        english_text: "Oh! Yes, please! I really need peace for my upcoming exam. Let us pray!",
+                        chinese_text: "哇！好啊，拜託你！我真的很需要這份平安來面對即將到來的考試。那我們趕快開始禱告吧！",
+                        text: 'អូ! បាទ សូមជួយអធិស្ឋានផង! ខ្ញុំពិតជាត្រូវការសេចក្តីសុខសម្រាប់ការប្រឡងខាងមុខនេះ។ តោះ យើងអធិស្ឋាន!',
+                        romanization: 'Oh! Bat som chuoy a-thi-sathan phong! Khnhom pit-chea trov-kar sech-kdey sok som-rap kar pro-long khang-mokh nih. Toh yeung a-thi-sathan!',
+                        audio: 'sim_sreyneang_student_prayer_ask.mp3',
+                        options: [
+                            {
+                                text_english: "God bless you!",
+                                text_chinese: "願上帝大大賜福你，與你同在！",
+                                next: 'success',
+                                khmer: "ព្រះប្រទានពរ!",
+                                romanization: "Preah pro-tean por!",
+                                audio: "sim_user_sreyneang_student_prayer_ask_0.mp3"
+                            }
+                        ]
+                    }
+                ]
+            },
+            rotha: {
+                name: 'Brother Rotha',
+                role: 'Street Food Vendor',
+                avatar: '🍲',
+                desc: 'A busy 31-year-old vendor preparing Lort Cha (fried noodles) in a cloud of smoke. Skeptical of conversions.',
+                story: [
+                    {
+                        id: 'start',
+                        speaker: 'local',
+                        english_text: "Yes! Fried noodles? $1.50 per plate. Very fast, very delicious!",
+                        chinese_text: "來喔！要吃炒麵嗎？一盤一塊半美金。出餐速度快，而且非常好吃！",
+                        text: 'បាទ! មីឆាមែនទេ? មួយចានមួយដុល្លារហាសិបសេន។ ឆាប់រហ័ស ឆ្ងាញ់ណាស់!',
+                        romanization: 'Bat! Mee-cha men-te? Mouy chan mouy dollar ha-sub sen. Chhab ro-has, chhnganh nas!',
+                        audio: 'sim_rotha_start.mp3',
+                        options: [
+                            {
+                                text_english: "Brother! I would like one plate of fried noodles. It smells so delicious!",
+                                text_chinese: "老闆大哥！請給我來一盤現炒炒麵。聞起來真的太香太誘人了！",
+                                next: 'vendor_order',
+                                khmer: "បង! ខ្ញុំសុំមីឆាមួយចាន។ ធុំក្លិនឈ្ងុយឆ្ងាញ់ខ្លាំងណាស់!",
+                                romanization: "Bong! Khnhom som mee-cha mouy chan. Thum klen chhnguy-chnganh klang-nas!",
+                                audio: "sim_user_rotha_start_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'vendor_order',
+                        speaker: 'local',
+                        english_text: "Thank you! Here is your food. You are very friendly. Why are you in Cambodia? Just travelling around?",
+                        chinese_text: "多謝！您的熱炒麵好囉。你這外國人真是熱情。你怎麼會來到柬埔寨呢？只是來旅遊休假的嗎？",
+                        text: 'អរគុណបាទ! នេះអាហារបង។ បងរួសរាយណាស់។ ហេតុអ្វីបងមកស្រុកខ្មែរ? គ្រាន់តែដើរលេងមែនទេ?',
+                        romanization: 'Or-kun bat! Nih a-har bong. Bong ruos-ray nas. Haet-a-vey bong mok srok khmer? Kran-tae der-leng men-te?',
+                        audio: 'sim_rotha_vendor_order.mp3',
+                        options: [
+                            {
+                                text_english: "I came here to share about the love and hope of Jesus to Cambodian brothers and sisters.",
+                                text_chinese: "我特地來到這裡，是想把主耶穌基督帶來的愛與生命盼望，分享給我們柬埔寨的每一位兄弟姊妹。",
+                                next: 'vendor_mission_bridge',
+                                khmer: "ខ្ញុំមកទីនេះដើម្បីចែកចាយអំពីសេចក្តីស្រឡាញ់ និងសេចក្តីសង្ឃឹមរបស់ព្រះយេស៊ូវដល់បងប្អូនខ្មែរ។",
+                                romanization: "Khnhom mok tee-nih deim-bey chek-chay om-pee sech-kdey srolanh neng sech-kdey song-khem ro-bos Preah-ye-sov dol bong-p-oun khmer.",
+                                audio: "sim_user_rotha_vendor_order_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'vendor_mission_bridge',
+                        speaker: 'local',
+                        english_text: "Jesus? I have heard that name. But you know, we Cambodians are born Buddhists. If we change our religion, the spirits of our ancestors will be angry and bring curses on our business.",
+                        chinese_text: "耶穌？我聽過這個名字。但你懂的，我們柬埔寨人生來就是佛教徒。如果我們隨便改變祖先傳下來的信仰，祖先的靈魂會大發雷霆，甚至對我們的生意降下詛咒和災禍。",
+                        text: 'ព្រះយេស៊ូវ? ខ្ញុំធ្លាប់ឮឈ្មោះនេះ។ ប៉ុន្តែបងដឹងទេ ជនជាតិខ្មែរកើតមកកាន់ពុទ្ធសាសនា។ បើយើងប្តូរសាសនា វិញ្ញាណដូនតានឹងខឹង ហើយដាក់ទំនាយលើការរកស៊ីរបស់យើង។',
+                        romanization: 'Preah-ye-sov? Khnhom thloab luer chhmuah nih. Pon-tae bong deng te, chon-cheat khmer koet mok kan pout-tha-sas-na. Ber yeung pdo sas-na, vinh-nean don-ta neng kheng heuy dak-tom-neay leu kar rok-see ro-bos yeung.',
+                        audio: 'sim_rotha_vendor_mission_bridge.mp3',
+                        options: [
+                            {
+                                text_english: "Jesus has power over all spirits. He brings blessings and protection, not curses.",
+                                text_chinese: "主耶穌的權柄遠遠超越天上地下和靈界的一切靈體。祂來是為了親自保護您，並為您帶來無比的福分，絕不是詛咒。",
+                                next: 'vendor_spirit_peace',
+                                khmer: "ព្រះយេស៊ូវមានអំណាចលើវិញ្ញាណទាំងអស់។ ព្រះអង្គនាំមកនូវពរជ័យ និងការការពារ មិនមែនការដាក់ទំនាយឡើយ。",
+                                romanization: "Preah-ye-sov mean om-nach leu vinh-nean tang-os. Preah-ong nam mok nov por-jey neng kar-pyar-kar, mun-men kar dak-tom-neay lauy.",
+                                audio: "sim_user_rotha_vendor_mission_bridge_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'vendor_spirit_peace',
+                        speaker: 'local',
+                        english_text: "Power over all spirits? Honestly, I often feel fearful at night about spirits. It is hard to sleep. My business is also struggling.",
+                        chinese_text: "超越所有靈魂和神靈的力量？說實在的，我晚上經常會莫名地害怕靈異或不乾淨的東西。常常失眠睡不好。而且最近生意也一直起不來，真的很煩心。",
+                        text: 'មានអំណាចលើវិញ្ញាណទាំងអស់? និយាយត្រង់ ខ្ញុំតែងតែខ្លាចវិញ្ញាណនៅពេលយប់។ ពិបាកគេងលក់ណាស់។ ហើយការលក់ដូរក៏ពិបាកដែរ។',
+                        romanization: 'Mean om-nach leu vinh-nean tang-os? Ni-yeay trong khnhom taeng-tae klach vinh-nean nov pel yob. Pi-bak keng-lok nas. Heuy kar lok-do kor pi-bak daer.',
+                        audio: 'sim_rotha_vendor_spirit_peace.mp3',
+                        options: [
+                            {
+                                text_english: "Jesus wants you to have true peace. Can I pray to ask for blessings on your business and your good sleep right now?",
+                                text_chinese: "耶穌極其盼望賜予您真實的平安。我現在能為您禱告，求耶穌大大祝福您的生意，並且讓您每晚都能香甜入睡嗎？",
+                                next: 'vendor_gospel_prayer',
+                                khmer: "ព្រះយេស៊ូវចង់ឱ្យបងមានសេចក្តីសុខសាន្តពិតប្រាកដ។ តើខ្ញុំអាចអធិស្ឋានសុំពរជ័យសម្រាប់មុខរបរ និងការគេងលក់ស្រួលរបស់បងឥឡូវបានទេ?",
+                                romanization: "Preah-ye-sov chong aoy bong mean sech-kdey sok-san pit-prak-dor. Tae khnhom arch a-thi-sathan som por-jey som-rap mouk-ro-bor neng kar keng-lok sruol ro-bos bong i-lor-nih ban te?",
+                                audio: "sim_user_rotha_vendor_spirit_peace_0.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        id: 'vendor_gospel_prayer',
+                        speaker: 'local',
+                        english_text: "Pray for my shop and my sleep? Yes, please. I would like to experience that protection.",
+                        chinese_text: "為我的炒麵攤和我的睡眠祈禱？好啊，那就拜託你了。我也很想切身經歷看看你說的那種奇妙保護與平安。",
+                        text: 'អធិស្ឋានឱ្យហាង និងការគេងលក់របស់ខ្ញុំ? បាទ សូមជួយផង。 ខ្ញុំចង់ទទួលការការពារនោះណាស់។',
+                        romanization: 'A-thi-sathan aoy hang neng kar keng-lok ro-bos khnhom? Bat som chuoy phong. Khnhom chong to-tuol kar-pyar-kar noh nas.',
+                        audio: 'sim_rotha_vendor_gospel_prayer.mp3',
+                        options: [
+                            {
+                                text_english: "May Jesus help you, brother!",
+                                text_chinese: "願主耶穌親自與您同在，大大彰顯祂的幫助！",
+                                next: 'success',
+                                khmer: "សូមព្រះយេស៊ូវជួយបង!",
+                                romanization: "Som Preah-ye-sov chuoy bong!",
+                                audio: "sim_user_rotha_vendor_gospel_prayer_0.mp3"
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        let currentCharacterId = 'sophal';
+        let currentStepId = 'start';
+        let bubbleCounter = 0; // Ensures entirely unique IDs for dynamic bubbles
+        window.currentSimulatorOptions = [];
+
+        function selectCharacter(id) {
+            currentCharacterId = id;
+            currentStepId = 'start';
+            bubbleCounter = 0;
+            
+            document.querySelectorAll('.char-btn').forEach(btn => {
+                btn.classList.remove('border-orange-500', 'bg-orange-50/50');
+                btn.classList.add('border-slate-100', 'bg-white');
+            });
+            const selectedBtn = document.getElementById('char-' + id);
+            if (selectedBtn) {
+                selectedBtn.classList.remove('border-slate-100', 'bg-white');
+                selectedBtn.classList.add('border-orange-500', 'bg-orange-50/50');
+            }
+
+            const char = simulatorData[id];
+            document.getElementById('target-avatar').innerText = char.avatar;
+            document.getElementById('target-name').innerText = `Conversation with ${char.name} / 與 ${char.name} 對話`;
+            document.getElementById('target-desc').innerText = `${char.role} • ${char.desc}`;
+
+            const chatLog = document.getElementById('chat-log');
+            chatLog.innerHTML = '';
+            
+            renderStep();
+        }
+
+        function renderStep() {
+            const char = simulatorData[currentCharacterId];
+            const step = char.story.find(s => s.id === currentStepId);
+            const chatLog = document.getElementById('chat-log');
+            const optionsContainer = document.getElementById('options-container');
+
+            optionsContainer.innerHTML = '';
+            window.currentSimulatorOptions = [];
+
+            if (!step) return;
+
+            bubbleCounter++;
+            const npcKey = `sim_npc_${bubbleCounter}`;
+
+            // NPC message log block (Unified 4-line stacked alignment)
+            chatLog.innerHTML += `
+                <div class="flex items-start gap-3 max-w-[90%]">
+                    <span class="text-xl bg-white shadow-sm p-1.5 rounded-full border shrink-0">${char.avatar}</span>
+                    <div class="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-200/80 flex justify-between items-start gap-4 w-full">
+                        <div class="flex-grow">
+                            <p class="text-[10px] font-bold text-orange-600 mb-1.5 uppercase tracking-wide">${char.name}</p>
+                            <!-- 1. Written Khmer -->
+                            <p class="khmer-font text-base font-bold text-amber-900 leading-normal">${step.text}</p>
+                            <!-- 2. Romanization -->
+                            <p class="text-xs italic text-slate-600 mt-1">${step.romanization}</p>
+                            <!-- 3. English Translation -->
+                            <p class="text-xs font-semibold text-slate-500 mt-1.5 border-t border-slate-100 pt-1.5">${step.english_text}</p>
+                            <!-- 4. Chinese Translation -->
+                            <p class="text-xs font-semibold text-orange-800 mt-0.5 chinese-font">${step.chinese_text}</p>
+                        </div>
+                        <div class="shrink-0">
+                            ${generateAudioConsole(step.audio, npcKey)}
+                        </div>
+                    </div>
+                </div>
+            `;
+            scrollToBottom();
+
+            if (currentStepId === 'success') {
+                optionsContainer.innerHTML = `
+                    <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-center mb-2">
+                        <p class="text-emerald-800 font-bold text-sm">🎉 Scenario Completed Successfully!</p>
+                        <p class="text-emerald-700 font-bold text-xs mt-0.5 chinese-font">🎉 對話場景成功完成！</p>
+                        <p class="text-emerald-600 text-xs mt-1">You shared the Gospel and stepped gracefully into prayer.</p>
+                        <p class="text-emerald-500 text-[11px] mt-0.5 chinese-font">您成功克服了文化藩籬，順利宣講福音並引導至祝福禱告！</p>
+                    </div>
+                    <button onclick="resetConversation()" class="w-full text-center py-3 px-4 bg-orange-600 hover:bg-orange-700 text-white rounded-xl font-bold shadow transition">
+                        <i class="fa-solid fa-rotate-left mr-2"></i> Start a New Conversation Scenario / 開啟新場景
+                    </button>
+                `;
+                return;
+            }
+
+            window.currentSimulatorOptions = step.options;
+
+            step.options.forEach((opt, index) => {
+                const optKey = `sim_opt_${currentCharacterId}_${currentStepId}_${index}`;
+                optionsContainer.innerHTML += `
+                    <div class="w-full p-3.5 rounded-xl border border-slate-200 bg-white shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition hover:border-orange-300">
+                        <div class="flex-grow cursor-pointer" onclick="selectOptionByIndex(${index})">
+                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wide">Option ${index + 1} / 選項 ${index + 1}</span>
+                            <div class="mt-1">
+                                <!-- 1. Written Khmer -->
+                                <span class="khmer-font text-sm font-bold text-orange-800 block">${opt.khmer}</span>
+                                <!-- 2. Romanization -->
+                                <span class="text-xs italic text-slate-600 mt-0.5 block">${opt.romanization}</span>
+                                <!-- 3. English Translation -->
+                                <span class="block text-xs font-semibold text-slate-500 mt-1">${opt.text_english}</span>
+                                <!-- 4. Chinese Translation -->
+                                <span class="block text-xs font-bold text-orange-700 mt-0.5 chinese-font">${opt.text_chinese}</span>
+                            </div>
+                        </div>
+                        <div class="shrink-0 self-end md:self-center">
+                            ${generateAudioConsole(opt.audio, optKey)}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function selectOptionByIndex(index) {
+            const opt = window.currentSimulatorOptions[index];
+            if (!opt) return;
+            handleOptionSelection(opt.next, opt.khmer, opt.romanization, opt.text_english, opt.text_chinese, opt.audio);
+        }
+
+        function handleOptionSelection(nextStepId, userKhmer, userRoman, userEnglish, userChinese, audioFilename) {
+            const chatLog = document.getElementById('chat-log');
+            bubbleCounter++;
+            const userKey = `sim_user_${bubbleCounter}`;
+
+            // Render Player Message Bubble (Unified 4-line stacked alignment)
+            chatLog.innerHTML += `
+                <div class="flex justify-end gap-3 max-w-[90%] ml-auto">
+                    <div class="bg-gradient-to-br from-amber-600 to-orange-600 text-white p-4 rounded-2xl rounded-tr-none shadow-sm flex justify-between items-start gap-4 w-full border border-orange-700">
+                        <div class="flex-grow">
+                            <p class="text-[10px] font-bold text-amber-200 mb-1.5 uppercase tracking-wide">You (Learner) / 您 (宣教士)</p>
+                            <!-- 1. Written Khmer -->
+                            <p class="khmer-font text-base font-bold leading-normal">${userKhmer}</p>
+                            <!-- 2. Romanization -->
+                            <p class="text-xs italic text-amber-100 mt-1">${userRoman}</p>
+                            <!-- 3. English Translation -->
+                            <p class="text-xs font-semibold text-amber-200 opacity-95 mt-1.5 border-t border-white/15 pt-1.5">${userEnglish}</p>
+                            <!-- 4. Chinese Translation -->
+                            <p class="text-xs font-bold text-amber-100 mt-0.5 chinese-font">${userChinese}</p>
+                        </div>
+                        <div class="shrink-0 bg-white/10 p-1.5 rounded-lg border border-white/10 shadow-sm self-end md:self-start">
+                            <!-- In-bubble user controls -->
+                            <div class="flex items-center gap-1">
+                                <button id="tts-btn-${userKey}" onclick="toggleTTS('${audioFilename}', '${userKey}', 'tts-btn-${userKey}')" class="w-8 h-8 rounded-md flex items-center justify-center bg-white/20 text-white hover:bg-white/30 transition border border-white/10" title="Play Pronunciation">
+                                    <i class="fa-solid fa-play text-xs"></i>
+                                </button>
+                                <button id="rec-btn-${userKey}" onclick="startRecording('${userKey}', 'rec-btn-${userKey}')" class="w-8 h-8 rounded-md flex items-center justify-center bg-white/10 text-white hover:bg-red-500 hover:text-white transition border border-white/10" title="Record Rehearsal">
+                                    <i class="fa-solid fa-microphone text-xs"></i>
+                                </button>
+                                <button id="play-rec-btn-${userKey}" onclick="playAttempt('${userKey}', 'play-rec-btn-${userKey}')" class="w-8 h-8 rounded-md flex items-center justify-center bg-white/10 text-white hover:bg-emerald-500 hover:text-white transition border border-white/10" title="Play Rehearsal">
+                                    <i class="fa-solid fa-headphones text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="text-xl bg-orange-100 shadow-sm p-1.5 rounded-full border shrink-0 align-top">💬</span>
+                </div>
+            `;
+            scrollToBottom();
+
+            // Fire and advance
+            currentStepId = nextStepId;
+            setTimeout(() => {
+                renderStep();
+            }, 1000);
+        }
+
+        function resetConversation() {
+            const chatLog = document.getElementById('chat-log');
+            chatLog.innerHTML = '';
+            currentStepId = 'start';
+            renderStep();
+        }
+
+        function scrollToBottom() {
+            const chatLog = document.getElementById('chat-log');
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+
+        // ================= PRAYER BUILDER SYSTEM =================
+        const prayerData = {
+            salutation: [
+                { khmer: 'ព្រះវរបិតាជាម្ចាស់', romanized: 'Preah-vob-bada chea-mchas,', english: 'Our Father God who is sovereign Lord,', chinese: '我們在天上的主宰父上帝，' },
+                { khmer: 'ព្រះអម្ចាស់យេស៊ូវ', romanized: 'Preah-am-mchas ye-sov,', english: 'Lord Jesus,', chinese: '主耶穌基督，' }
+            ],
+            petition: [
+                { khmer: 'សូមបើកភ្នែក និងចិត្តក្នុងខ្លួនពួកគេ', romanized: 'som beurk phnek neng chet klong kluan pouk-ke,', english: 'please open their eyes and heart inside them,', chinese: '求祢開啟他們內心深處的雙眼與心靈，' },
+                { khmer: 'សូមឲ្យពួកគេបានឃើញគ្រប់ព្រះគុណដ៏ល្អ', romanized: 'som aoy pouk-ke ban khernh krob preah-kun dor laor,', english: 'please let them see all of Your beautiful grace,', chinese: '求祢施恩讓他們看見祢這美好無比的奇妙恩典，' }
+            ],
+            blessing: [
+                { khmer: 'សូមប្រទានសេចក្តីសុខសាន្ត និងពរជ័យលើជីវិតពួកគេ', romanized: 'som pro-tean sech-kdey sok-san neng por-jey leu chee-vit pouk-ke.', english: 'please grant peace and blessing upon their life.', chinese: '求祢將真實的平安、安息和福分，大大澆灌在他們的生活中。' },
+                { khmer: 'សូមលុបលាងបាបទាំងអស់ និងជួយគ្រួសារពួកគេ', romanized: 'som lop-leang bab tang-os neng chuoy kruo-sar pouk-ke.', english: 'please wash away all sins and help their family.', chinese: '求祢徹底洗淨擦去他們所有的過失罪業，並看顧保守他們的家人。' }
+            ],
+            close: [
+                { khmer: 'នៅក្នុងនាមព្រះយេស៊ូវគ្រីស្ទ។ អាម៉ែន។', romanized: 'Klong niam Preah-ye-sov kris. Ah-men.', english: 'In the name of Lord Jesus Christ. Amen.', chinese: '這是我同心合意的祈求，是奉靠救主耶穌基督的名。阿們。' },
+                { khmer: 'ដោយសារសេចក្តីស្រឡាញ់ដ៏អស្ចារ្យ។ អាម៉ែន។', romanized: 'Doy-sa sech-kdey srolanh dor os-char. Ah-men.', english: 'By Your wonderful love. Amen.', chinese: '這是憑著祢永不熄滅、最奇妙的慈愛來祈求。阿們。' }
+            ]
+        };
+
+        const prefixMap = {
+            salutation: 'sal',
+            petition: 'pet',
+            blessing: 'bles',
+            close: 'cl'
+        };
+
+        let selectedPrayer = {
+            salutation: 0,
+            petition: 0,
+            blessing: 0,
+            close: 0
+        };
+
+        function renderPrayerBuilder() {
+            const categories = ['salutation', 'petition', 'blessing', 'close'];
+            categories.forEach(cat => {
+                const container = document.getElementById(`${cat}-options`);
+                if (!container) return;
+                container.innerHTML = '';
+                
+                prayerData[cat].forEach((item, index) => {
+                    const prefix = prefixMap[cat];
+                    const buttonId = `${prefix}-${index}`;
+                    const key = `prayer_${prefix}_${index}`;
+                    const audioFile = `prayer_${prefix}_${index}.mp3`;
+                    
+                    container.innerHTML += `
+                        <div id="${buttonId}" class="prayer-option-btn text-left p-4 rounded-xl border border-slate-200 bg-white transition flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <div class="flex-grow cursor-pointer" onclick="selectPrayerBlock('${cat}', ${index})">
+                                <!-- Written Khmer -->
+                                <span class="khmer-font block font-bold text-base text-amber-900">${item.khmer}</span>
+                                <!-- Romanization -->
+                                <span class="block text-xs italic text-slate-600 mt-1">${item.romanized}</span>
+                                <!-- English Translation -->
+                                <span class="block text-xs text-slate-500 mt-1">${item.english}</span>
+                                <!-- Traditional Chinese -->
+                                <span class="block text-xs font-bold text-orange-700 mt-0.5 chinese-font">${item.chinese}</span>
+                            </div>
+                            <div class="shrink-0 self-end md:self-center" onclick="event.stopPropagation()">
+                                ${generateAudioConsole(audioFile, key)}
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        function selectPrayerBlock(type, index) {
+            selectedPrayer[type] = index;
+            const prefix = prefixMap[type];
+            
+            document.querySelectorAll(`[id^="${prefix}-"]`).forEach(btn => {
+                btn.classList.remove('border-orange-500', 'bg-orange-50/30');
+                btn.classList.add('border-slate-200', 'bg-white');
+            });
+            const chosenId = `${prefix}-${index}`;
+            const btn = document.getElementById(chosenId);
+            if (btn) {
+                btn.classList.remove('border-slate-200', 'bg-white');
+                btn.classList.add('border-orange-500', 'bg-orange-50/30');
+            }
+
+            updateCompiledPrayer();
+        }
+
+        function updateCompiledPrayer() {
+            const s = prayerData.salutation[selectedPrayer.salutation];
+            const p = prayerData.petition[selectedPrayer.petition];
+            const b = prayerData.blessing[selectedPrayer.blessing];
+            const c = prayerData.close[selectedPrayer.close];
+
+            document.getElementById('compiled-khmer').innerText = `${s.khmer} ${p.khmer} ${b.khmer} ${c.khmer}`;
+            document.getElementById('compiled-romanized').innerText = `"${s.romanized} ${p.romanized} ${b.romanized} ${c.romanized}"`;
+            document.getElementById('compiled-english').innerText = `Literal Translation: ${s.english} ${p.english} ${b.english} ${c.english}`;
+            document.getElementById('compiled-chinese').innerText = `繁體中文翻譯: ${s.chinese}${p.chinese}${b.chinese}${c.chinese}`;
+        }
+
+        function copyCompiledPrayer() {
+            const k = document.getElementById('compiled-khmer').innerText;
+            const r = document.getElementById('compiled-romanized').innerText;
+            const c = document.getElementById('compiled-chinese').innerText;
+            const fullText = `${k}\n\nPronunciation: ${r}\n\n${c}`;
+            
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = fullText;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+            
+            showToast("Copied customized prayer to clipboard! / 已複製自訂禱告文至剪貼簿！");
+        }
+
+        // Initialize App on Window Load
+        window.onload = function() {
+            // Render Strategy controls statically to prevent template duplication
+            document.getElementById('deck-strategy-1').innerHTML = generateAudioConsole('strategy_1.mp3', 'strategy_1');
+            document.getElementById('deck-strategy-2').innerHTML = generateAudioConsole('strategy_2.mp3', 'strategy_2');
+            document.getElementById('deck-strategy-3').innerHTML = generateAudioConsole('strategy_3.mp3', 'strategy_3');
+            document.getElementById('deck-strategy-4').innerHTML = generateAudioConsole('strategy_4.mp3', 'strategy_4');
+
+            renderPhrases();
+            renderPrayerBuilder();
+            selectCharacter('sophal');
+            
+            selectPrayerBlock('salutation', 0);
+            selectPrayerBlock('petition', 0);
+            selectPrayerBlock('blessing', 0);
+            selectPrayerBlock('close', 0);
+        }
+    </script>
+</body>
+</html>
